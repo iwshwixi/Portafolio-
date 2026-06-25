@@ -1,0 +1,62 @@
+[
+  {
+    "id": "demo-retention",
+    "videoId": "",
+    "title": "Caso de retencion para canal educativo",
+    "client": "Demo / reemplazar",
+    "role": "Edicion, ritmo, subtitulos y motion simple",
+    "category": "Long form",
+    "description": "Estructura narrativa, limpieza de silencios, b-roll, enfasis visual y subtitulos para mantener claridad durante todo el video.",
+    "publishedAt": "2026-05-14",
+    "duration": "10:42",
+    "fallbackViews": 128400,
+    "fallbackLikes": 7400,
+    "fallbackComments": 328,
+    "tags": ["Retencion", "YouTube", "Educativo"]
+  },
+  {
+    "id": "demo-shorts",
+    "videoId": "",
+    "title": "Pack de shorts para lanzamiento",
+    "client": "Demo / reemplazar",
+    "role": "Recortes verticales, hooks y subtitulos",
+    "category": "Shorts",
+    "description": "Versiones cortas pensadas para abrir con impacto, mantener energia y dirigir trafico al video principal.",
+    "publishedAt": "2026-04-28",
+    "duration": "0:38",
+    "fallbackViews": 365900,
+    "fallbackLikes": 21800,
+    "fallbackComments": 910,
+    "tags": ["Shorts", "Hook", "Subtitulos"]
+  },
+  {
+    "id": "demo-gaming",
+    "videoId": "",
+    "title": "Edicion dinamica para gaming",
+    "client": "Demo / reemplazar",
+    "role": "Cortes, memes, SFX, zooms y pacing",
+    "category": "Gaming",
+    "description": "Edicion de energia alta con momentos destacados, punchlines visuales y mezcla de audio para mantener la reaccion viva.",
+    "publishedAt": "2026-03-18",
+    "duration": "8:16",
+    "fallbackViews": 98200,
+    "fallbackLikes": 6100,
+    "fallbackComments": 184,
+    "tags": ["Gaming", "SFX", "Comedy"]
+  },
+  {
+    "id": "demo-brand",
+    "videoId": "",
+    "title": "Video de marca para creador",
+    "client": "Demo / reemplazar",
+    "role": "Edicion comercial, color y graficos",
+    "category": "Brand",
+    "description": "Pieza mas limpia y premium para explicar una oferta sin perder naturalidad de creador.",
+    "publishedAt": "2026-02-09",
+    "duration": "2:24",
+    "fallbackViews": 54600,
+    "fallbackLikes": 3900,
+    "fallbackComments": 76,
+    "tags": ["Marca", "Anuncio", "Creator"]
+  }
+]

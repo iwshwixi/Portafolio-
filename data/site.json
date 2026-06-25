@@ -1,0 +1,50 @@
+{
+  "name": "Jorgeditor",
+  "role": "Editor de video para YouTube",
+  "contactEmail": "jorgeditor.contacto@gmail.com",
+  "currency": "USD",
+  "rates": {
+    "cutHourSinglePov": 13,
+    "cutHourTwoPovs": 15,
+    "editedMinute": 9
+  },
+  "pricing": [
+    {
+      "id": "basic",
+      "name": "Basic",
+      "priceLabel": "Desde $13/h + $9/min",
+      "unit": "recorte + edicion final",
+      "summary": "Plan base para videos limpios, bien cortados y listos para publicar.",
+      "features": ["Recorte de footage a $13/h", "Edicion a $9 por minuto final", "1 POV incluido", "1 ronda de cambios"]
+    },
+    {
+      "id": "creator",
+      "name": "Creator",
+      "priceLabel": "$15/h si son 2 POVs",
+      "unit": "para material con mas angulos",
+      "summary": "Para videos con mas seleccion de material, varios angulos o ritmo mas dinamico.",
+      "features": ["Recorte 2 POVs a $15/h", "Edicion a $9 por minuto final", "Ritmo para retencion", "2 rondas de cambios"]
+    },
+    {
+      "id": "channel",
+      "name": "Canal Recurrente",
+      "priceLabel": "Cotizacion por volumen",
+      "unit": "videos semanales o mensuales",
+      "summary": "Para canales que necesitan constancia, estilo visual estable y entregas programadas.",
+      "features": ["Calendario de edicion", "Sistema de revisiones", "Prioridad de agenda", "Reporte simple por lote"]
+    }
+  ],
+  "availability": [
+    { "day": "Lunes", "hours": "10:00 - 18:00", "status": "Produccion y revisiones" },
+    { "day": "Martes", "hours": "10:00 - 18:00", "status": "Edicion principal" },
+    { "day": "Miercoles", "hours": "10:00 - 18:00", "status": "Edicion principal" },
+    { "day": "Jueves", "hours": "10:00 - 18:00", "status": "Revisiones y exports" },
+    { "day": "Viernes", "hours": "10:00 - 15:00", "status": "Entregas y nuevos briefs" },
+    { "day": "Sabado", "hours": "Bajo reserva", "status": "Proyectos urgentes" }
+  ],
+  "delivery": [
+    { "label": "Shorts", "value": "24 a 48 horas por lote pequeno" },
+    { "label": "Video largo", "value": "3 a 5 dias segun material y duracion" },
+    { "label": "Paquete mensual", "value": "Calendario fijo con entregas semanales" }
+  ]
+}

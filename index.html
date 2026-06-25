@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Portafolio profesional de Jorgeditor, editor de video para creadores, canales de YouTube y marcas."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Jorgeditor | Editor de video</title>
+    <link rel="preconnect" href="https://i.ytimg.com" />
+    <link rel="preconnect" href="https://www.youtube.com" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header" data-glass>
+      <a class="brand" href="#top" aria-label="Jorgeditor inicio">
+        <span class="brand-mark">J</span>
+        <span>
+          <strong>Jorgeditor</strong>
+          <small>Video editor</small>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Navegacion principal">
+        <a href="#portfolio">Videos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#agenda">Horario</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a class="header-action" href="#contacto">Cotizar</a>
+    </header>
+
+    <main id="top">
+      <section class="hero section-band">
+        <div class="hero-copy">
+          <p class="eyebrow">Editor para creadores que quieren retencion, ritmo y claridad.</p>
+          <h1>Edicion de video con mentalidad de YouTube.</h1>
+          <p class="hero-text">
+            Portafolio vivo de Jorgeditor: trabajos, resultados, vistas acumuladas y una forma directa
+            de pedir presupuesto para tu proximo paquete de videos.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#portfolio">Ver trabajos</a>
+            <a class="button ghost" href="#contacto">Enviar peticion</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" aria-label="Resumen del portafolio">
+          <div class="hero-stat-grid">
+            <article>
+              <span data-total-views>--</span>
+              <small>vistas generadas</small>
+            </article>
+            <article>
+              <span data-video-count>--</span>
+              <small>videos publicados</small>
+            </article>
+            <article>
+              <span data-average-views>--</span>
+              <small>promedio por video</small>
+            </article>
+          </div>
+          <div class="feature-video" data-feature-video>
+            <div class="poster-placeholder">
+              <span>Jorgeditor</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section portfolio-section" id="portfolio">
+        <div class="section-heading">
+          <p class="eyebrow">Portafolio</p>
+          <h2>Videos organizados como una vitrina de contratacion.</h2>
+          <p>
+            Filtra por estilo, revisa resultados y abre cada pieza en YouTube. Las vistas se pueden
+            actualizar automaticamente desde GitHub Actions.
+          </p>
+        </div>
+
+        <div class="filter-row" data-filters aria-label="Filtros de videos"></div>
+        <div class="video-grid" data-video-grid></div>
+      </section>
+
+      <section class="section split-section" id="servicios">
+        <div class="section-heading compact">
+          <p class="eyebrow">Planes</p>
+          <h2>Elige un plan y entiende como se calcula tu edicion.</h2>
+          <p>
+            Trabajo con una metodologia clara: cobro el recorte por hora de footage y la edicion
+            por minuto final editado. Asi el precio se ajusta al material real, no a paquetes confusos.
+          </p>
+        </div>
+        <div class="pricing-grid" data-pricing-grid></div>
+        <div class="method-card" data-method-card></div>
+      </section>
+
+      <section class="section process-section">
+        <div class="section-heading compact">
+          <p class="eyebrow">Proceso</p>
+          <h2>De material bruto a pieza publicable.</h2>
+        </div>
+        <div class="process-list">
+          <article>
+            <span>01</span>
+            <h3>Brief</h3>
+            <p>Objetivo del video, audiencia, referencias, tono y fecha de entrega.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Edicion</h3>
+            <p>Corte, ritmo, estructura, audio, graficos, subtitulos y recursos visuales.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Revision</h3>
+            <p>Comentarios centralizados, ajustes finales y export listo para publicar.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section schedule-section" id="agenda">
+        <div class="section-heading">
+          <p class="eyebrow">Horario</p>
+          <h2>Disponibilidad y tiempos de entrega.</h2>
+          <p>
+            Estos bloques se pueden editar en `data/site.json`. La idea es que el cliente sepa si
+            conviene pedir videos sueltos, paquete semanal o produccion recurrente.
+          </p>
+        </div>
+        <div class="schedule-layout">
+          <div class="availability" data-availability></div>
+          <div class="delivery-card">
+            <h3>Entrega estimada</h3>
+            <dl data-delivery-list></dl>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contacto">
+        <div class="contact-copy">
+          <p class="eyebrow">Cotizacion</p>
+          <h2>Cuentalo una vez y mando el plan de trabajo.</h2>
+          <p>
+            Selecciona un plan, escribe cuanto material tienes y se prepara una solicitud con el
+            estimado. El correo destino queda configurado internamente.
+          </p>
+          <div class="quote-preview" aria-live="polite">
+            <span>Estimado rapido</span>
+            <strong data-quote-total>$0</strong>
+            <small data-quote-note>Selecciona un paquete y cantidad de videos.</small>
+          </div>
+        </div>
+
+        <form class="contact-form" data-contact-form>
+          <label>
+            Nombre
+            <input name="name" type="text" autocomplete="name" placeholder="Tu nombre" required />
+          </label>
+          <label>
+            Correo
+            <input name="email" type="email" autocomplete="email" placeholder="tu@email.com" required />
+          </label>
+          <div class="form-grid">
+            <label>
+              Plan
+              <select name="budget" required data-budget-select></select>
+            </label>
+            <label>
+              Cantidad de videos
+              <input name="quantity" type="number" min="1" max="60" value="4" required />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label>
+              Horas de recorte
+              <input name="footageHours" type="number" min="0" max="200" step="0.5" value="2" required />
+            </label>
+            <label>
+              Minutos editados finales
+              <input name="editedMinutes" type="number" min="1" max="180" step="1" value="8" required />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label>
+              Formato
+              <select name="format" required>
+                <option>Shorts / Reels / TikTok</option>
+                <option>Video largo para YouTube</option>
+                <option>Paquete mixto</option>
+                <option>Canal recurrente</option>
+              </select>
+            </label>
+            <label>
+              POVs del material
+              <select name="povs" required>
+                <option value="1">1 POV</option>
+                <option value="2">2 POVs</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Fecha ideal
+            <input name="deadline" type="date" />
+          </label>
+          <label>
+            Peticion
+            <textarea
+              name="message"
+              rows="6"
+              placeholder="Cuentame sobre tu canal, referencias, duracion de los videos, material disponible y objetivo."
+              required
+            ></textarea>
+          </label>
+          <div class="form-actions">
+            <button class="button primary" type="submit">Enviar solicitud</button>
+            <button class="button ghost" type="button" data-copy-request>Copiar mensaje</button>
+          </div>
+          <p class="form-status" data-form-status role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Jorgeditor. Edicion profesional para creadores, marcas y canales de YouTube.</p>
+      <a href="#top">Volver arriba</a>
+    </footer>
+
+    <script src="assets/js/app.js" type="module"></script>
+  </body>
+</html>
