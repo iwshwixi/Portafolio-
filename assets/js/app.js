@@ -535,6 +535,23 @@ function updatePlanSummary() {
   const priceEl = $("[data-selected-plan-price]");
   const noteEl  = $("[data-selected-plan-note]");
 
+  const formatSelect = document.getElementById("formatSelect");
+  if (formatSelect && form) {
+    if (plan.id.includes("short")) {
+      formatSelect.value = "Shorts / Reels / TikTok";
+      formatSelect.style.pointerEvents = "none";
+      formatSelect.style.opacity = "0.7";
+    } else if (plan.id !== "custom") {
+      formatSelect.value = "Video largo para YouTube";
+      formatSelect.style.pointerEvents = "none";
+      formatSelect.style.opacity = "0.7";
+    } else {
+      formatSelect.style.pointerEvents = "auto";
+      formatSelect.style.opacity = "1";
+    }
+    formatSelect.dispatchEvent(new Event("change"));
+  }
+
   if (nameEl)  nameEl.textContent  = plan.name;
   if (priceEl) priceEl.textContent = total > 0
     ? formatMoney(total, state.site.currency)
