@@ -4,52 +4,49 @@
   "contactEmail": "jorgeditor.contacto@gmail.com",
   "currency": "USD",
   "rates": {
-    "cutHour1Pov": 15,
-    "cutHour2Povs": 15,
-    "cutHour3Povs": 16,
-    "cutHour4Povs": 17,
     "editedMinute": 9
   },
   "pricing": [
     {
-      "id": "basic",
-      "name": "Basic",
-      "priceLabel": "$15/h — 1 POV",
-      "unit": "recorte + edicion final",
-      "summary": "Plan base para videos limpios, bien cortados y listos para publicar.",
-      "features": ["Recorte de footage a $15/h", "Edicion a $9 por minuto final", "1 POV incluido", "1 ronda de cambios"]
+      "id": "gaming",
+      "name": "Gaming",
+      "priceLabel": "$80 USD",
+      "unit": "paquete fijo para videos de gaming",
+      "summary": "Todo incluido para un video de gaming limpio, energetico y listo para publicar.",
+      "features": [
+        "1 hora de recorte incluida",
+        "Hasta 14 min de video final",
+        "SFX, zooms y pacing de gaming",
+        "Subtitulos incluidos",
+        "1 ronda de cambios"
+      ]
     },
     {
       "id": "creator",
-      "name": "Creator",
-      "priceLabel": "$15/h — 2 POVs",
-      "unit": "para material con 2 angulos",
-      "summary": "Para videos con mas seleccion de material, varios angulos o ritmo mas dinamico.",
-      "features": ["Recorte 2 POVs a $15/h", "Edicion a $9 por minuto final", "Ritmo para retencion", "2 rondas de cambios"]
+      "name": "Creator / Vlogs",
+      "priceLabel": "$130 USD",
+      "unit": "paquete para vlogs y creadores",
+      "summary": "Edicion completa para vlogs con ritmo natural, buena retencion y acabado profesional.",
+      "features": [
+        "1 hora de recorte de bruto",
+        "Edicion completa del video",
+        "Subtitulos y B-roll incluidos",
+        "Ritmo pensado para retencion",
+        "2 rondas de cambios"
+      ]
     },
     {
-      "id": "pro",
-      "name": "Pro",
-      "priceLabel": "$16/h — 3 POVs",
-      "unit": "para producciones con 3 camaras",
-      "summary": "Para producciones con multiples angulos, mas complejidad de corte y ritmo avanzado.",
-      "features": ["Recorte 3 POVs a $16/h", "Edicion a $9 por minuto final", "Seleccion de tomas avanzada", "2 rondas de cambios"]
-    },
-    {
-      "id": "premium",
-      "name": "Premium",
-      "priceLabel": "$17/h — 4 POVs",
-      "unit": "para producciones multicamara completas",
-      "summary": "Maxima complejidad: 4 camaras, multicorte profesional y entrega premium.",
-      "features": ["Recorte 4 POVs a $17/h", "Edicion a $9 por minuto final", "Multicorte profesional", "3 rondas de cambios"]
-    },
-    {
-      "id": "channel",
-      "name": "Canal Recurrente",
-      "priceLabel": "Cotizacion por volumen",
-      "unit": "videos semanales o mensuales",
-      "summary": "Para canales que necesitan constancia, estilo visual estable y entregas programadas.",
-      "features": ["Calendario de edicion", "Sistema de revisiones", "Prioridad de agenda", "Reporte simple por lote"]
+      "id": "custom",
+      "name": "Cotizacion personalizada",
+      "priceLabel": "A consultar",
+      "unit": "proyectos fuera del estandar o por volumen",
+      "summary": "Para proyectos especiales, paquetes mensuales o canales con entregas recurrentes.",
+      "features": [
+        "Precio segun volumen y formato",
+        "Calendario de edicion fijo",
+        "Sistema de revisiones",
+        "Prioridad en agenda"
+      ]
     }
   ],
   "availability": [

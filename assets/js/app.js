@@ -58,25 +58,36 @@ function renderHero() {
   const totalViews = state.videos.reduce((sum, video) => sum + getVideoStats(video).views, 0);
   const count = state.videos.length;
   const average = count ? Math.round(totalViews / count) : 0;
-  const featured = state.videos[0];
 
   $("[data-total-views]").textContent = formatNumber(totalViews);
   $("[data-video-count]").textContent = formatNumber(count);
   $("[data-average-views]").textContent = formatNumber(average);
 
-  const target = $("[data-feature-video]");
-  if (!featured) return;
+  const target = $("[data-hero-video-grid]");
+  if (!target) return;
 
-  const thumb = thumbUrl(featured);
-  target.innerHTML = thumb
-    ? `<img src="${thumb}" alt="${featured.title}" loading="eager">
-       <div class="feature-overlay"><strong>${featured.title}</strong><small>${formatNumber(
-         getVideoStats(featured).views
-       )} vistas</small></div>`
-    : `<div class="poster-placeholder"><span>${state.site.name}</span></div>
-       <div class="feature-overlay"><strong>${featured.title}</strong><small>${formatNumber(
-         getVideoStats(featured).views
-       )} vistas demo</small></div>`;
+  target.innerHTML = state.videos
+    .map((video) => {
+      const thumb = thumbUrl(video);
+      const stats = getVideoStats(video);
+      const poster = thumb
+        ? `<img src="${thumb}" alt="${video.title}" loading="eager">`
+        : `<div class="poster-placeholder small"><span>${video.category}</span></div>`;
+      return `<button class="hero-thumb" type="button" data-play-video="${video.videoId}" title="${video.title}">
+        ${poster}
+        <span class="play-dot" aria-hidden="true">▶</span>
+        <div class="hero-thumb-info">
+          <strong>${video.client}</strong>
+          ${stats.views > 0 ? `<small>${formatNumber(stats.views)} vistas</small>` : ""}
+        </div>
+      </button>`;
+    })
+    .join("");
+
+  // Attach click handlers for hero thumbnails
+  $$("[data-play-video]", target).forEach((btn) => {
+    btn.addEventListener("click", () => openVideoModal(btn.dataset.playVideo));
+  });
 }
 
 function renderFilters() {
@@ -114,24 +125,19 @@ function renderVideos() {
       const poster = thumb
         ? `<img src="${thumb}" alt="Miniatura de ${video.title}" loading="lazy">`
         : `<div class="poster-placeholder"><span>${video.category}</span></div>`;
+      const dur = stats.duration || video.duration || "";
       return `<article class="video-card">
-        <a class="video-thumb" href="${videoUrl(video)}" target="${
-          video.videoId ? "_blank" : "_self"
-        }" rel="noopener">
+        <button class="video-thumb" type="button" data-play-video="${video.videoId}">
           ${poster}
           <span class="play-dot" aria-hidden="true">▶</span>
-        </a>
+        </button>
         <div class="video-body">
           <div class="video-meta">
             <span class="pill">${video.category}</span>
-            <span class="pill">${video.duration}</span>
+            ${dur ? `<span class="pill">${dur}</span>` : ""}
             <span class="pill">${video.client}</span>
           </div>
           <h3>${video.title}</h3>
-          <p>${video.description}</p>
-          <div class="video-meta">${video.tags
-            .map((tag) => `<span class="pill">${tag}</span>`)
-            .join("")}</div>
           <div class="video-stats">
             <span>${formatNumber(stats.views)} vistas</span>
             <span>${formatNumber(stats.likes)} likes</span>
@@ -141,72 +147,48 @@ function renderVideos() {
       </article>`;
     })
     .join("");
+
+  // Attach click handlers for portfolio thumbnails
+  $$("[data-play-video]", target).forEach((btn) => {
+    btn.addEventListener("click", () => openVideoModal(btn.dataset.playVideo));
+  });
 }
 
 function renderPricing() {
   const grid = $("[data-pricing-grid]");
   grid.innerHTML = state.site.pricing
     .map(
-      (plan) => `<article class="price-card${plan.id === 'channel' ? ' price-card--highlight' : ''}">
+      (plan) => `<article class="price-card${plan.id === 'custom' ? ' price-card--highlight' : ''}">
         <h3>${plan.name}</h3>
         <strong class="price-label">${plan.priceLabel}</strong>
         <p class="price-unit">${plan.unit}</p>
         <p>${plan.summary}</p>
         <ul>${plan.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
-        <button class="button ${plan.id === 'channel' ? 'primary' : 'ghost'}" type="button" data-plan-action="${plan.id}">Elegir plan</button>
+        <button class="button ${plan.id === 'custom' ? 'primary' : 'ghost'}" type="button" data-plan-action="${plan.id}">Elegir plan</button>
       </article>`
     )
     .join("");
 
   const select = $("[data-budget-select]");
-  const options = state.site.pricing
-    .map((plan) => `<option value="${plan.id}">${plan.name}</option>`)
-    .join("");
-  select.innerHTML = options;
-
-  const calculatorSelect = $("[data-calc-field='plan']");
-  if (calculatorSelect) calculatorSelect.innerHTML = options;
+  if (select) {
+    select.innerHTML = state.site.pricing
+      .map((plan) => `<option value="${plan.id}">${plan.name}</option>`)
+      .join("");
+  }
 
   $$(`.price-card [data-plan-action]`).forEach((button) => {
     button.addEventListener("click", () => {
-      select.value = button.dataset.planAction;
-      calculateQuote();
+      if (select) select.value = button.dataset.planAction;
       $("#contacto").scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
-
-  renderMethod();
 }
 
 function renderMethod() {
-  const rates = state.site.rates;
   const target = $("[data-method-card]");
-  if (!target || !rates) return;
-
-  target.innerHTML = `<div>
-      <h3>Mi metodologia</h3>
-      <p>Primero se calcula el recorte del footage por hora segun los POVs. Despues se suma la edicion del video final por minuto editado.</p>
-    </div>
-    <div class="rate-box">
-      <strong class="rate-green">${formatMoney(rates.cutHour1Pov ?? rates.cutHourSinglePov, state.site.currency)}</strong>
-      <span>por hora — 1 POV</span>
-    </div>
-    <div class="rate-box">
-      <strong class="rate-green">${formatMoney(rates.cutHour2Povs ?? rates.cutHourTwoPovs, state.site.currency)}</strong>
-      <span>por hora — 2 POVs</span>
-    </div>
-    <div class="rate-box">
-      <strong class="rate-green">${formatMoney(rates.cutHour3Povs, state.site.currency)}</strong>
-      <span>por hora — 3 POVs</span>
-    </div>
-    <div class="rate-box">
-      <strong class="rate-green">${formatMoney(rates.cutHour4Povs, state.site.currency)}</strong>
-      <span>por hora — 4 POVs</span>
-    </div>
-    <div class="rate-box">
-      <strong class="rate-green">${formatMoney(rates.editedMinute, state.site.currency)}</strong>
-      <span>por minuto final editado</span>
-    </div>`;
+  if (!target) return;
+  // Method card hidden — pricing now uses fixed packages
+  target.hidden = true;
 }
 
 function renderSchedule() {
@@ -330,25 +312,21 @@ function setupPlanCalculator() {
 }
 
 function buildEmailBody(form) {
-  const quote = calculateQuote();
   const data = new FormData(form);
+  const planId = data.get("budget");
+  const plan = state.site.pricing.find((p) => p.id === planId) ?? state.site.pricing[0];
   return [
     `Hola ${state.site.name}, quiero cotizar edicion de video.`,
     "",
     `Nombre: ${data.get("name")}`,
     `Correo: ${data.get("email")}`,
-    `Plan elegido: ${quote.plan.name}`,
-    `Cantidad de videos: ${quote.quantity}`,
+    `Paquete elegido: ${plan.name} — ${plan.priceLabel}`,
+    `Cantidad de videos: ${data.get("quantity")}`,
     `Formato: ${data.get("format")}`,
-    `POVs del material: ${quote.povs}`,
-    `Horas de recorte por video: ${quote.footageHours}`,
-    `Minutos editados finales por video: ${quote.editedMinutes}`,
-    `Tarifa de recorte usada: ${formatMoney(quote.cutRate, state.site.currency)} por hora`,
-    `Tarifa de edicion usada: ${formatMoney(state.site.rates.editedMinute, state.site.currency)} por minuto final`,
-    `Subtotal recorte: ${formatMoney(quote.cutSubtotal, state.site.currency)}`,
-    `Subtotal edicion: ${formatMoney(quote.editSubtotal, state.site.currency)}`,
+    `POVs del material: ${data.get("povs")}`,
+    `Horas de recorte estimadas: ${data.get("footageHours")}`,
+    `Minutos editados finales estimados: ${data.get("editedMinutes")}`,
     `Fecha ideal: ${data.get("deadline") || "Sin fecha definida"}`,
-    `Presupuesto estimado: ${formatMoney(quote.total, state.site.currency)}`,
     "",
     "Peticion:",
     data.get("message")
@@ -382,7 +360,8 @@ async function sendFormSubmit(body, form) {
 function setupContactForm() {
   const form = $("[data-contact-form]");
   const status = $("[data-form-status]");
-  form.addEventListener("input", calculateQuote);
+  if (!form) return;
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const body = buildEmailBody(form);
@@ -394,7 +373,6 @@ function setupContactForm() {
     try {
       await sendFormSubmit(body, form);
       form.reset();
-      calculateQuote();
       status.textContent = "Solicitud enviada. Te respondere al correo que dejaste.";
     } catch (error) {
       console.warn(error);
@@ -406,13 +384,44 @@ function setupContactForm() {
     }
   });
 
-  $("[data-copy-request]").addEventListener("click", async () => {
-    const body = buildEmailBody(form);
-    await navigator.clipboard.writeText(body);
-    status.textContent = "Mensaje copiado. Puedes pegarlo en Gmail, WhatsApp o Discord.";
-  });
+  const copyBtn = $("[data-copy-request]");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", async () => {
+      const body = buildEmailBody(form);
+      await navigator.clipboard.writeText(body);
+      status.textContent = "Mensaje copiado. Puedes pegarlo en Gmail, WhatsApp o Discord.";
+    });
+  }
+}
 
-  calculateQuote();
+// ── Modal player ──────────────────────────────────────────────
+function openVideoModal(videoId) {
+  if (!videoId) return;
+  const modal = $("#video-modal");
+  const iframe = $("#modal-iframe");
+  if (!modal || !iframe) return;
+  iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeVideoModal() {
+  const modal = $("#video-modal");
+  const iframe = $("#modal-iframe");
+  if (!modal || !iframe) return;
+  iframe.src = "";
+  modal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+function setupModal() {
+  const close = $("#modal-close");
+  const backdrop = $("#modal-backdrop");
+  if (close) close.addEventListener("click", closeVideoModal);
+  if (backdrop) backdrop.addEventListener("click", closeVideoModal);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeVideoModal();
+  });
 }
 
 async function init() {
@@ -432,7 +441,7 @@ async function init() {
   renderPricing();
   renderSchedule();
   setupContactForm();
-  setupPlanCalculator();
+  setupModal();
 }
 
 init();

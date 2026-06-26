@@ -61,11 +61,7 @@
               <small>promedio por video</small>
             </article>
           </div>
-          <div class="feature-video" data-feature-video>
-            <div class="poster-placeholder">
-              <span>Jorgeditor</span>
-            </div>
-          </div>
+          <div class="hero-video-grid" data-hero-video-grid aria-label="Videos del portafolio"></div>
         </div>
       </section>
 
@@ -84,53 +80,15 @@
       </section>
 
       <section class="section split-section" id="servicios">
-        <div class="section-heading plans-heading">
+        <div class="section-heading">
           <div class="section-copy">
-            <p class="eyebrow">Planes</p>
-            <h2>Elige un plan y calcula tu precio.</h2>
+            <p class="eyebrow">Paquetes</p>
+            <h2>Elige tu paquete y empieza hoy.</h2>
             <p>
-              Trabajo con una metodologia clara: cobro el recorte por hora de footage y la edicion
-              por minuto final editado. Ajusta los datos y mira un estimado al momento.
+              Precios fijos para los formatos mas comunes. Si tu proyecto es diferente,
+              cotizamos juntos sin compromiso.
             </p>
           </div>
-
-          <form class="plan-calculator" data-plan-calculator>
-            <div class="calculator-head">
-              <span>Calculadora rapida</span>
-              <strong data-plan-calc-total>USD 0</strong>
-            </div>
-            <label>
-              Plan
-              <select data-calc-field="plan"></select>
-            </label>
-            <div class="form-grid">
-              <label>
-                Videos
-                <input data-calc-field="quantity" type="number" min="1" max="60" value="1" />
-              </label>
-              <label>
-                POVs
-                              <select data-calc-field="povs">
-                  <option value="1">1 POV</option>
-                  <option value="2">2 POVs</option>
-                  <option value="3">3 POVs</option>
-                  <option value="4">4 POVs</option>
-                </select>
-              </label>
-            </div>
-            <div class="form-grid">
-              <label>
-                Horas recorte
-                <input data-calc-field="footageHours" type="number" min="0" max="200" step="0.5" value="2" />
-              </label>
-              <label>
-                Min. finales
-                <input data-calc-field="editedMinutes" type="number" min="1" max="180" value="8" />
-              </label>
-            </div>
-            <p data-plan-calc-note></p>
-            <button class="button primary" type="button" data-use-calculator>Enviar con este estimado</button>
-          </form>
         </div>
         <div class="pricing-grid" data-pricing-grid></div>
         <div class="method-card" data-method-card></div>
@@ -268,6 +226,17 @@
       <p>Jorgeditor. Edicion profesional para creadores, marcas y canales de YouTube.</p>
       <a href="#top">Volver arriba</a>
     </footer>
+
+    <!-- Video modal -->
+    <div id="video-modal" class="video-modal" role="dialog" aria-modal="true" aria-label="Reproductor de video" hidden>
+      <div class="video-modal-backdrop" id="modal-backdrop"></div>
+      <div class="video-modal-box">
+        <button class="video-modal-close" id="modal-close" aria-label="Cerrar video">&times;</button>
+        <div class="video-modal-frame">
+          <iframe id="modal-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen title="Video"></iframe>
+        </div>
+      </div>
+    </div>
 
     <script src="assets/js/app.js" type="module"></script>
   </body>
