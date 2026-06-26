@@ -66,9 +66,9 @@
     {
       "id": "gaming-inter",
       "name": "Gaming Intermedio",
-      "priceLabel": "$80 USD",
+      "priceLabel": "$90 USD",
       "rateType": "base-plus-extra",
-      "basePrice": 80,
+      "basePrice": 90,
       "baseHours": 1,
       "baseMinutes": 25,
       "extraHourRate": 15,
@@ -76,7 +76,7 @@
       "unit": "paquete avanzado para videos de gaming",
       "summary": "Todo incluido para un video de gaming limpio, energetico y listo para publicar. Horas y minutos extra a tarifa preferencial.",
       "features": [
-        "$80 base — 1h recorte + hasta 25 min",
+        "$90 base — 1h recorte + hasta 25 min",
         "Hora extra de recorte: +$15/h",
         "Minuto extra de video: +$8/min",
         "SFX, zooms y pacing de gaming",

@@ -340,9 +340,9 @@ function getCutRate(povs) {
  * Compute estimated price based on plan type and form inputs.
  *
  * short-basic / short-inter  → ratePerMinute × editedMinutes × quantity
- * base-plus-extra (gaming)   → (base + extraH×15 + extraM×9) × quantity
+ * base-plus-extra (gaming)   → (base + extraH×15 + extraM×8) × quantity
  * base-plus-extra (creator)  → (base + extraH×15) × quantity (no per-min)
- * hourly (custom)            → (cutRate(povs)×h + 9×min) × quantity
+ * hourly (custom)            → (cutRate(povs)×h + 8×min) × quantity
  */
 function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, povs, deliveryTime, revisions }) {
   const h  = Math.max(0, Number(footageHours || 0));
