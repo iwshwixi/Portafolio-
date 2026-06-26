@@ -382,6 +382,14 @@ h3 {
   padding-block: clamp(58px, 8vw, 104px);
 }
 
+.hero {
+  padding-bottom: clamp(16px, 3vw, 40px);
+}
+
+.portfolio-section {
+  padding-top: clamp(24px, 4vw, 48px);
+}
+
 .section-heading {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(280px, 0.55fr);
