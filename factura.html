@@ -55,10 +55,11 @@
                 <input name="currency" type="text" value="USD" placeholder="Ej. USD, EUR, MXN" />
               </label>
             </div>
-            <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; font-weight: normal; margin-top: 8px;">
-              <input type="checkbox" name="appendDateToFilename" />
-              Añadir fecha de hoy al nombre del archivo
-            </label>
+            <div class="date-toggle-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 12px; background: rgba(0,0,0,0.15); border-radius: 10px; border: 1px solid var(--line);">
+              <span style="font-size: 13px; font-weight: 500;">Añadir fecha al archivo PDF/JSON</span>
+              <button type="button" class="mini-button toggle-btn" data-toggle-date style="border-color: #ff4d4d; color: #ff4d4d; min-width: 70px; padding: 6px 12px; transition: all 0.2s;">No</button>
+              <input type="hidden" name="appendDateToFilename" value="false" />
+            </div>
           </section>
 
           <section class="form-section">
@@ -110,7 +111,7 @@
                 <option value="no">Mostrar solo concepto y valor</option>
               </select>
             </label>
-            <label data-concept-label-container hidden>
+            <label data-concept-label-container style="display: none;">
               Nombre de la columna "Concepto"
               <input name="customConceptName" type="text" placeholder="Ej. Concepto, Servicio, Descripción" value="Concepto" />
             </label>
@@ -125,7 +126,7 @@
                 <option value="yes">Sí</option>
               </select>
             </label>
-            <div class="form-grid" data-tax-fields hidden>
+            <div class="form-grid" data-tax-fields style="display: none; margin-top: 10px;">
               <label>
                 Nombre del cargo
                 <input name="taxName" type="text" placeholder="Ej. ISR, Comisión" />

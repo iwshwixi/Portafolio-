@@ -34,7 +34,7 @@
 
 .invoice-app {
   display: grid;
-  grid-template-columns: minmax(420px, 560px) minmax(0, 1fr);
+  grid-template-columns: minmax(500px, 55%) minmax(0, 1fr);
   height: calc(100vh - 72px);
   min-height: 0;
 }

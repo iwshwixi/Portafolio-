@@ -249,11 +249,19 @@ function updatePreview() {
   const fields = getFields();
   
   const conceptLabelContainer = document.querySelector("[data-concept-label-container]");
-  if (conceptLabelContainer) conceptLabelContainer.hidden = fields.showQuantity === "yes";
+  if (conceptLabelContainer) conceptLabelContainer.style.display = fields.showQuantity === "yes" ? "none" : "block";
   
   const taxFields = document.querySelector("[data-tax-fields]");
-  if (taxFields) taxFields.hidden = fields.applyTax === "no";
+  if (taxFields) taxFields.style.display = fields.applyTax === "no" ? "none" : "grid";
   
+  const toggleDateBtn = document.querySelector("[data-toggle-date]");
+  if (toggleDateBtn) {
+    const isAct = fields.appendDateToFilename === "true";
+    toggleDateBtn.textContent = isAct ? "Sí" : "No";
+    toggleDateBtn.style.background = isAct ? "#ff4d4d" : "transparent";
+    toggleDateBtn.style.color = isAct ? "#fff" : "#ff4d4d";
+  }
+
   updateDirectPreview(fields);
   updateParties();
   updatePayment();
@@ -284,8 +292,8 @@ function invoiceNumberForFile() {
     fileName += `_${invNumber}`;
   }
   
-  const appendDate = document.querySelector('[name="appendDateToFilename"]')?.checked;
-  if (appendDate) {
+  const appendDateInput = document.querySelector('[name="appendDateToFilename"]');
+  if (appendDateInput && appendDateInput.value === "true") {
     const dateObj = new Date();
     const dateStr = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
     fileName += `_${dateStr}`;
@@ -381,6 +389,16 @@ function init() {
   document.querySelector("[data-zoom-out]")?.addEventListener("click", () => applyPreviewZoom(previewZoom - 0.1));
   document.querySelector("[data-zoom-in]")?.addEventListener("click", () => applyPreviewZoom(previewZoom + 0.1));
   document.querySelector("[data-zoom-reset]")?.addEventListener("click", () => applyPreviewZoom(1));
+
+  const toggleDateBtn = document.querySelector("[data-toggle-date]");
+  const appendDateInput = document.querySelector('[name="appendDateToFilename"]');
+  if (toggleDateBtn && appendDateInput) {
+    toggleDateBtn.addEventListener("click", () => {
+      const isAct = appendDateInput.value === "true";
+      appendDateInput.value = isAct ? "false" : "true";
+      updatePreview();
+    });
+  }
 
   previewArea?.addEventListener("wheel", (event) => {
     if (!event.altKey) return;
