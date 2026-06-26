@@ -1923,6 +1923,45 @@ textarea {
 .legal-modal-body li strong {
   color: #fff;
 }
+.legal-fiscal-guide {
+  background: rgba(70, 210, 120, 0.08);
+  border: 1px solid rgba(70, 210, 120, 0.45);
+  border-radius: 8px;
+  margin: 0 0 22px;
+  padding: 14px 16px 16px;
+}
+.legal-fiscal-guide h3 {
+  margin: 0 0 8px;
+}
+.legal-fiscal-guide p {
+  margin-bottom: 12px;
+}
+.legal-fiscal-guide label {
+  color: rgba(255,255,255,0.78);
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+.legal-fiscal-select {
+  width: 100%;
+  appearance: none;
+  background:
+    linear-gradient(45deg, transparent 50%, #ffffff 50%) calc(100% - 18px) 50% / 6px 6px no-repeat,
+    linear-gradient(135deg, #ffffff 50%, transparent 50%) calc(100% - 13px) 50% / 6px 6px no-repeat,
+    #151515;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: #fff;
+  font: inherit;
+  min-height: 44px;
+  padding: 10px 38px 10px 12px;
+}
+.legal-fiscal-select:focus {
+  border-color: #46d278;
+  box-shadow: 0 0 0 3px rgba(70, 210, 120, 0.18);
+  outline: none;
+}
 .legal-modal-footer {
   padding: 16px 24px;
   border-top: 1px solid #2a2a2a;
