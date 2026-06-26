@@ -140,6 +140,10 @@ function renderItemEditor() {
     row.className = "item-row";
     row.dataset.itemId = item.id;
     row.innerHTML = `
+      <label style="display: flex; flex-direction: column; gap: 6px; align-items: center;" title="Color de fondo de esta fila">
+        <span style="font-size: 11px; color: transparent; user-select: none;">C</span>
+        <input data-item-field="color" type="color" value="${escapeAttr(item.color || '#ffffff')}" style="width: 28px; height: 38px; padding: 0; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; background: transparent;">
+      </label>
       <label>
         Cantidad
         <input data-item-field="quantity" type="number" min="0" step="1" placeholder="Ej. 3" value="${item.quantity}">
@@ -195,8 +199,19 @@ function renderPreviewItems(fields) {
   visibleItems.forEach((item) => {
     const quantity = clean(item.quantity);
     const total = itemTotal(item);
-    const row = document.createElement("tr");
-    row.innerHTML = showQuantity
+    const tr = document.createElement("tr");
+
+    if (item.color && item.color !== "#ffffff") {
+      tr.style.backgroundColor = item.color;
+      const hex = item.color.replace("#", "");
+      const r = parseInt(hex.substr(0, 2), 16);
+      const g = parseInt(hex.substr(2, 2), 16);
+      const b = parseInt(hex.substr(4, 2), 16);
+      const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+      tr.style.color = (yiq >= 128) ? "#000000" : "#ffffff";
+    }
+
+    tr.innerHTML = showQuantity
       ? `
         <td>${quantity}</td>
         <td>${clean(item.description)}</td>
@@ -206,7 +221,7 @@ function renderPreviewItems(fields) {
         <td>${clean(item.description)}</td>
         <td>${total ? formatMoney(total, fields.currency) : ""}</td>
       `;
-    itemsBody.appendChild(row);
+    itemsBody.appendChild(tr);
   });
 
   itemsSection.dataset.empty = visibleItems.length ? "false" : "true";
@@ -237,6 +252,7 @@ function syncItemsFromEditor() {
     const id = row.dataset.itemId || uid();
     return {
       id,
+      color: row.querySelector('[data-item-field="color"]')?.value || "#ffffff",
       quantity: clean(row.querySelector('[data-item-field="quantity"]')?.value),
       description: clean(row.querySelector('[data-item-field="description"]')?.value),
       price: clean(row.querySelector('[data-item-field="price"]')?.value)
@@ -484,10 +500,12 @@ function generateRandomExample() {
   if (appendDateInput) appendDateInput.value = Math.random() > 0.5 ? "true" : "false";
 
   items = [];
-  const numItems = Math.floor(Math.random() * 3) + 1;
+  const numItems = Math.floor(Math.random() * 3) + 2;
+  const fColors = ["#ffffff", "#ffffff", "#ffffff", "#ff4d4d", "#9b59b6", "#3498db", "#2ecc71"];
   for (let i = 0; i < numItems; i++) {
     items.push({
       id: uid(),
+      color: randomItem(fColors),
       quantity: Math.floor(Math.random() * 5) + 1,
       description: randomItem(fServices),
       price: Math.floor(Math.random() * 200) + 50
