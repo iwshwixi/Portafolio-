@@ -511,16 +511,34 @@ h3 {
 }
 
 .video-row-track {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
+  overflow: hidden;
   padding-bottom: 6px;
+  display: block;
 }
 
-.video-category-row:nth-child(even) .video-row-track {
-  flex-direction: row-reverse;
+.video-row-track.marquee .marquee-inner {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: marqueeScroll 40s linear infinite;
+}
+
+.video-row-track.marquee .marquee-inner:hover {
+  animation-play-state: paused;
+}
+
+.video-category-row:nth-child(even) .video-row-track.marquee .marquee-inner {
+  animation: marqueeScrollReverse 40s linear infinite;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 6px)); }
+}
+
+@keyframes marqueeScrollReverse {
+  0% { transform: translateX(calc(-50% - 6px)); }
+  100% { transform: translateX(0); }
 }
 
 .video-row-track::-webkit-scrollbar { display: none; }

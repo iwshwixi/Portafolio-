@@ -154,18 +154,18 @@ function renderVideos() {
     return `<div class="video-category-row">
       <div class="video-cat-header">
         <h3 class="video-cat-label">${cat}</h3>
-        <div class="row-nav-pair">
-          <button class="slider-nav slider-nav--prev" data-slider-prev="${rowId}" aria-label="Anterior">&#8249;</button>
-          <button class="slider-nav slider-nav--next" data-slider-next="${rowId}" aria-label="Siguiente">&#8250;</button>
-        </div>
       </div>
-      <div class="video-row-track" id="${rowId}">
-        ${catVideos.map(videoCardHTML).join("")}
+      <div class="video-row-track marquee" id="${rowId}">
+        <div class="marquee-inner">
+          ${catVideos.map(videoCardHTML).join("")}
+          ${catVideos.map(videoCardHTML).join("")}
+        </div>
       </div>
     </div>`;
   }).join("");
 
-  setupSliderNav(target);
+  // setupSliderNav is no longer needed here for the auto marquee
+  // but keep it for other places if used.
 
   $$("[data-play-video]", target).forEach((btn) => {
     btn.addEventListener("click", () => openVideoModal(btn.dataset.playVideo));
