@@ -1,191 +1,210 @@
 <!doctype html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Generador de Facturas | Jorgeditor</title>
-  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
-  <link rel="stylesheet" href="assets/css/styles.css" /> <!-- Base styles -->
-  <link rel="stylesheet" href="assets/css/factura.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-</head>
-<body class="invoice-body">
-  <div class="invoice-app">
-    <!-- Panel de Control (Izquierda) -->
-    <aside class="invoice-sidebar">
-      <div class="sidebar-header">
-        <a href="index.html" class="back-link">← Volver al inicio</a>
-        <h2>Generador de Facturas</h2>
-      </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1c1c1c" />
+    <title>Generador de facturas</title>
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260626-8" />
+    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-5" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+  </head>
+  <body class="invoice-body">
+    <header class="invoice-topbar">
+      <a class="invoice-brand" href="index.html">← Volver al portafolio</a>
+      <nav class="invoice-top-actions" aria-label="Acciones de factura">
+        <button class="button ghost" type="button" data-import-trigger>Cargar JSON</button>
+        <button class="button ghost" type="button" data-export-json>Descargar JSON</button>
+        <button class="button primary" type="button" data-export-pdf>Descargar PDF</button>
+        <input type="file" data-import-json accept="application/json,.json" hidden />
+      </nav>
+    </header>
 
-      <div class="sidebar-actions">
-        <button id="btn-export-pdf" class="button primary">Descargar PDF</button>
-        <div class="json-actions">
-          <button id="btn-export-json" class="button ghost">Guardar JSON</button>
-          <label class="button ghost file-upload-btn">
-            Cargar JSON
-            <input type="file" id="file-import-json" accept=".json" style="display: none;" />
-          </label>
-        </div>
-      </div>
-
-      <form id="invoice-form" class="contact-form" autocomplete="off">
-        <div class="form-section">
-          <h3>Tus Datos (Emisor)</h3>
-          <label>Nombre <input type="text" id="f-issuer-name" placeholder="Ej. Jorge Santos Guerra" /></label>
-          <label>Documento (RFC/NIF) <input type="text" id="f-issuer-rfc" placeholder="Ej. SAGJ000417DS6" /></label>
-          <label>Dirección <textarea id="f-issuer-address" rows="2" placeholder="Ej. Veracruz, México..."></textarea></label>
+    <main class="invoice-app">
+      <aside class="invoice-sidebar" aria-label="Formulario del generador de facturas">
+        <div class="sidebar-header">
+          <p class="eyebrow">Herramienta</p>
+          <h1>Generador de facturas</h1>
+          <p>
+            Rellena solo lo necesario. Si dejas un dato vacío, no aparecerá en la factura final.
+            El JSON guarda todo para poder cargarlo después.
+          </p>
         </div>
 
-        <div class="form-section">
-          <h3>Datos de Factura</h3>
-          <div class="form-grid">
-            <label>Fecha <input type="text" id="f-invoice-date" placeholder="Ej. 03 Julio de 2025" /></label>
-            <label>Nº Factura <input type="text" id="f-invoice-number" placeholder="Ej. 001" /></label>
-            <label>ID <input type="text" id="f-invoice-id" placeholder="Ej. xTURBO, SLU" /></label>
-          </div>
-        </div>
-
-        <div class="form-section">
-          <h3>Datos del Cliente (Receptor)</h3>
-          <label>Nombre / Empresa <input type="text" id="f-client-name" placeholder="Ej. XTURBO, SLU" /></label>
-          <label>Documento (NRT/RFC) <input type="text" id="f-client-rfc" placeholder="Ej. L-717868-T" /></label>
-          <label>Dirección <textarea id="f-client-address" rows="3" placeholder="Ej. Carretera de Fontaneda..."></textarea></label>
-        </div>
-
-        <div class="form-section">
-          <h3>Servicios</h3>
-          <div id="items-container">
-            <!-- Items generados dinámicamente -->
-          </div>
-          <button type="button" id="btn-add-item" class="button ghost" style="width: 100%; margin-top: 10px;">+ Agregar Fila</button>
-        </div>
-
-        <div class="form-section">
-          <h3>Pago y Contacto</h3>
-          <label>Método de pago <input type="text" id="f-payment-method" placeholder="Ej. Pago por transferencia (BBVA)" /></label>
-          <label>Nombre (bajo el método) <input type="text" id="f-payment-name" placeholder="Ej. Jorge Santos" /></label>
-          <div class="inv-divider inv-divider--thin" style="margin: 12px 0;"></div>
-          <label>ID Transacción / Ref <input type="text" id="f-payment-id" placeholder="Ej. 7566469.0173.01" /></label>
-          <label>Titular de la cuenta <input type="text" id="f-payment-titular" placeholder="Ej. JORGE SANTOS GUERRA" /></label>
-          <label>Número de cuenta <input type="text" id="f-payment-cuenta" placeholder="Ej. 157 426 2859" /></label>
-          <label>Tipo de cuenta <input type="text" id="f-payment-tipo" placeholder="Ej. Corriente o Cheques" /></label>
-          <label>Banco <input type="text" id="f-payment-banco" placeholder="Ej. BBVA" /></label>
-          <label>Dirección del banco <input type="text" id="f-payment-address" placeholder="Ej. Avenida Paseo de la Reforma..." /></label>
-          <label>Enlace / Referencia extra <input type="text" id="f-payment-link" placeholder="Ej. paypal.me/jorge1742mx" /></label>
-          <div class="inv-divider inv-divider--thin" style="margin: 12px 0;"></div>
-          <label>Correo de contacto <input type="email" id="f-contact-email" placeholder="Ej. jorgeditor.contacto@gmail.com" /></label>
-        </div>
-      </form>
-    </aside>
-
-    <!-- Vista Previa (Derecha) -->
-    <main class="invoice-preview-area">
-      <div class="invoice-paper" id="invoice-paper">
-        <header class="inv-header">
-          <h1 class="inv-title">Factura</h1>
-        </header>
-
-        <div class="inv-divider inv-divider--thick"></div>
-
-        <section class="inv-top-details">
-          <div class="inv-issuer">
-            <strong id="p-issuer-name" class="inv-field empty-hint" data-placeholder="Nombre del Emisor"></strong>
-            <div class="inv-rfc">
-              <strong>RFC:</strong> <span id="p-issuer-rfc" class="inv-field empty-hint" data-placeholder="Documento"></span>
+        <form id="invoice-form" class="invoice-form" autocomplete="off">
+          <section class="form-section">
+            <h2>Factura</h2>
+            <div class="form-grid">
+              <label>
+                Número de factura
+                <input name="invoiceNumber" type="text" placeholder="Ej. 01, 002, INV-2026-01" />
+              </label>
+              <label>
+                Fecha
+                <input name="invoiceDate" type="text" placeholder="Ej. 26 Junio de 2026" />
+              </label>
             </div>
-            <div class="inv-divider inv-divider--thin"></div>
-            <div id="p-issuer-address" class="inv-field inv-address empty-hint" data-placeholder="Dirección del Emisor"></div>
-          </div>
+            <div class="form-grid">
+              <label>
+                ID / referencia del cliente
+                <input name="invoiceId" type="text" placeholder="Ej. Nombre del cliente, proyecto o ID interno" />
+              </label>
+              <label>
+                Moneda
+                <input name="currency" type="text" value="USD" placeholder="Ej. USD, EUR, MXN" />
+              </label>
+            </div>
+          </section>
 
-          <div class="inv-meta">
-            <div><strong>Fecha:</strong> <span id="p-invoice-date" class="inv-field empty-hint" data-placeholder="Fecha"></span></div>
-            <div><strong>Nº Factura:</strong> <span id="p-invoice-number" class="inv-field empty-hint" data-placeholder="000"></span></div>
-            <div><strong>ID:</strong> <span id="p-invoice-id" class="inv-field empty-hint" data-placeholder="ID"></span></div>
-          </div>
-        </section>
+          <section class="form-section">
+            <h2>Datos del cliente</h2>
+            <label>
+              Nombre o empresa del cliente
+              <input name="clientName" type="text" placeholder="Ej. Nombre del cliente o empresa" />
+            </label>
+            <label>
+              Documento fiscal del cliente
+              <input name="clientDocument" type="text" placeholder="Ej. RFC, NIF, NRT, ID fiscal o dejar vacío" />
+            </label>
+            <label>
+              Dirección o datos fiscales del cliente
+              <textarea name="clientAddress" rows="3" placeholder="Ej. Dirección, ciudad, país o datos fiscales"></textarea>
+            </label>
+          </section>
 
-        <div class="inv-divider inv-divider--thick"></div>
+          <section class="form-section">
+            <h2>Datos del editor</h2>
+            <label>
+              Nombre o marca del editor
+              <input name="companyName" type="text" placeholder="Ej. Nombre de tu marca o nombre profesional" />
+            </label>
+            <label>
+              Documento fiscal del editor
+              <input name="companyDocument" type="text" placeholder="Ej. RFC, NIF, ID fiscal o dejar vacío" />
+            </label>
+            <label>
+              Dirección o datos fiscales del editor
+              <textarea name="companyAddress" rows="3" placeholder="Ej. Dirección, ciudad, país o datos fiscales"></textarea>
+            </label>
+            <label>
+              Correo de contacto
+              <input name="companyEmail" type="email" placeholder="Ej. contacto@tusitio.com" />
+            </label>
+          </section>
 
-        <section class="inv-client-section">
-          <strong>Para</strong>
-          <div id="p-client-name" class="inv-field inv-client-name empty-hint" data-placeholder="Nombre del Cliente"></div>
-          <div id="p-client-rfc" class="inv-field inv-address empty-hint" data-placeholder="Documento (NRT/RFC)"></div>
-          <div id="p-client-address" class="inv-field inv-address empty-hint" data-placeholder="Dirección del Cliente"></div>
-        </section>
+          <section class="form-section">
+            <div class="section-row">
+              <h2>Conceptos / videos</h2>
+              <button class="mini-button" type="button" data-add-item>+ Fila</button>
+            </div>
+            <p class="field-help">Agrega una fila por video, paquete o servicio. Las filas completamente vacías no aparecen en la factura.</p>
+            <div class="items-editor" data-items-editor></div>
+          </section>
 
-        <section class="inv-table-section">
-          <table class="inv-table">
-            <thead>
-              <tr>
-                <th style="width: 25%;">Cant.</th>
-                <th style="width: 50%;">Descripción</th>
-                <th style="width: 25%;">Valor</th>
-              </tr>
-            </thead>
-            <tbody id="p-items-body">
-              <!-- Filas dinámicas -->
-            </tbody>
-          </table>
-        </section>
+          <section class="form-section">
+            <h2>Información de pago</h2>
+            <p class="field-help">Escribe solo la información que quieras mostrar al cliente. Si no llenas esta sección, no aparece.</p>
+            <label>
+              Método de pago
+              <input name="paymentMethod" type="text" placeholder="Ej. Transferencia, PayPal, Binance Pay, plataforma de pago" />
+            </label>
+            <label>
+              Beneficiario o titular
+              <input name="paymentRecipient" type="text" placeholder="Ej. Nombre que debe recibir el pago" />
+            </label>
+            <label>
+              Referencia o ID de pago
+              <input name="paymentReference" type="text" placeholder="Ej. Referencia, ID, usuario o enlace" />
+            </label>
+            <label>
+              Instrucciones adicionales
+              <textarea name="paymentNotes" rows="3" placeholder="Ej. Instrucciones claras para completar el pago"></textarea>
+            </label>
+          </section>
+        </form>
+      </aside>
 
-        <section class="inv-summary-section">
-          <div class="inv-payment-info">
-            <div id="p-payment-method" class="inv-field inv-payment-method empty-hint" data-placeholder="Método de pago"></div>
-            <div id="p-payment-name" class="inv-field inv-payment-name empty-hint" data-placeholder="Nombre bajo método"></div>
-            <div class="inv-divider inv-divider--thin" style="margin: 6px 0;"></div>
-            
-            <div id="wrap-payment-id" class="inv-payment-detail-wrap">
-              <strong>ID de la Transacción :</strong> <span id="p-payment-id" class="inv-field empty-hint" data-placeholder="..."></span>
-            </div>
-            <div id="wrap-payment-titular" class="inv-payment-detail-wrap">
-              Nombre del titular: <span id="p-payment-titular" class="inv-field empty-hint" data-placeholder="..."></span>
-            </div>
-            <div id="wrap-payment-cuenta" class="inv-payment-detail-wrap">
-              Número de cuenta: <span id="p-payment-cuenta" class="inv-field empty-hint" data-placeholder="..."></span>
-            </div>
-            <div id="wrap-payment-tipo" class="inv-payment-detail-wrap">
-              Tipo de cuenta: <span id="p-payment-tipo" class="inv-field empty-hint" data-placeholder="..."></span>
-            </div>
-            <div id="wrap-payment-banco" class="inv-payment-detail-wrap">
-              Banco: <span id="p-payment-banco" class="inv-field empty-hint" data-placeholder="..."></span>
-            </div>
-            <div id="wrap-payment-address" class="inv-payment-detail-wrap">
-              Dirección: <span id="p-payment-address" class="inv-field empty-hint" data-placeholder="..."></span>
-            </div>
-            <div id="wrap-payment-link" class="inv-payment-detail-wrap">
-              <span id="p-payment-link" class="inv-field inv-payment-link empty-hint" data-placeholder="Enlace o Referencia"></span>
-            </div>
-          </div>
+      <section class="invoice-preview-area" aria-label="Vista previa de factura">
+        <article class="invoice-paper" id="invoice-paper">
+          <header class="classic-header">
+            <h2>Factura</h2>
+          </header>
 
-          <div class="inv-totals">
-            <table class="inv-summary-table">
-              <tr>
-                <th>Subtotal</th>
-                <td id="p-subtotal">$0</td>
-              </tr>
-              <tr>
-                <th></th>
-                <td></td>
-              </tr>
-              <tr>
-                <th>Total USD</th>
-                <td id="p-total">$0</td>
-              </tr>
+          <div class="classic-rule"></div>
+
+          <section class="classic-top">
+            <div class="classic-issuer" data-party="company">
+              <strong data-preview="companyName"></strong>
+              <p data-preview="companyDocument" data-prefix="Documento: "></p>
+              <div class="classic-mini-rule" data-company-rule></div>
+              <p data-preview="companyAddress"></p>
+            </div>
+
+            <div class="classic-meta">
+              <p data-preview="invoiceDate" data-prefix="Fecha: "></p>
+              <p data-preview="invoiceNumber" data-prefix="N° Factura: "></p>
+              <p data-preview="invoiceId" data-prefix="ID: "></p>
+            </div>
+          </section>
+
+          <div class="classic-rule classic-rule--middle"></div>
+
+          <section class="classic-client" data-party="client">
+            <strong>Para</strong>
+            <p data-preview="clientName"></p>
+            <p data-preview="clientDocument" data-prefix="Documento: "></p>
+            <p data-preview="clientAddress"></p>
+          </section>
+
+          <section class="classic-items" data-items-section>
+            <table>
+              <thead>
+                <tr>
+                  <th>Cant.</th>
+                  <th>Descripción</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody data-preview-items></tbody>
             </table>
-          </div>
-        </section>
+          </section>
 
-        <footer class="inv-footer">
-          <div class="inv-contact">
-            <strong>Contacto:</strong><br>
-            E-mail: <span id="p-contact-email" class="inv-field empty-hint" data-placeholder="correo@ejemplo.com"></span>
-          </div>
-        </footer>
-      </div>
+          <section class="classic-bottom">
+            <div class="classic-payment" data-payment-section>
+              <p class="classic-payment-method" data-preview="paymentMethod"></p>
+              <p class="classic-payment-recipient" data-preview="paymentRecipient"></p>
+              <div class="classic-mini-rule" data-payment-rule></div>
+              <p data-preview="paymentReference" data-prefix="ID de la transacción: "></p>
+              <p data-preview="paymentNotes"></p>
+            </div>
+
+            <div class="classic-totals" data-summary-section>
+              <table>
+                <tr>
+                  <th>Subtotal</th>
+                  <td data-preview-subtotal></td>
+                </tr>
+                <tr class="classic-empty-total-row">
+                  <th></th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th data-total-label>Total USD</th>
+                  <td data-preview-total></td>
+                </tr>
+              </table>
+            </div>
+          </section>
+
+          <footer class="classic-footer" data-hide-empty>
+            <strong>Contacto:</strong>
+            <span data-preview="companyEmail" data-prefix="E-mail: "></span>
+          </footer>
+        </article>
+      </section>
     </main>
-  </div>
 
-  <script src="assets/js/factura.js" type="module"></script>
-</body>
+    <script src="assets/js/factura.js?v=20260626-8" type="module"></script>
+  </body>
 </html>

@@ -1,248 +1,293 @@
-const elements = {
-  form: document.getElementById('invoice-form'),
-  itemsContainer: document.getElementById('items-container'),
-  btnAddItem: document.getElementById('btn-add-item'),
-  btnExportPdf: document.getElementById('btn-export-pdf'),
-  btnExportJson: document.getElementById('btn-export-json'),
-  fileImportJson: document.getElementById('file-import-json'),
+const form = document.querySelector("#invoice-form");
+const paper = document.querySelector("#invoice-paper");
+const itemsEditor = document.querySelector("[data-items-editor]");
+const itemsBody = document.querySelector("[data-preview-items]");
+const importInput = document.querySelector("[data-import-json]");
 
-  // Preview elements
-  pItemsBody: document.getElementById('p-items-body'),
-  pSubtotal: document.getElementById('p-subtotal'),
-  pTotal: document.getElementById('p-total'),
-  invoicePaper: document.getElementById('invoice-paper')
-};
-
-// Map form input IDs to preview element IDs
-const fieldMapping = {
-  'f-issuer-name': 'p-issuer-name',
-  'f-issuer-rfc': 'p-issuer-rfc',
-  'f-issuer-address': 'p-issuer-address',
-  'f-invoice-date': 'p-invoice-date',
-  'f-invoice-number': 'p-invoice-number',
-  'f-invoice-id': 'p-invoice-id',
-  'f-client-name': 'p-client-name',
-  'f-client-rfc': 'p-client-rfc',
-  'f-client-address': 'p-client-address',
-  'f-payment-method': 'p-payment-method',
-  'f-payment-name': 'p-payment-name',
-  'f-payment-id': 'p-payment-id',
-  'f-payment-titular': 'p-payment-titular',
-  'f-payment-cuenta': 'p-payment-cuenta',
-  'f-payment-tipo': 'p-payment-tipo',
-  'f-payment-banco': 'p-payment-banco',
-  'f-payment-address': 'p-payment-address',
-  'f-payment-link': 'p-payment-link',
-  'f-contact-email': 'p-contact-email'
-};
+const moneyFields = new Intl.NumberFormat("es-MX", {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2
+});
 
 let items = [];
 
-// Initialize
-function init() {
-  // Bind standard text fields
-  for (const [inputId, previewId] of Object.entries(fieldMapping)) {
-    const input = document.getElementById(inputId);
-    input.addEventListener('input', () => updatePreview(inputId, previewId));
-    // Trigger once on load to collapse empty wrappers
-    updatePreview(inputId, previewId);
-  }
+const uid = () => Math.random().toString(36).slice(2, 10);
+const clean = (value) => String(value ?? "").trim();
+const numberValue = (value) => {
+  const parsed = Number(String(value ?? "").replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+};
 
-  // Setup items
-  elements.btnAddItem.addEventListener('click', () => addItem());
-  addItem(); // Add one empty row by default
-
-  // Export/Import
-  elements.btnExportJson.addEventListener('click', exportJson);
-  elements.fileImportJson.addEventListener('change', importJson);
-  
-  // PDF
-  elements.btnExportPdf.addEventListener('click', exportPdf);
+function getFields() {
+  return Object.fromEntries([...new FormData(form).entries()].map(([key, value]) => [key, clean(value)]));
 }
 
-// Update single text field
-function updatePreview(inputId, previewId) {
-  const input = document.getElementById(inputId);
-  const preview = document.getElementById(previewId);
-  if (!input || !preview) return;
-  
-  preview.textContent = input.value;
-  
-  // Handle collapsing wrappers
-  const wrapId = 'wrap-' + previewId.substring(2); // e.g. wrap-payment-id
-  const wrap = document.getElementById(wrapId);
-  if (wrap) {
-    wrap.style.display = input.value.trim() ? 'block' : 'none';
-  }
+function formatMoney(value, currency) {
+  const code = (clean(currency) || "USD").toUpperCase();
+  const amount = moneyFields.format(value);
+  if (code === "USD") return `$${amount}`;
+  if (code === "EUR") return `${amount} €`;
+  if (code === "MXN") return `$${amount} MXN`;
+  return `${amount} ${code}`;
 }
 
-// Items logic
-function addItem(qty = '', desc = '', val = '') {
-  const item = { id: Date.now() + Math.random(), qty, desc, val };
-  items.push(item);
-  renderItemForm(item);
-  updateItemsPreview();
+function escapeAttr(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 }
 
-function removeItem(id) {
-  items = items.filter(i => i.id !== id);
-  const row = document.getElementById(`item-row-${id}`);
-  if (row) row.remove();
-  updateItemsPreview();
+function updateDirectPreview(fields) {
+  document.querySelectorAll("[data-preview]").forEach((target) => {
+    const key = target.dataset.preview;
+    const value = clean(fields[key]);
+    const prefix = target.dataset.prefix || "";
+    target.textContent = value ? `${prefix}${value}` : "";
+    target.dataset.empty = value ? "false" : "true";
+    const wrapper = target.closest("[data-hide-empty]");
+    if (wrapper) wrapper.dataset.empty = value ? "false" : "true";
+  });
 }
 
-function renderItemForm(item) {
-  const row = document.createElement('div');
-  row.className = 'item-row';
-  row.id = `item-row-${item.id}`;
-
-  const iQty = document.createElement('input');
-  iQty.type = 'text';
-  iQty.className = 'item-qty';
-  iQty.placeholder = 'Cant.';
-  iQty.value = item.qty;
-  iQty.addEventListener('input', (e) => { item.qty = e.target.value; updateItemsPreview(); });
-
-  const iDesc = document.createElement('input');
-  iDesc.type = 'text';
-  iDesc.className = 'item-desc';
-  iDesc.placeholder = 'Descripción';
-  iDesc.value = item.desc;
-  iDesc.addEventListener('input', (e) => { item.desc = e.target.value; updateItemsPreview(); });
-
-  const iVal = document.createElement('input');
-  iVal.type = 'text';
-  iVal.className = 'item-val';
-  iVal.placeholder = 'Valor (ej. 100$)';
-  iVal.value = item.val;
-  iVal.addEventListener('input', (e) => { item.val = e.target.value; updateItemsPreview(); });
-
-  const btnRm = document.createElement('button');
-  btnRm.type = 'button';
-  btnRm.className = 'item-remove';
-  btnRm.innerHTML = '&times;';
-  btnRm.addEventListener('click', () => removeItem(item.id));
-
-  row.appendChild(iQty);
-  row.appendChild(iDesc);
-  row.appendChild(iVal);
-  row.appendChild(btnRm);
-  elements.itemsContainer.appendChild(row);
-}
-
-function updateItemsPreview() {
-  elements.pItemsBody.innerHTML = '';
-  let subtotal = 0;
-
-  items.forEach(item => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${item.qty || ''}</td>
-      <td>${item.desc || ''}</td>
-      <td>${item.val || ''}</td>
-    `;
-    elements.pItemsBody.appendChild(tr);
-
-    // Try to parse value for total
-    const num = parseFloat(item.val.replace(/[^0-9.-]+/g, ""));
-    if (!isNaN(num)) subtotal += num;
+function updateParties() {
+  ["client", "company"].forEach((type) => {
+    const party = document.querySelector(`[data-party="${type}"]`);
+    const hasData = [...party.querySelectorAll("[data-preview]")].some((node) => clean(node.textContent));
+    party.dataset.empty = hasData ? "false" : "true";
   });
 
-  // Ensure there's always at least one empty row to keep table structure
-  if (items.length === 0) {
-    elements.pItemsBody.innerHTML = `<tr><td style="height:40px;"></td><td></td><td></td></tr>`;
+  const companyRule = document.querySelector("[data-company-rule]");
+  if (companyRule) {
+    const hasLowerIssuerData = ["companyDocument", "companyAddress"].some((key) =>
+      clean(document.querySelector(`[data-preview="${key}"]`)?.textContent)
+    );
+    companyRule.hidden = !hasLowerIssuerData;
   }
 
-  // Formatting currency simply by appending '$' (you can adjust this if needed)
-  elements.pSubtotal.textContent = subtotal > 0 ? `${subtotal}$` : '';
-  elements.pTotal.textContent = subtotal > 0 ? `${subtotal}$` : '';
+  const client = document.querySelector('[data-party="client"]');
+  const company = document.querySelector('[data-party="company"]');
+  if (client && company) {
+    const top = document.querySelector(".classic-top");
+    const metaHasData = [...document.querySelectorAll(".classic-meta [data-preview]")].some((node) =>
+      clean(node.textContent)
+    );
+    if (top) top.dataset.empty = company.dataset.empty === "true" && !metaHasData ? "true" : "false";
+  }
 }
 
-// Export JSON
+function updatePayment() {
+  const payment = document.querySelector("[data-payment-section]");
+  const hasData = [...payment.querySelectorAll("[data-preview]")].some((node) => clean(node.textContent));
+  payment.dataset.empty = hasData ? "false" : "true";
+
+  const hasPaymentDetails = ["paymentRecipient", "paymentReference", "paymentNotes"].some((key) =>
+    clean(document.querySelector(`[data-preview="${key}"]`)?.textContent)
+  );
+  const rule = document.querySelector("[data-payment-rule]");
+  if (rule) rule.hidden = !hasPaymentDetails;
+}
+
+function itemHasData(item) {
+  return Boolean(clean(item.description) || clean(item.quantity) || clean(item.price));
+}
+
+function itemTotal(item) {
+  return numberValue(item.price);
+}
+
+function renderItemEditor() {
+  itemsEditor.innerHTML = "";
+
+  items.forEach((item, index) => {
+    const row = document.createElement("div");
+    row.className = "item-row";
+    row.dataset.itemId = item.id;
+    row.innerHTML = `
+      <label>
+        Cantidad
+        <input data-item-field="quantity" type="number" min="0" step="1" placeholder="Ej. 3" value="${item.quantity}">
+      </label>
+      <label>
+        Descripción
+        <input data-item-field="description" type="text" placeholder="Ej. Edición de videos en 16:9" value="${escapeAttr(item.description)}">
+      </label>
+      <label>
+        Valor
+        <input data-item-field="price" type="number" min="0" step="0.01" placeholder="Ej. 400" value="${escapeAttr(item.price)}">
+      </label>
+      <button class="item-remove" type="button" aria-label="Eliminar fila ${index + 1}">×</button>
+    `;
+
+    row.querySelectorAll("[data-item-field]").forEach((input) => {
+      input.addEventListener("input", () => {
+        item[input.dataset.itemField] = input.value;
+        updatePreview();
+      });
+    });
+
+    row.querySelector(".item-remove").addEventListener("click", () => {
+      items = items.filter((entry) => entry.id !== item.id);
+      if (!items.length) addItem();
+      renderItemEditor();
+      updatePreview();
+    });
+
+    itemsEditor.appendChild(row);
+  });
+}
+
+function renderPreviewItems(fields) {
+  const visibleItems = items.filter(itemHasData);
+  itemsBody.innerHTML = "";
+
+  visibleItems.forEach((item) => {
+    const quantity = clean(item.quantity);
+    const total = itemTotal(item);
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${quantity}</td>
+      <td>${clean(item.description)}</td>
+      <td>${total ? formatMoney(total, fields.currency) : ""}</td>
+    `;
+    itemsBody.appendChild(row);
+  });
+
+  document.querySelector("[data-items-section]").dataset.empty = visibleItems.length ? "false" : "true";
+
+  const subtotal = visibleItems.reduce((sum, item) => sum + itemTotal(item), 0);
+  document.querySelector("[data-preview-subtotal]").textContent = subtotal ? formatMoney(subtotal, fields.currency) : "";
+  document.querySelector("[data-preview-total]").textContent = subtotal ? formatMoney(subtotal, fields.currency) : "";
+  document.querySelector("[data-total-label]").textContent = `Total ${(clean(fields.currency) || "USD").toUpperCase()}`;
+  document.querySelector("[data-summary-section]").dataset.empty = subtotal ? "false" : "true";
+}
+
+function syncItemsFromEditor() {
+  items = [...itemsEditor.querySelectorAll(".item-row")].map((row) => {
+    const id = row.dataset.itemId || uid();
+    return {
+      id,
+      quantity: clean(row.querySelector('[data-item-field="quantity"]')?.value),
+      description: clean(row.querySelector('[data-item-field="description"]')?.value),
+      price: clean(row.querySelector('[data-item-field="price"]')?.value)
+    };
+  });
+}
+
+function updatePreview() {
+  syncItemsFromEditor();
+  const fields = getFields();
+  updateDirectPreview(fields);
+  updateParties();
+  updatePayment();
+  renderPreviewItems(fields);
+}
+
+function addItem(values = {}) {
+  items.push({
+    id: values.id || uid(),
+    quantity: clean(values.quantity),
+    description: clean(values.description),
+    price: clean(values.price)
+  });
+  renderItemEditor();
+  updatePreview();
+}
+
+function invoiceNumberForFile() {
+  return clean(getFields().invoiceNumber).replace(/[^\w-]+/g, "_") || "sin_numero";
+}
+
 function exportJson() {
   const data = {
-    fields: {},
-    items: items.map(i => ({ qty: i.qty, desc: i.desc, val: i.val }))
+    type: "invoice-generator-config",
+    version: 1,
+    savedAt: new Date().toISOString(),
+    fields: getFields(),
+    items: items.map(({ quantity, description, price }) => ({ quantity, description, price }))
   };
-
-  for (const inputId of Object.keys(fieldMapping)) {
-    data.fields[inputId] = document.getElementById(inputId).value;
-  }
 
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  
-  const invNumber = document.getElementById('f-invoice-number').value || '000';
-  a.download = `Factura_${invNumber}.json`;
-  a.click();
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `factura_${invoiceNumberForFile()}.json`;
+  link.click();
   URL.revokeObjectURL(url);
 }
 
-// Import JSON
-function importJson(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+async function importJson(file) {
+  const text = await file.text();
+  const data = JSON.parse(text);
+  const fields = data.fields || {};
 
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result);
-      
-      // Restore fields
-      if (data.fields) {
-        for (const [inputId, value] of Object.entries(data.fields)) {
-          const input = document.getElementById(inputId);
-          if (input) {
-            input.value = value;
-            updatePreview(inputId, fieldMapping[inputId]);
-          }
-        }
-      }
-
-      // Restore items
-      if (data.items) {
-        items = [];
-        elements.itemsContainer.innerHTML = '';
-        data.items.forEach(i => addItem(i.qty, i.desc, i.val));
-      }
-
-    } catch (err) {
-      alert("Error al leer el archivo JSON.");
-    }
-  };
-  reader.readAsText(file);
-  
-  // Reset input so the same file can be selected again
-  event.target.value = '';
-}
-
-// Export PDF
-function exportPdf() {
-  const element = elements.invoicePaper;
-  const invNumber = document.getElementById('f-invoice-number').value || '000';
-  
-  element.classList.add('exporting-pdf');
-
-  // Opciones para asegurar la calidad de la hoja A4
-  const opt = {
-    margin:       0,
-    filename:     `Factura_${invNumber}.pdf`,
-    image:        { type: 'jpeg', quality: 1.0 },
-    html2canvas:  { scale: 2, useCORS: true, logging: false },
-    jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' } // A4 en px a 96dpi
-  };
-
-  elements.btnExportPdf.textContent = "Generando...";
-  elements.btnExportPdf.disabled = true;
-
-  html2pdf().set(opt).from(element).save().then(() => {
-    elements.btnExportPdf.textContent = "Descargar PDF";
-    elements.btnExportPdf.disabled = false;
-    element.classList.remove('exporting-pdf');
+  Object.entries(fields).forEach(([name, value]) => {
+    const input = form.elements[name];
+    if (input) input.value = value ?? "";
   });
+
+  items = Array.isArray(data.items) && data.items.length
+    ? data.items.map((item) => ({ id: uid(), ...item }))
+    : [];
+
+  if (!items.length) addItem();
+  renderItemEditor();
+  updatePreview();
 }
 
-// Run
+async function exportPdf() {
+  if (!window.html2pdf) {
+    alert("No se pudo cargar el generador de PDF. Revisa tu conexión e intenta de nuevo.");
+    return;
+  }
+
+  const button = document.querySelector("[data-export-pdf]");
+  button.disabled = true;
+  button.textContent = "Generando...";
+  paper.classList.add("exporting");
+
+  const options = {
+    margin: 0,
+    filename: `factura_${invoiceNumberForFile()}.pdf`,
+    image: { type: "jpeg", quality: 1 },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
+    jsPDF: { unit: "px", format: [794, 1123], orientation: "portrait" }
+  };
+
+  try {
+    await window.html2pdf().set(options).from(paper).save();
+  } finally {
+    paper.classList.remove("exporting");
+    button.disabled = false;
+    button.textContent = "Descargar PDF";
+  }
+}
+
+function init() {
+  form.addEventListener("input", updatePreview);
+  form.addEventListener("change", updatePreview);
+  itemsEditor.addEventListener("input", updatePreview);
+  itemsEditor.addEventListener("change", updatePreview);
+  document.querySelector("[data-add-item]").addEventListener("click", () => addItem());
+  document.querySelector("[data-export-json]").addEventListener("click", exportJson);
+  document.querySelector("[data-export-pdf]").addEventListener("click", exportPdf);
+  document.querySelector("[data-import-trigger]").addEventListener("click", () => importInput.click());
+  importInput.addEventListener("change", async () => {
+    const file = importInput.files?.[0];
+    if (!file) return;
+    try {
+      await importJson(file);
+    } catch (error) {
+      alert("No se pudo cargar el JSON. Revisa que sea un archivo válido.");
+    } finally {
+      importInput.value = "";
+    }
+  });
+
+  addItem();
+  updatePreview();
+  window.setInterval(updatePreview, 500);
+}
+
 init();
