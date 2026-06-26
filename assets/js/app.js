@@ -228,6 +228,7 @@ function renderPricing() {
         if (form) {
           const isShort = planId.startsWith("short");
           const isCustom = planId === "custom";
+          if (form.quantity) form.quantity.value = "1";
           
           if (isShort) {
             if (form.footageHours) form.footageHours.value = "0";
@@ -300,7 +301,8 @@ function renderTestimonials() {
       ? `<img src="${t.avatar}" alt="${t.client}" class="testi-avatar">`
       : `<div class="testi-avatar testi-avatar--initials" style="background:${t.color}">${t.initials}</div>`;
 
-    return `<article class="testi-card">
+    const channelUrl = t.youtubeUrl || `https://www.youtube.com/${t.handle}`;
+    return `<a class="testi-card" href="${channelUrl}" target="_blank" rel="noopener noreferrer" aria-label="Abrir el canal de YouTube de ${t.client}">
       <div class="testi-header">
         <div class="testi-avatar-wrap">
           ${avatarEl}
@@ -311,7 +313,7 @@ function renderTestimonials() {
           <span class="testi-handle">${t.handle}</span>
         </div>
       </div>
-    </article>`;
+    </a>`;
   }).join("");
 }
 
@@ -358,12 +360,8 @@ function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, pov
     note  = `${q} short(s) × ${m}min × $${plan.ratePerMinute}/min`;
 
   } else if (plan.rateType === "base-plus-extra") {
-    let extraH = 0;
-    if (h === 0) {
-      extraH = -(plan.baseHours || 1);
-    } else {
-      extraH = Math.max(0, h - (plan.baseHours || 1));
-    }
+    // El precio base cubre el paquete, aunque el material ya venga recortado.
+    const extraH = Math.max(0, h - (plan.baseHours || 1));
     const extraM = plan.extraMinuteRate > 0
       ? Math.max(0, m - (plan.baseMinutes || 0))
       : 0;
@@ -374,8 +372,7 @@ function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, pov
       
     total = perVideo * q;
     const parts = [`Base $${plan.basePrice}`];
-    if (h === 0) parts.push(`- $${(plan.baseHours || 1) * (plan.extraHourRate || 15)} (Ya recortado)`);
-    else if (extraH > 0) parts.push(`+${extraH}h extra × $${plan.extraHourRate}`);
+    if (extraH > 0) parts.push(`+${extraH}h extra × $${plan.extraHourRate}`);
     
     if (extraM > 0) parts.push(`+${extraM}min extra × $${plan.extraMinuteRate}`);
     note = `${q} video(s): ${parts.join(", ")}`;

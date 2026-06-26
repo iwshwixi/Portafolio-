@@ -33,16 +33,20 @@
 
     <main id="top">
       <section class="hero section-band">
+        <div class="hero-motion" aria-hidden="true">
+          <span class="hero-motion-ball hero-motion-ball--red"></span>
+          <span class="hero-motion-ball hero-motion-ball--split"></span>
+        </div>
         <div class="hero-copy">
-          <p class="eyebrow">Editor para creadores que quieren retencion, ritmo y claridad.</p>
+          <p class="eyebrow">Edicion para creadores que quieren retencion, ritmo y claridad.</p>
           <h1>Edicion de video con mentalidad de YouTube.</h1>
           <p class="hero-text">
-            Portafolio vivo de Jorgeditor: trabajos, resultados, vistas acumuladas y una forma directa
-            de pedir presupuesto para tu proximo paquete de videos.
+            Convierto tus ideas y horas de material en videos agiles, claros y hechos para que tu audiencia se quede.
+            Shorts, gameplays y vlogs con ritmo desde el primer segundo.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#portfolio">Ver trabajos</a>
-            <a class="button ghost" href="#contacto">Enviar peticion</a>
+            <a class="button ghost" href="#contacto">Pedir cotizacion</a>
           </div>
         </div>
 
@@ -120,7 +124,7 @@
       <section class="section testimonials-section">
         <div class="section-heading compact">
           <p class="eyebrow">Clientes verificados</p>
-          <h2>Clientes con quienes he colaborado.</h2>
+          <h2>Canales que confiaron en mi edicion.</h2>
         </div>
         <div class="testimonials-slider-wrapper">
           <div class="testimonials-track" id="testimonials-track" data-testimonials-track></div>
@@ -196,14 +200,14 @@
           <div class="form-grid">
             <label>
               Cantidad de videos
-              <input name="quantity" type="number" min="1" max="60" value="4" required />
+              <input name="quantity" type="number" min="1" max="60" value="1" required />
             </label>
             <label>
               Horas de recorte
               <select name="footageHours" required>
-                <option value="0">Ya recortado (Sin cobro)</option>
+                <option value="0" selected>Ya recortado (Sin cobro)</option>
                 <option value="1">1 hora</option>
-                <option value="2" selected>2 horas</option>
+                <option value="2">2 horas</option>
                 <option value="3">3 horas</option>
                 <option value="4">4 horas</option>
                 <option value="5">5 horas</option>
@@ -212,7 +216,7 @@
             </label>
             <label>
               Minutos editados finales
-              <input name="editedMinutes" type="number" min="1" max="180" step="1" value="8" required />
+              <input name="editedMinutes" type="number" min="1" max="180" step="1" value="1" required />
             </label>
           </div>
           <div class="form-grid">
