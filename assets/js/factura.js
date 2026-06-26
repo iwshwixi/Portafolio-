@@ -44,7 +44,17 @@ function updateDirectPreview(fields) {
     const key = target.dataset.preview;
     const value = clean(fields[key]);
     const prefix = target.dataset.prefix || "";
-    target.textContent = value ? `${prefix}${value}` : "";
+    target.textContent = "";
+    if (value) {
+      if (prefix) {
+        const label = document.createElement("strong");
+        label.className = "preview-label";
+        label.textContent = prefix;
+        target.append(label, document.createTextNode(value));
+      } else {
+        target.textContent = value;
+      }
+    }
     target.dataset.empty = value ? "false" : "true";
     const wrapper = target.closest("[data-hide-empty]");
     if (wrapper) wrapper.dataset.empty = value ? "false" : "true";

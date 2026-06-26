@@ -230,7 +230,7 @@
   font-size: 16px;
 }
 
-.classic-meta p::first-letter {
+.preview-label {
   font-weight: 900;
 }
 

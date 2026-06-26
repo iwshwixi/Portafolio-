@@ -7,7 +7,7 @@
     <title>Generador de facturas</title>
     <link rel="icon" type="image/png" href="assets/img/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.css?v=20260626-8" />
-    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-5" />
+    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-6" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
   </head>
   <body class="invoice-body">
@@ -47,8 +47,8 @@
             </div>
             <div class="form-grid">
               <label>
-                ID / referencia del cliente
-                <input name="invoiceId" type="text" placeholder="Ej. Nombre del cliente, proyecto o ID interno" />
+                Nombre o empresa del cliente
+                <input name="invoiceId" type="text" placeholder="Ej. Nombre del cliente o empresa" />
               </label>
               <label>
                 Moneda
@@ -136,7 +136,7 @@
           <section class="classic-top">
             <div class="classic-issuer" data-party="company">
               <strong data-preview="companyName"></strong>
-              <p data-preview="companyDocument" data-prefix="Documento: "></p>
+              <p data-preview="companyDocument"></p>
               <div class="classic-mini-rule" data-company-rule></div>
               <p data-preview="companyAddress"></p>
             </div>
@@ -153,7 +153,7 @@
           <section class="classic-client" data-party="client">
             <strong>Para</strong>
             <p data-preview="clientName"></p>
-            <p data-preview="clientDocument" data-prefix="Documento: "></p>
+            <p data-preview="clientDocument"></p>
             <p data-preview="clientAddress"></p>
           </section>
 
@@ -205,6 +205,6 @@
       </section>
     </main>
 
-    <script src="assets/js/factura.js?v=20260626-8" type="module"></script>
+    <script src="assets/js/factura.js?v=20260626-9" type="module"></script>
   </body>
 </html>
