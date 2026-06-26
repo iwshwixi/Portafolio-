@@ -28,34 +28,8 @@
 .invoice-top-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 10px;
   justify-content: flex-end;
-}
-
-.invoice-info-button {
-  align-items: center;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--ink);
-  cursor: pointer;
-  display: inline-flex;
-  font: inherit;
-  font-size: 16px;
-  font-weight: 850;
-  height: 40px;
-  justify-content: center;
-  line-height: 1;
-  padding: 0;
-  width: 40px;
-}
-
-.invoice-info-button:hover,
-.invoice-info-button:focus-visible {
-  background: rgba(255,255,255,0.14);
-  border-color: rgba(255,255,255,0.42);
-  outline: none;
 }
 
 .invoice-app {
@@ -508,11 +482,7 @@
 
   .invoice-top-actions {
     display: grid;
-    grid-template-columns: auto 1fr;
-  }
-
-  .invoice-top-actions .button {
-    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
   }
 
   .invoice-sidebar {

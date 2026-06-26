@@ -141,7 +141,7 @@ function currentTimeLabel(targetTimeZone) {
     hourCycle: "h23"
   }).format(new Date());
 
-  return `Hora actual en ${zone.country}: ${now}. Base: México 9:00–17:00.`;
+  return `Hora actual en ${zone.country}: ${now}. Base: México 9:00–19:00.`;
 }
 
 const getVideoStats = (video) => {
@@ -353,21 +353,12 @@ function renderPricing() {
                form.format.value = "Shorts / Reels / TikTok";
                form.format.dispatchEvent(new Event("change"));
             }
-            if (form.editLevel) {
-               if (planId.includes("inter")) form.editLevel.value = "Intermedio";
-               else form.editLevel.value = "Basico";
-            }
           } else if (!isCustom) {
             if (form.footageHours) form.footageHours.value = "1";
             if (form.editedMinutes) form.editedMinutes.value = "14";
             if (form.format) {
                form.format.value = "Video largo para YouTube";
                form.format.dispatchEvent(new Event("change"));
-            }
-            if (form.editLevel) {
-               if (planId.includes("pro")) form.editLevel.value = "Avanzado";
-               else if (planId.includes("inter")) form.editLevel.value = "Intermedio";
-               else form.editLevel.value = "Basico";
             }
           }
           form.dispatchEvent(new Event("input"));
@@ -649,7 +640,6 @@ function buildEmailBody(form) {
     `Paquete elegido: ${plan.name} — ${plan.priceLabel}`,
     `Cantidad de videos: ${data.get("quantity")}`,
     `Formato: ${data.get("format")}`,
-    `Nivel de edicion: ${data.get("editLevel")}`,
     `POVs del material: ${data.get("povs")}`,
     `Horas de recorte estimadas: ${data.get("footageHours")}`,
     `Minutos editados finales estimados: ${data.get("editedMinutes")}`,
@@ -802,19 +792,6 @@ function setupContactForm() {
   }
   
   const formatSelect = document.getElementById("formatSelect");
-  const editLevelSelect = document.getElementById("editLevelSelect");
-  if (formatSelect && editLevelSelect) {
-    formatSelect.addEventListener("change", () => {
-      const isShort = formatSelect.value === "Shorts / Reels / TikTok";
-      const currentLevel = editLevelSelect.value;
-      editLevelSelect.innerHTML = isShort 
-        ? `<option value="Basico">Basico</option><option value="Intermedio">Intermedio</option>`
-        : `<option value="Basico">Basico</option><option value="Intermedio">Intermedio</option><option value="Avanzado">Avanzado</option>`;
-      if (currentLevel && editLevelSelect.querySelector(`option[value="${currentLevel}"]`)) {
-        editLevelSelect.value = currentLevel;
-      }
-    });
-  }
   
   const deliveryMethodSelect = document.getElementById("deliveryMethod");
   const otherDeliveryMethodLabel = document.getElementById("otherDeliveryMethodLabel");

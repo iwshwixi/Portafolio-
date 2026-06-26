@@ -179,12 +179,12 @@
     }
   ],
   "availability": [
-    { "day": "Lunes",     "abbr": "Lun", "hours": "9:00 – 17:00", "workday": true  },
-    { "day": "Martes",    "abbr": "Mar", "hours": "9:00 – 17:00", "workday": true  },
-    { "day": "Miercoles", "abbr": "Mie", "hours": "9:00 – 17:00", "workday": true  },
-    { "day": "Jueves",    "abbr": "Jue", "hours": "9:00 – 17:00", "workday": true  },
-    { "day": "Viernes",   "abbr": "Vie", "hours": "9:00 – 17:00", "workday": true  },
-    { "day": "Sabado",    "abbr": "Sab", "hours": "9:00 – 17:00", "workday": true  },
+    { "day": "Lunes",     "abbr": "Lun", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Martes",    "abbr": "Mar", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Miercoles", "abbr": "Mie", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Jueves",    "abbr": "Jue", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Viernes",   "abbr": "Vie", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Sabado",    "abbr": "Sab", "hours": "9:00 – 19:00", "workday": true  },
     { "day": "Domingo",   "abbr": "Dom", "hours": "No laborable",  "workday": false }
   ],
   "delivery": [

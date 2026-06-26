@@ -12,19 +12,6 @@ const moneyFields = new Intl.NumberFormat("es-MX", {
   maximumFractionDigits: 2
 });
 
-const fiscalInvoiceLinks = [
-  { label: "México", url: "https://www.sat.gob.mx/portal/public/tramites/factura-electronica" },
-  { label: "Estados Unidos", url: "https://www.irs.gov/businesses/small-businesses-self-employed/self-employed-individuals-tax-center" },
-  { label: "Canadá", url: "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-receipts-invoices.html" },
-  { label: "España", url: "https://sede.agenciatributaria.gob.es/Sede/iva/facturacion-registro.html" },
-  { label: "Perú", url: "https://cpe.sunat.gob.pe/" },
-  { label: "Chile", url: "https://www.sii.cl/servicios_online/1039-.html" },
-  { label: "Argentina", url: "https://www.afip.gob.ar/fe/" },
-  { label: "Colombia", url: "https://micrositios.dian.gov.co/sistema-de-facturacion-electronica/" },
-  { label: "Ecuador", url: "https://www.sri.gob.ec/facturacion-electronica" },
-  { label: "Uruguay", url: "https://www.efactura.dgi.gub.uy/" }
-];
-
 let items = [];
 let previewZoom = 1;
 
@@ -407,44 +394,6 @@ async function exportPdf() {
   }
 }
 
-function setupLegalInfoModal() {
-  const modal = document.getElementById("invoice-legal-modal");
-  const trigger = document.querySelector("[data-legal-info-trigger]");
-  const closeButtons = document.querySelectorAll("[data-legal-info-close]");
-  const fiscalCountrySelect = document.getElementById("invoice-fiscal-country-select");
-  if (!modal || !trigger) return;
-
-  if (fiscalCountrySelect) {
-    fiscalInvoiceLinks.forEach(({ label, url }) => {
-      const option = document.createElement("option");
-      option.value = url;
-      option.textContent = label;
-      fiscalCountrySelect.appendChild(option);
-    });
-
-    fiscalCountrySelect.addEventListener("change", () => {
-      const url = fiscalCountrySelect.value;
-      if (!url) return;
-      window.open(url, "_blank", "noopener,noreferrer");
-      fiscalCountrySelect.value = "";
-    });
-  }
-
-  const openModal = () => {
-    if (fiscalCountrySelect) fiscalCountrySelect.value = "";
-    modal.hidden = false;
-  };
-  const closeModal = () => {
-    modal.hidden = true;
-  };
-
-  trigger.addEventListener("click", openModal);
-  closeButtons.forEach((button) => button.addEventListener("click", closeModal));
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !modal.hidden) closeModal();
-  });
-}
-
 function init() {
   form.addEventListener("input", updatePreview);
   form.addEventListener("change", updatePreview);
@@ -457,7 +406,6 @@ function init() {
   document.querySelector("[data-zoom-out]")?.addEventListener("click", () => applyPreviewZoom(previewZoom - 0.1));
   document.querySelector("[data-zoom-in]")?.addEventListener("click", () => applyPreviewZoom(previewZoom + 0.1));
   document.querySelector("[data-zoom-reset]")?.addEventListener("click", () => applyPreviewZoom(1));
-  setupLegalInfoModal();
 
   const toggleDateBtn = document.querySelector("[data-toggle-date]");
   const appendDateInput = document.querySelector('[name="appendDateToFilename"]');
