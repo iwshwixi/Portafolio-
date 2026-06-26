@@ -6,14 +6,15 @@
     <meta name="theme-color" content="#1c1c1c" />
     <title>Generador de facturas</title>
     <link rel="icon" type="image/png" href="assets/img/favicon.png" />
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260626-8" />
-    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-9" />
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260626-10" />
+    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-10" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
   </head>
   <body class="invoice-body">
     <header class="invoice-topbar">
       <a class="invoice-brand" href="index.html">← Volver al portafolio</a>
       <nav class="invoice-top-actions" aria-label="Acciones de factura">
+        <button class="invoice-info-button" type="button" data-legal-info-trigger aria-label="Ver aviso sobre facturas fiscales" title="Ver aviso sobre facturas fiscales">i</button>
         <button class="button ghost" type="button" data-import-trigger>Cargar JSON</button>
         <button class="button ghost" type="button" data-export-json>Descargar JSON</button>
         <button class="button primary" type="button" data-export-pdf>Descargar PDF</button>
@@ -254,6 +255,52 @@
       </section>
     </main>
 
-    <script src="assets/js/factura.js?v=2" type="module"></script>
+    <div id="invoice-legal-modal" class="legal-modal-container" role="dialog" aria-modal="true" aria-labelledby="invoice-legal-modal-title" hidden>
+      <div class="legal-modal-backdrop" data-legal-info-close></div>
+      <div class="legal-modal-box">
+        <div class="legal-modal-header">
+          <h2 id="invoice-legal-modal-title">Aviso importante sobre la validez de tu documento</h2>
+        </div>
+        <div class="legal-modal-body">
+          <h3>Advertencia Legal</h3>
+          <p>Este documento es una nota de cobro comercial (invoice). NO tiene validez fiscal y NO sustituye la emisión de comprobantes electrónicos oficiales requeridos por la entidad tributaria de tu país de residencia (como el SAT, DIAN, AFIP, SII, SUNAT, AEAT, o su equivalente local).</p>
+
+          <div class="legal-modal-alert" style="background: rgba(255, 60, 60, 0.1); border: 1px solid #ff3c3c; color: #ffcccc; padding: 12px 16px; border-radius: 8px; margin-top: 12px; margin-bottom: 20px;">
+            <strong style="color: #fff; display: block; margin-bottom: 6px; font-size: 14.5px;">El flujo de trabajo correcto: 2 Facturas por cliente</strong>
+            Lo normal y profesional para un editor de video es manejar dos documentos:
+            <ol style="margin: 8px 0 0 0; padding-left: 20px; color: rgba(255,255,255,0.85);">
+              <li style="margin-bottom: 6px;">Esta <em style="color:#ffcccc;">Invoice</em> (nota de cobro) generada aquí, que se envía al cliente internacional para que puedan justificar su gasto de forma sencilla.</li>
+              <li style="margin-bottom: 0;">Tu <em style="color:#ffcccc;">Factura Fiscal oficial</em> generada en tu país como trabajador independiente para comprobar legalmente ese ingreso ante tu gobierno.</li>
+            </ol>
+          </div>
+
+          <section class="legal-fiscal-guide" aria-labelledby="invoice-fiscal-guide-title">
+            <h3 id="invoice-fiscal-guide-title">¿Dónde tramito mi factura fiscal?</h3>
+            <p>Selecciona tu país para abrir la página oficial de tu autoridad fiscal.</p>
+            <label for="invoice-fiscal-country-select">País</label>
+            <select id="invoice-fiscal-country-select" class="legal-fiscal-select">
+              <option value="">Elige un país</option>
+            </select>
+          </section>
+
+          <h3>¿Para qué sirve entonces este generador online?</h3>
+          <p>Aquí te explicamos las razones exactas por las que los profesionales utilizan estos generadores:</p>
+          <ul>
+            <li><strong>Clientes Internacionales (La razón principal):</strong> A un cliente o creador que reside en otro país no le sirve de nada el formato de factura electrónica oficial de tu gobierno local; su gobierno no lo reconoce. Ellos necesitan un Invoice (factura comercial estándar) para poder justificar sus propios gastos ante las autoridades de sus países. El PDF generado online cumple exactamente esta función y justifica por qué te están enviando el pago.</li>
+            <li><strong>Burocracia de Agencias o Marcas:</strong> Cuando trabajas con agencias o empresas más grandes, sus departamentos de contabilidad suelen exigir un documento formal de cobro antes de autorizar la transferencia. El profesional envía el PDF generado online como "nota de cobro" para iniciar el trámite de pago. Una vez que el dinero ingresa, entonces se emite la factura fiscal real según las leyes de su país.</li>
+            <li><strong>Claridad en Proyectos Múltiples:</strong> Funciona como un pequeño contrato visual. Al manejar cobros por servicios de edición o al gestionar ventas de herramientas digitales, el PDF deja por escrito de forma muy clara qué se está cobrando ("Edición de 4 videos", "Animaciones extra", "Licencias"). Esto evita el típico malentendido de: "Oye, pensé que por ese precio me incluías otra revisión".</li>
+            <li><strong>Facilidad de Cobro:</strong> Ayuda a unificar la información. El cliente recibe el documento, tiene claro el monto exacto y los conceptos, reduciendo la fricción al momento de enviarte el dinero.</li>
+          </ul>
+
+          <h3>Conclusión</h3>
+          <p>En conclusión: Este generador online se usa para cobrar de manera profesional, rápida y entendible a nivel internacional. El trámite fiscal oficial se debe hacer internamente en tu país para que esos ingresos estén en regla ante tus autoridades tributarias. Muchos profesionales exitosos utilizan ambos procesos a la par.</p>
+        </div>
+        <div class="legal-modal-footer">
+          <button class="button primary" type="button" data-legal-info-close>Entendido</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/js/factura.js?v=3" type="module"></script>
   </body>
 </html>
