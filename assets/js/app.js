@@ -240,14 +240,12 @@ function renderTestimonials() {
   if (!track || !state.testimonials.length) return;
 
   const STAR = "★";
-  const VERIFIED = "✦"; // gold verified symbol
+  const VERIFIED = "✔"; //  const VERIFIED = "✔";
 
   track.innerHTML = state.testimonials.map((t) => {
     const avatarEl = t.avatar
       ? `<img src="${t.avatar}" alt="${t.client}" class="testi-avatar">`
       : `<div class="testi-avatar testi-avatar--initials" style="background:${t.color}">${t.initials}</div>`;
-
-    const stars = STAR.repeat(t.stars || 5);
 
     return `<article class="testi-card">
       <div class="testi-header">
@@ -258,10 +256,8 @@ function renderTestimonials() {
         <div class="testi-meta">
           <strong class="testi-name">${t.client}</strong>
           <span class="testi-handle">${t.handle}</span>
-          <span class="testi-stars" aria-label="${t.stars} estrellas">${stars}</span>
         </div>
       </div>
-      <p class="testi-comment">&ldquo;${t.comment}&rdquo;</p>
     </article>`;
   }).join("");
 
@@ -294,7 +290,7 @@ function getCutRate(povs) {
  * base-plus-extra (creator)  → (base + extraH×15) × quantity (no per-min)
  * hourly (custom)            → (cutRate(povs)×h + 9×min) × quantity
  */
-function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, povs }) {
+function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, povs, deliveryTime }) {
   const h  = Math.max(0, Number(footageHours || 0));
   const m  = Math.max(0, Number(editedMinutes || 0));
   const q  = Math.max(1, Number(quantity || 1));
@@ -310,16 +306,25 @@ function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, pov
     note  = `${q} short(s) × ${m}min × $${plan.ratePerMinute}/min`;
 
   } else if (plan.rateType === "base-plus-extra") {
-    const extraH = Math.max(0, h - (plan.baseHours || 1));
+    let extraH = 0;
+    if (h === 0) {
+      extraH = -(plan.baseHours || 1);
+    } else {
+      extraH = Math.max(0, h - (plan.baseHours || 1));
+    }
     const extraM = plan.extraMinuteRate > 0
       ? Math.max(0, m - (plan.baseMinutes || 0))
       : 0;
-    const perVideo = (plan.basePrice || 0)
+    
+    let perVideo = (plan.basePrice || 0)
       + extraH * (plan.extraHourRate || 15)
       + extraM * (plan.extraMinuteRate || 0);
+      
     total = perVideo * q;
     const parts = [`Base $${plan.basePrice}`];
-    if (extraH > 0) parts.push(`+${extraH}h extra × $${plan.extraHourRate}`);
+    if (h === 0) parts.push(`- $${(plan.baseHours || 1) * (plan.extraHourRate || 15)} (Ya recortado)`);
+    else if (extraH > 0) parts.push(`+${extraH}h extra × $${plan.extraHourRate}`);
+    
     if (extraM > 0) parts.push(`+${extraM}min extra × $${plan.extraMinuteRate}`);
     note = `${q} video(s): ${parts.join(", ")}`;
 
@@ -330,6 +335,11 @@ function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, pov
     const editCost = m * (state.site.rates?.editedMinute ?? 9);
     total = (cutCost + editCost) * q;
     note  = `${q} video(s): ${h}h × $${cutRate}/h + ${m}min × $${state.site.rates?.editedMinute ?? 9}`;
+  }
+
+  if (deliveryTime === "urgent") {
+    total = total * 1.5;
+    note += " | +50% (Entrega Urgente)";
   }
 
   return { total, note };
@@ -378,6 +388,9 @@ function buildEmailBody(form) {
   const data = new FormData(form);
   const planId = data.get("budget");
   const plan = state.site.pricing.find((p) => p.id === planId) ?? state.site.pricing[0];
+  const deliveryTime = data.get("deliveryTime") === "urgent" ? "Urgente (48h o menos)" : "Estandar (3-5 dias)";
+  const links = data.get("links") || "Ninguno proporcionado";
+  
   return [
     `Hola ${state.site.name}, quiero cotizar edicion de video.`,
     "",
@@ -389,6 +402,8 @@ function buildEmailBody(form) {
     `POVs del material: ${data.get("povs")}`,
     `Horas de recorte estimadas: ${data.get("footageHours")}`,
     `Minutos editados finales estimados: ${data.get("editedMinutes")}`,
+    `Tiempo de entrega: ${deliveryTime}`,
+    `Links de referencia: ${links}`,
     `Fecha ideal: ${data.get("deadline") || "Sin fecha definida"}`,
     "",
     "Peticion:",
@@ -430,7 +445,8 @@ function updatePlanSummary() {
     footageHours:  Number(form.footageHours?.value  || 0),
     editedMinutes: Number(form.editedMinutes?.value || 0),
     quantity:      Number(form.quantity?.value      || 1),
-    povs:          Number(form.povs?.value          || 1)
+    povs:          Number(form.povs?.value          || 1),
+    deliveryTime:  form.deliveryTime?.value         || "normal"
   } : {};
 
   const { total, note } = computeSmartEstimate(plan, inputs);

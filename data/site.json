@@ -44,8 +44,28 @@
       ]
     },
     {
-      "id": "gaming",
-      "name": "Gaming",
+      "id": "gaming-basic",
+      "name": "Gaming Basico",
+      "priceLabel": "$70 USD",
+      "rateType": "base-plus-extra",
+      "basePrice": 70,
+      "baseHours": 1,
+      "baseMinutes": 14,
+      "extraHourRate": 15,
+      "extraMinuteRate": 9,
+      "unit": "paquete basico para gaming",
+      "summary": "Corte limpio, ritmo estructurado y musica de fondo. Ideal para let's plays y gameplays sin excesiva edicion.",
+      "features": [
+        "$70 base — 1h recorte + hasta 14 min",
+        "Hora extra de recorte: +$15/h",
+        "Minuto extra de video: +$9/min",
+        "Corte dinamico y musica de fondo",
+        "1 ronda de cambios"
+      ]
+    },
+    {
+      "id": "gaming-inter",
+      "name": "Gaming Intermedio",
       "priceLabel": "$80 USD",
       "rateType": "base-plus-extra",
       "basePrice": 80,
@@ -53,7 +73,7 @@
       "baseMinutes": 14,
       "extraHourRate": 15,
       "extraMinuteRate": 9,
-      "unit": "paquete fijo para videos de gaming",
+      "unit": "paquete avanzado para videos de gaming",
       "summary": "Todo incluido para un video de gaming limpio, energetico y listo para publicar. Horas y minutos extra a tarifa preferencial.",
       "features": [
         "$80 base — 1h recorte + hasta 14 min",
@@ -64,22 +84,62 @@
       ]
     },
     {
-      "id": "creator",
-      "name": "Creator / Vlogs",
-      "priceLabel": "$130 USD",
+      "id": "gaming-pro",
+      "name": "Gaming Avanzado",
+      "priceLabel": "$175 USD",
       "rateType": "base-plus-extra",
-      "basePrice": 130,
+      "basePrice": 175,
       "baseHours": 1,
-      "baseMinutes": 0,
+      "baseMinutes": 14,
       "extraHourRate": 15,
-      "extraMinuteRate": 0,
-      "unit": "paquete para vlogs y creadores",
-      "summary": "Edicion completa para vlogs con ritmo natural, buena retencion y acabado profesional. Horas extra a tarifa preferencial.",
+      "extraMinuteRate": 9,
+      "unit": "paquete hiper-dinamico para gaming",
+      "summary": "Edicion extrema con alta retencion. Subtitulos 100% animados, graficos, memes, transiciones complejas.",
       "features": [
-        "$130 base — 1h de recorte bruto",
+        "$175 base — 1h recorte + hasta 14 min",
         "Hora extra de recorte: +$15/h",
-        "Edicion completa del video",
-        "Subtitulos y B-roll incluidos",
+        "Minuto extra de video: +$9/min",
+        "Motion graphics y subtitulos pop-up",
+        "2 rondas de cambios"
+      ]
+    },
+    {
+      "id": "creator-inter",
+      "name": "Vlogs Intermedio",
+      "priceLabel": "$110 USD",
+      "rateType": "base-plus-extra",
+      "basePrice": 110,
+      "baseHours": 1,
+      "baseMinutes": 14,
+      "extraHourRate": 15,
+      "extraMinuteRate": 9,
+      "unit": "paquete completo para vlogs",
+      "summary": "Edicion completa para vlogs con ritmo natural, buena retencion y acabado profesional. Maximo 14 minutos.",
+      "features": [
+        "$110 base — 1h recorte + hasta 14 min",
+        "Hora extra de recorte: +$15/h",
+        "Minuto extra de video: +$9/min",
+        "Subtitulos dinamicos y B-roll",
+        "2 rondas de cambios"
+      ]
+    },
+    {
+      "id": "creator-pro",
+      "name": "Vlogs Avanzado",
+      "priceLabel": "$200 USD",
+      "rateType": "base-plus-extra",
+      "basePrice": 200,
+      "baseHours": 1,
+      "baseMinutes": 14,
+      "extraHourRate": 15,
+      "extraMinuteRate": 9,
+      "unit": "paquete documental para vlogs",
+      "summary": "Tratamiento estilo documental. Color grading experto, storytelling detallado y diseño sonoro avanzado.",
+      "features": [
+        "$200 base — 1h recorte + hasta 14 min",
+        "Hora extra de recorte: +$15/h",
+        "Minuto extra de video: +$9/min",
+        "Sound design, color grading y motion",
         "2 rondas de cambios"
       ]
     },

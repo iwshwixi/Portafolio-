@@ -165,6 +165,7 @@
             <span class="payment-label">Metodos de pago</span>
             <span class="pay-badge pay-badge--paypal">PayPal</span>
             <span class="pay-badge pay-badge--binance">Binance Pay</span>
+            <small style="display:block;margin-top:12px;font-size:12px;font-weight:600;color:var(--muted)">No aceptamos otros metodos de pago.</small>
           </div>
         </div>
 
@@ -190,7 +191,15 @@
           <div class="form-grid">
             <label>
               Horas de recorte
-              <input name="footageHours" type="number" min="0" max="200" step="0.5" value="2" required />
+              <select name="footageHours" required>
+                <option value="0">Ya recortado (Sin cobro)</option>
+                <option value="1">1 hora</option>
+                <option value="2" selected>2 horas</option>
+                <option value="3">3 horas</option>
+                <option value="4">4 horas</option>
+                <option value="5">5 horas</option>
+                <option value="6">6+ horas</option>
+              </select>
             </label>
             <label>
               Minutos editados finales
@@ -217,8 +226,21 @@
               </select>
             </label>
           </div>
+          <div class="form-grid">
+            <label>
+              Tiempo de entrega
+              <select name="deliveryTime" required>
+                <option value="normal">Estandar (3-5 dias)</option>
+                <option value="urgent">Urgente (48h) +50% costo</option>
+              </select>
+            </label>
+            <label>
+              Links de referencia (Opcional)
+              <input name="links" type="url" placeholder="https://..." />
+            </label>
+          </div>
           <label>
-            Fecha ideal
+            Fecha ideal (Opcional)
             <input name="deadline" type="date" />
           </label>
           <label>
