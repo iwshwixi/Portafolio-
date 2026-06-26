@@ -124,7 +124,7 @@ textarea {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.65fr) minmax(420px, 1.25fr);
+  grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.78fr);
   gap: clamp(28px, 5vw, 72px);
   align-items: center;
   min-height: calc(100vh - 74px);
@@ -421,10 +421,10 @@ h3 {
   gap: 28px;
 }
 
-/* Hero grid - 2 columns */
+/* Hero grid - 3 columns */
 .hero-video-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   padding: 0;
 }
@@ -850,11 +850,11 @@ h3 {
 }
 
 .cal-day:hover:not(.cal-day--off) {
-  background: #f0efe8;
+  background: var(--line);
 }
 
 .cal-day--off {
-  background: #f4f3f0;
+  background: var(--bg);
   opacity: 0.65;
 }
 
@@ -922,8 +922,8 @@ h3 {
 }
 
 .contact-section {
-  background: var(--ink);
-  color: #fff;
+  background: var(--panel);
+  color: var(--ink);
 }
 
 .contact-section .eyebrow {
@@ -931,7 +931,7 @@ h3 {
 }
 
 .contact-copy p {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
 }
 
 /* ── Plan Summary (contact section) ────────────────── */
@@ -1062,7 +1062,7 @@ textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: #fff;
+  background: var(--bg);
   color: var(--ink);
   padding: 12px;
   outline: none;
