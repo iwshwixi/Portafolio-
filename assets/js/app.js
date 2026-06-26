@@ -432,6 +432,8 @@ function buildEmailBody(form) {
   const plan = state.site.pricing.find((p) => p.id === planId) ?? state.site.pricing[0];
   const deliveryTime = data.get("deliveryTime") === "urgent" ? "Urgente (48h o menos)" : "Estandar (3-5 dias)";
   const links = data.get("links") || "Ninguno proporcionado";
+  const offerPrice = data.get("offerPrice");
+  const offerText = offerPrice ? `Presupuesto ofertado: $${offerPrice} USD` : "Sin oferta (acepta tarifa normal)";
   
   return [
     `Hola ${state.site.name}, quiero cotizar edicion de video.`,
@@ -447,6 +449,8 @@ function buildEmailBody(form) {
     `Tiempo de entrega: ${deliveryTime}`,
     `Links de referencia: ${links}`,
     `Fecha ideal: ${data.get("deadline") || "Sin fecha definida"}`,
+    "",
+    offerText,
     "",
     "Peticion:",
     data.get("message")
@@ -502,6 +506,12 @@ function updatePlanSummary() {
     ? formatMoney(total, state.site.currency)
     : plan.priceLabel;
   if (noteEl)  noteEl.textContent  = note || "";
+
+  if (form && form.offerPrice && total > 0) {
+     const minOffer = Math.floor(total * 0.8);
+     form.offerPrice.min = minOffer;
+     form.offerPrice.title = `Puedes ofertar minimo $${minOffer} USD (20% de descuento maximo)`;
+  }
 }
 
 function setupContactForm() {
