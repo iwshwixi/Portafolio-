@@ -1421,8 +1421,8 @@ textarea {
   scroll-snap-align: start;
   padding: 12px 20px 12px 12px;
   border-radius: 999px;
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: #b91c1c;
+  border: 1px solid #991b1b;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -1476,7 +1476,7 @@ textarea {
   height: 22px;
   border-radius: 50%;
   background: #f0b90b;
-  border: 2px solid var(--panel);
+  border: 2px solid #b91c1c;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1498,20 +1498,20 @@ textarea {
   display: block;
   font-size: 15px;
   font-weight: 800;
-  color: var(--ink);
+  color: #fff;
   line-height: 1.2;
 }
 
 .testi-handle {
   display: block;
   font-size: 12px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 600;
 }
 
 .testi-subscribers {
   display: block;
-  color: #f0b90b;
+  color: #fff;
   font-size: 11px;
   font-weight: 800;
   line-height: 1.25;
