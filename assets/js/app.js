@@ -236,11 +236,26 @@ function renderPricing() {
           if (isShort) {
             if (form.footageHours) form.footageHours.value = "0";
             if (form.editedMinutes) form.editedMinutes.value = "1";
-            if (form.format) form.format.value = "Shorts / Reels / TikTok";
+            if (form.format) {
+               form.format.value = "Shorts / Reels / TikTok";
+               form.format.dispatchEvent(new Event("change"));
+            }
+            if (form.editLevel) {
+               if (planId.includes("inter")) form.editLevel.value = "Intermedio";
+               else form.editLevel.value = "Basico";
+            }
           } else if (!isCustom) {
             if (form.footageHours) form.footageHours.value = "1";
             if (form.editedMinutes) form.editedMinutes.value = "14";
-            if (form.format) form.format.value = "Video largo para YouTube";
+            if (form.format) {
+               form.format.value = "Video largo para YouTube";
+               form.format.dispatchEvent(new Event("change"));
+            }
+            if (form.editLevel) {
+               if (planId.includes("pro")) form.editLevel.value = "Avanzado";
+               else if (planId.includes("inter")) form.editLevel.value = "Intermedio";
+               else form.editLevel.value = "Basico";
+            }
           }
           form.dispatchEvent(new Event("input"));
         }
@@ -432,29 +447,40 @@ function buildEmailBody(form) {
   const plan = state.site.pricing.find((p) => p.id === planId) ?? state.site.pricing[0];
   const deliveryTime = data.get("deliveryTime") === "urgent" ? "Urgente (48h o menos)" : "Estandar (3-5 dias)";
   const offerPrice = data.get("offerPrice");
-  const offerText = offerPrice ? `Presupuesto ofertado: $${offerPrice} USD` : "Sin oferta (acepta tarifa normal)";
+  const offerText = `Presupuesto ofertado por el cliente: $${offerPrice} USD`;
   const deliveryMethod = data.get("deliveryMethod");
   const finalDeliveryMethod = deliveryMethod === "Otro" ? `Otro: ${data.get("otherDeliveryMethod")}` : deliveryMethod;
   const paymentType = data.get("paymentType") === "monthly" ? "1 vez al mes" : "Por video";
   const monthlyDate = data.get("monthlyDate") || "No especificada";
   const allLinks = data.getAll("links[]").filter(l => l.trim()).join(", ") || "Ninguno proporcionado";
   
+  const youtubeChannel = data.get("youtubeChannel") || "No proporcionado";
+  
+  const paymentMethod = data.get("paymentMethod");
+  const relationType = data.get("relationType");
+  const contactMethod = data.get("contactMethod");
+  const contactHandle = data.get("contactHandle");
+
   return [
     `Hola ${state.site.name}, quiero cotizar edicion de video.`,
     "",
     `Nombre: ${data.get("name")}`,
     `Correo: ${data.get("email")}`,
+    `Medio de contacto: ${contactMethod} - ${contactHandle}`,
+    `Canal de YouTube: ${youtubeChannel}`,
     `Paquete elegido: ${plan.name} — ${plan.priceLabel}`,
     `Cantidad de videos: ${data.get("quantity")}`,
     `Formato: ${data.get("format")}`,
+    `Nivel de edicion: ${data.get("editLevel")}`,
     `POVs del material: ${data.get("povs")}`,
     `Horas de recorte estimadas: ${data.get("footageHours")}`,
     `Minutos editados finales estimados: ${data.get("editedMinutes")}`,
     `Tiempo de entrega: ${deliveryTime}`,
     `Metodo de entrega: ${finalDeliveryMethod}`,
     `Tipo de pago: ${paymentType} ${paymentType === "1 vez al mes" ? `(Fecha: ${monthlyDate})` : ""}`,
+    `Metodo de pago: ${paymentMethod}`,
+    `Tipo de relacion: ${relationType}`,
     `Links de referencia: ${allLinks}`,
-    `Fecha ideal: ${data.get("deadline") || "Sin fecha definida"}`,
     "",
     offerText,
     "",
@@ -524,9 +550,13 @@ function updatePlanSummary() {
   }
 
   if (form && form.offerPrice && total > 0) {
-     const minOffer = Math.floor(total * 0.8);
+     const minOffer = Math.floor(total * 0.7);
      form.offerPrice.min = minOffer;
-     form.offerPrice.title = `Puedes ofertar minimo $${minOffer} USD (20% de descuento maximo)`;
+     
+     if (form.dataset.lastTotal != total) {
+       form.offerPrice.value = total;
+       form.dataset.lastTotal = total;
+     }
   }
 }
 
@@ -542,6 +572,35 @@ function setupContactForm() {
   }
   // Update estimate as user types hours/minutes/quantity
   form.addEventListener("input", updatePlanSummary);
+  
+  const offerMinus = $("[data-offer-minus]", form);
+  const offerPlus = $("[data-offer-plus]", form);
+  if (offerMinus && offerPlus && form.offerPrice) {
+    offerMinus.addEventListener("click", () => {
+      let val = Number(form.offerPrice.value);
+      const min = Number(form.offerPrice.min);
+      if (val - 5 >= min) form.offerPrice.value = val - 5;
+    });
+    offerPlus.addEventListener("click", () => {
+      let val = Number(form.offerPrice.value);
+      form.offerPrice.value = val + 5;
+    });
+  }
+  
+  const formatSelect = document.getElementById("formatSelect");
+  const editLevelSelect = document.getElementById("editLevelSelect");
+  if (formatSelect && editLevelSelect) {
+    formatSelect.addEventListener("change", () => {
+      const isShort = formatSelect.value === "Shorts / Reels / TikTok";
+      const currentLevel = editLevelSelect.value;
+      editLevelSelect.innerHTML = isShort 
+        ? `<option value="Basico">Basico</option><option value="Intermedio">Intermedio</option>`
+        : `<option value="Basico">Basico</option><option value="Intermedio">Intermedio</option><option value="Avanzado">Avanzado</option>`;
+      if (currentLevel && editLevelSelect.querySelector(`option[value="${currentLevel}"]`)) {
+        editLevelSelect.value = currentLevel;
+      }
+    });
+  }
   
   const deliveryMethodSelect = document.getElementById("deliveryMethod");
   const otherDeliveryMethodLabel = document.getElementById("otherDeliveryMethodLabel");
