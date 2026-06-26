@@ -124,7 +124,7 @@ function renderItemEditor() {
         <input data-item-field="description" type="text" placeholder="Ej. Edición de videos en 16:9" value="${escapeAttr(item.description)}">
       </label>
       <label>
-        Valor
+        Precio
         <input data-item-field="price" type="number" min="0" step="0.01" placeholder="Ej. 400" value="${escapeAttr(item.price)}">
       </label>
       <button class="item-remove" type="button" aria-label="Eliminar fila ${index + 1}">×</button>
@@ -150,21 +150,40 @@ function renderItemEditor() {
 
 function renderPreviewItems(fields) {
   const visibleItems = items.filter(itemHasData);
+  const showQuantity = fields.showQuantity !== "no";
+  const head = document.querySelector("[data-preview-items-head]");
+  const itemsSection = document.querySelector("[data-items-section]");
+
+  if (head) {
+    head.innerHTML = showQuantity
+      ? "<th>Cant.</th><th>Descripción</th><th>Valor</th>"
+      : "<th>Nombre</th><th>Precio</th>";
+  }
+
+  if (itemsSection) {
+    itemsSection.classList.toggle("classic-items--no-quantity", !showQuantity);
+  }
+
   itemsBody.innerHTML = "";
 
   visibleItems.forEach((item) => {
     const quantity = clean(item.quantity);
     const total = itemTotal(item);
     const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${quantity}</td>
-      <td>${clean(item.description)}</td>
-      <td>${total ? formatMoney(total, fields.currency) : ""}</td>
-    `;
+    row.innerHTML = showQuantity
+      ? `
+        <td>${quantity}</td>
+        <td>${clean(item.description)}</td>
+        <td>${total ? formatMoney(total, fields.currency) : ""}</td>
+      `
+      : `
+        <td>${clean(item.description)}</td>
+        <td>${total ? formatMoney(total, fields.currency) : ""}</td>
+      `;
     itemsBody.appendChild(row);
   });
 
-  document.querySelector("[data-items-section]").dataset.empty = visibleItems.length ? "false" : "true";
+  itemsSection.dataset.empty = visibleItems.length ? "false" : "true";
 
   const subtotal = visibleItems.reduce((sum, item) => sum + itemTotal(item), 0);
   document.querySelector("[data-preview-subtotal]").textContent = subtotal ? formatMoney(subtotal, fields.currency) : "";

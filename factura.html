@@ -7,7 +7,7 @@
     <title>Generador de facturas</title>
     <link rel="icon" type="image/png" href="assets/img/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.css?v=20260626-8" />
-    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-6" />
+    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
   </head>
   <body class="invoice-body">
@@ -55,6 +55,13 @@
                 <input name="currency" type="text" value="USD" placeholder="Ej. USD, EUR, MXN" />
               </label>
             </div>
+            <label>
+              Mostrar cantidad en la factura
+              <select name="showQuantity">
+                <option value="yes" selected>Sí, mostrar cantidad</option>
+                <option value="no">No, solo nombre y precio</option>
+              </select>
+            </label>
           </section>
 
           <section class="form-section">
@@ -160,7 +167,7 @@
           <section class="classic-items" data-items-section>
             <table>
               <thead>
-                <tr>
+                <tr data-preview-items-head>
                   <th>Cant.</th>
                   <th>Descripción</th>
                   <th>Valor</th>
@@ -205,6 +212,6 @@
       </section>
     </main>
 
-    <script src="assets/js/factura.js?v=20260626-9" type="module"></script>
+    <script src="assets/js/factura.js?v=20260626-11" type="module"></script>
   </body>
 </html>

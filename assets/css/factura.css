@@ -131,13 +131,13 @@
 
 .item-row {
   display: grid;
-  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.6fr) minmax(0, 0.8fr) 34px;
-  gap: 8px;
+  grid-template-columns: minmax(0, 0.58fr) minmax(0, 1.55fr) minmax(0, 0.78fr) 44px;
+  gap: 10px;
   align-items: end;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.14);
-  padding: 10px;
+  padding: 10px 12px;
 }
 
 .item-row label {
@@ -145,10 +145,16 @@
 }
 
 .item-remove {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
+  align-self: end;
+  justify-self: center;
   color: #ff7070;
-  font-size: 20px;
+  font-size: 22px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .invoice-preview-area {
@@ -262,9 +268,12 @@
 .classic-items th,
 .classic-items td {
   border: 1px solid #050505;
-  padding: 10px 8px;
+  padding: 9px 8px;
   text-align: center;
   vertical-align: middle;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .classic-items th {
@@ -285,6 +294,16 @@
 .classic-items th:nth-child(3),
 .classic-items td:nth-child(3) {
   width: 28%;
+}
+
+.classic-items--no-quantity th:nth-child(1),
+.classic-items--no-quantity td:nth-child(1) {
+  width: 86%;
+}
+
+.classic-items--no-quantity th:nth-child(2),
+.classic-items--no-quantity td:nth-child(2) {
+  width: 14%;
 }
 
 .classic-bottom {
@@ -341,9 +360,7 @@
 }
 
 .classic-footer {
-  position: absolute;
-  right: 60px;
-  bottom: 92px;
+  margin: 34px 60px 0 auto;
   max-width: 360px;
   text-align: right;
   font-size: 13px;
