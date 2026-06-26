@@ -924,7 +924,8 @@ function setupInvoiceModal() {
     }
   }
 }
-\nasync function init() {
+
+async function init() {
   const [site, videos, stats, testimonials] = await Promise.all([
     getJson(paths.site, {}),
     getJson(paths.videos, []),
@@ -944,7 +945,8 @@ function setupInvoiceModal() {
   renderTestimonials();
   renderSchedule();
   setupContactForm();
-  setupModal();\n  setupInvoiceModal();
+  setupModal();
+  setupInvoiceModal();
 }
 
 init();
