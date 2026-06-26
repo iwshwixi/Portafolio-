@@ -936,27 +936,27 @@ h3 {
 
 /* ── Plan Summary (contact section) ────────────────── */
 .plan-summary {
-  max-width: 420px;
+  max-width: 100%;
   margin-top: 24px;
-  padding: 16px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: var(--radius);
+  padding: 24px 28px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.08);
 }
 
 .plan-summary > span {
   display: block;
   color: rgba(255, 255, 255, 0.55);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .plan-summary strong {
   display: block;
-  font-size: 26px;
+  font-size: 36px;
   color: #fff;
   line-height: 1.1;
 }
@@ -964,16 +964,16 @@ h3 {
 .plan-summary small {
   display: block;
   margin-top: 4px;
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 900;
 }
 
 .plan-note {
   display: block !important;
-  margin-top: 6px;
-  font-size: 12px !important;
+  margin-top: 8px;
+  font-size: 14px !important;
   font-weight: 600 !important;
-  color: rgba(255,255,255,0.5) !important;
+  color: rgba(255,255,255,0.6) !important;
   opacity: 1;
 }
 
@@ -1278,6 +1278,11 @@ textarea {
 /* ── Testimonials ────────────────────────────────────────── */
 .testimonials-section {
   background: var(--surface);
+  padding-bottom: clamp(24px, 4vw, 48px);
+}
+
+.schedule-section {
+  padding-top: clamp(24px, 4vw, 48px);
 }
 
 .testimonials-slider-wrapper {
