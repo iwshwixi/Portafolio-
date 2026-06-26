@@ -106,9 +106,9 @@
     {
       "id": "creator-basic",
       "name": "Vlogs Basico",
-      "priceLabel": "$80 USD+",
+      "priceLabel": "$90 USD+",
       "rateType": "base-plus-extra",
-      "basePrice": 80,
+      "basePrice": 90,
       "baseHours": 1,
       "baseMinutes": 25,
       "extraHourRate": 15,
@@ -116,7 +116,7 @@
       "unit": "paquete basico para vlogs",
       "summary": "Edicion limpia y estructurada para vlogs. Cortes asertivos y musica de fondo suave.",
       "features": [
-        "$80 USD+ base — 1h recorte + hasta 25 min",
+        "$90 USD+ base — 1h recorte + hasta 25 min",
         "Hora extra de recorte: +$15/h",
         "Minuto extra de video: +$8/min",
         "Musica, cortes",
@@ -126,9 +126,9 @@
     {
       "id": "creator-inter",
       "name": "Vlogs Intermedio",
-      "priceLabel": "$110 USD+",
+      "priceLabel": "$150 USD+",
       "rateType": "base-plus-extra",
-      "basePrice": 110,
+      "basePrice": 150,
       "baseHours": 1,
       "baseMinutes": 25,
       "extraHourRate": 15,
@@ -136,7 +136,7 @@
       "unit": "paquete completo para vlogs",
       "summary": "Edicion completa para vlogs con ritmo natural, buena retencion y acabado profesional. Maximo 25 minutos.",
       "features": [
-        "$110 USD+ base — 1h recorte + hasta 25 min",
+        "$150 USD+ base — 1h recorte + hasta 25 min",
         "Hora extra de recorte: +$15/h",
         "Minuto extra de video: +$8/min",
         "Zooms, cortes, subtitulos",
@@ -146,9 +146,9 @@
     {
       "id": "creator-pro",
       "name": "Vlogs Avanzado",
-      "priceLabel": "$200 USD+",
+      "priceLabel": "$220 USD+",
       "rateType": "base-plus-extra",
-      "basePrice": 200,
+      "basePrice": 220,
       "baseHours": 1,
       "baseMinutes": 25,
       "extraHourRate": 15,
@@ -156,7 +156,7 @@
       "unit": "paquete documental para vlogs",
       "summary": "Tratamiento estilo documental. Color grading experto, storytelling detallado y diseño sonoro avanzado.",
       "features": [
-        "$200 USD+ base — 1h recorte + hasta 25 min",
+        "$220 USD+ base — 1h recorte + hasta 25 min",
         "Hora extra de recorte: +$15/h",
         "Minuto extra de video: +$8/min",
         "Edicion mas cargada",
