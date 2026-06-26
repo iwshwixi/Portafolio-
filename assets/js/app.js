@@ -447,7 +447,19 @@ function buildEmailBody(form) {
   const plan = state.site.pricing.find((p) => p.id === planId) ?? state.site.pricing[0];
   const deliveryTime = data.get("deliveryTime") === "urgent" ? "Urgente (48h o menos)" : "Estandar (3-5 dias)";
   const offerPrice = data.get("offerPrice");
-  const offerText = `Presupuesto ofertado por el cliente: $${offerPrice} USD`;
+  const estimatedQuote = computeSmartEstimate(plan, {
+    footageHours: data.get("footageHours"),
+    editedMinutes: data.get("editedMinutes"),
+    quantity: data.get("quantity"),
+    povs: data.get("povs"),
+    deliveryTime: data.get("deliveryTime"),
+    revisions: data.get("revisions")
+  });
+  const offeredAmount = Number(offerPrice || 0);
+  const priorityText = offeredAmount > estimatedQuote.total
+    ? `Prioridad sugerida: ALTA (+$${offeredAmount - estimatedQuote.total} sobre el estimado).`
+    : "Prioridad sugerida: normal.";
+  const offerText = `Presupuesto ofertado por el cliente: $${offerPrice} USD | Estimado: ${formatMoney(estimatedQuote.total, state.site.currency)} | ${priorityText}`;
   const deliveryMethod = data.get("deliveryMethod");
   const finalDeliveryMethod = deliveryMethod === "Otro" ? `Otro: ${data.get("otherDeliveryMethod")}` : deliveryMethod;
   const paymentType = data.get("paymentType") === "monthly" ? "1 vez al mes" : "Por video";
@@ -578,6 +590,18 @@ function updatePlanSummary() {
        form.dataset.lastTotal = total;
      }
   }
+
+  const offerHint = $("[data-offer-priority-hint]", form);
+  if (offerHint && form?.offerPrice && total > 0) {
+    const offered = Number(form.offerPrice.value || 0);
+    if (offered > total) {
+      offerHint.textContent = `Oferta +${formatMoney(offered - total, state.site.currency)} sobre el estimado: mayor prioridad en agenda.`;
+    } else if (offered < total) {
+      offerHint.textContent = "Puedes ofertar menos, pero las ofertas que superan el estimado tienen mayor prioridad.";
+    } else {
+      offerHint.textContent = "Puedes ofertar. Si tu oferta supera el estimado, le doy mayor prioridad en agenda.";
+    }
+  }
 }
 
 function setupContactForm() {
@@ -600,10 +624,12 @@ function setupContactForm() {
       let val = Number(form.offerPrice.value);
       const min = Number(form.offerPrice.min);
       if (val - 5 >= min) form.offerPrice.value = val - 5;
+      updatePlanSummary();
     });
     offerPlus.addEventListener("click", () => {
       let val = Number(form.offerPrice.value);
       form.offerPrice.value = val + 5;
+      updatePlanSummary();
     });
   }
   
