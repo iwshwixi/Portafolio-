@@ -898,33 +898,6 @@ function setupModal() {
   });
 }
 
-
-function setupInvoiceModal() {
-  const invoiceLink = document.querySelector('a[href="factura.html"]');
-  const legalModal = document.getElementById('legal-modal');
-  const btnCancel = document.getElementById('btn-cancel-invoice');
-  const btnAccept = document.getElementById('btn-accept-invoice');
-  const backdrop = document.getElementById('legal-modal-backdrop');
-
-  if (invoiceLink && legalModal) {
-    invoiceLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      legalModal.hidden = false;
-    });
-
-    const hideModal = () => { legalModal.hidden = true; };
-
-    if (btnCancel) btnCancel.addEventListener('click', hideModal);
-    if (backdrop) backdrop.addEventListener('click', hideModal);
-
-    if (btnAccept) {
-      btnAccept.addEventListener('click', () => {
-        window.location.href = invoiceLink.href;
-      });
-    }
-  }
-}
-
 async function init() {
   const [site, videos, stats, testimonials] = await Promise.all([
     getJson(paths.site, {}),
@@ -946,7 +919,6 @@ async function init() {
   renderSchedule();
   setupContactForm();
   setupModal();
-  setupInvoiceModal();
 }
 
 init();
