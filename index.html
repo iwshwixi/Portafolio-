@@ -119,16 +119,14 @@
       </section>
 
       <section class="section schedule-section" id="agenda">
-        <div class="section-heading">
+        <div class="section-heading compact">
           <p class="eyebrow">Horario</p>
           <h2>Disponibilidad y tiempos de entrega.</h2>
-          <p>
-            Estos bloques se pueden editar en `data/site.json`. La idea es que el cliente sepa si
-            conviene pedir videos sueltos, paquete semanal o produccion recurrente.
-          </p>
         </div>
         <div class="schedule-layout">
-          <div class="availability" data-availability></div>
+          <div>
+            <div class="week-calendar" data-availability></div>
+          </div>
           <div class="delivery-card">
             <h3>Entrega estimada</h3>
             <dl data-delivery-list></dl>
@@ -141,13 +139,18 @@
           <p class="eyebrow">Cotizacion</p>
           <h2>Cuentalo una vez y mando el plan de trabajo.</h2>
           <p>
-            Selecciona un plan, escribe cuanto material tienes y se prepara una solicitud con el
-            estimado. El correo destino queda configurado internamente.
+            Selecciona el paquete que mejor te aplica, cuenta cuanto material tienes
+            y te respondo con el plan completo.
           </p>
-          <div class="quote-preview" aria-live="polite">
-            <span>Estimado rapido</span>
-            <strong data-quote-total>$0</strong>
-            <small data-quote-note>Selecciona un paquete y cantidad de videos.</small>
+          <div class="plan-summary" aria-live="polite">
+            <span>Paquete seleccionado</span>
+            <strong data-selected-plan-name>Gaming</strong>
+            <small data-selected-plan-price class="rate-green">$80 USD</small>
+          </div>
+          <div class="payment-badges">
+            <span class="payment-label">Metodos de pago</span>
+            <span class="pay-badge pay-badge--paypal">PayPal</span>
+            <span class="pay-badge pay-badge--binance">Binance Pay</span>
           </div>
         </div>
 

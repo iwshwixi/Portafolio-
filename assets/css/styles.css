@@ -661,24 +661,84 @@ h3 {
   align-items: start;
 }
 
-.availability {
+/* ── Week Calendar ─────────────────────────────────── */
+.week-calendar {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--line);
 }
 
-.availability-day {
-  padding: 18px;
+.cal-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 8px 14px;
+  background: var(--panel);
+  text-align: center;
+  border-right: 1px solid var(--line);
+  transition: background 160ms;
 }
 
-.availability-day strong {
+.cal-day:last-child {
+  border-right: 0;
+}
+
+.cal-day:hover:not(.cal-day--off) {
+  background: #f0efe8;
+}
+
+.cal-day--off {
+  background: #f4f3f0;
+  opacity: 0.65;
+}
+
+.cal-abbr {
   display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cal-day-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
   color: var(--ink);
 }
 
-.availability-day span {
+.cal-hours {
   display: block;
-  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cal-dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+  margin-top: 2px;
+}
+
+.cal-off-badge {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #f4e8e8;
+  color: var(--red-dark);
+  font-size: 10px;
+  font-weight: 800;
 }
 
 .delivery-card {
@@ -713,25 +773,89 @@ h3 {
   color: rgba(255, 255, 255, 0.72);
 }
 
-.quote-preview {
+/* ── Plan Summary (contact section) ────────────────── */
+.plan-summary {
   max-width: 420px;
   margin-top: 24px;
-  padding: 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.16);
 }
 
-.quote-preview span,
-.quote-preview small,
-.form-status {
+.plan-summary > span {
   display: block;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
 }
 
-.quote-preview strong {
+.plan-summary strong {
   display: block;
-  margin: 4px 0;
-  font-size: 42px;
+  font-size: 26px;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.plan-summary small {
+  display: block;
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+/* ── Payment Badges ─────────────────────────────────── */
+.payment-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.payment-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: 4px;
+}
+
+.pay-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.pay-badge--paypal {
+  background: #003087;
+  border-color: #003087;
+}
+
+.pay-badge--paypal::before {
+  content: "🅿";
+  font-size: 14px;
+}
+
+.pay-badge--binance {
+  background: #F0B90B;
+  border-color: #F0B90B;
+  color: #1a1100;
+}
+
+.pay-badge--binance::before {
+  content: "◆";
+  font-size: 11px;
 }
 
 .contact-form {
@@ -739,6 +863,13 @@ h3 {
   gap: 14px;
   padding: 22px;
   color: var(--ink);
+}
+
+.form-status {
+  display: block;
+  min-height: 22px;
+  margin: 0;
+  color: var(--muted);
 }
 
 .form-grid {
@@ -821,6 +952,10 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .week-calendar {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .hero-video-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -860,9 +995,13 @@ textarea {
   .pricing-grid,
   .method-card,
   .process-list,
-  .availability,
+  .week-calendar,
   .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .week-calendar {
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .hero-video-grid {

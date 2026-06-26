@@ -50,12 +50,13 @@
     }
   ],
   "availability": [
-    { "day": "Lunes", "hours": "9:00 - 19:00", "status": "Produccion y revisiones" },
-    { "day": "Martes", "hours": "9:00 - 19:00", "status": "Edicion principal" },
-    { "day": "Miercoles", "hours": "9:00 - 19:00", "status": "Edicion principal" },
-    { "day": "Jueves", "hours": "9:00 - 19:00", "status": "Revisiones y exports" },
-    { "day": "Viernes", "hours": "9:00 - 19:00", "status": "Entregas y nuevos briefs" },
-    { "day": "Sabado", "hours": "9:00 - 19:00", "status": "Edicion y proyectos urgentes" }
+    { "day": "Lunes",     "abbr": "Lun", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Martes",    "abbr": "Mar", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Miercoles", "abbr": "Mie", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Jueves",    "abbr": "Jue", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Viernes",   "abbr": "Vie", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Sabado",    "abbr": "Sab", "hours": "9:00 – 19:00", "workday": true  },
+    { "day": "Domingo",   "abbr": "Dom", "hours": "No laborable",  "workday": false }
   ],
   "delivery": [
     { "label": "Short / Reel", "value": "24 horas por pieza" },

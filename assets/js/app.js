@@ -192,13 +192,15 @@ function renderMethod() {
 }
 
 function renderSchedule() {
+  // Week calendar — 7 day cards (Mon–Sun)
   $("[data-availability]").innerHTML = state.site.availability
     .map(
-      (item) => `<article class="availability-day">
-        <strong>${item.day}</strong>
-        <span>${item.hours}</span>
-        <span>${item.status}</span>
-      </article>`
+      (item) => `<div class="cal-day${item.workday ? "" : " cal-day--off"}">
+        <span class="cal-abbr">${item.abbr || item.day.slice(0, 3)}</span>
+        <strong class="cal-day-name">${item.day}</strong>
+        <span class="cal-hours">${item.hours}</span>
+        ${!item.workday ? '<span class="cal-off-badge">No laborable</span>' : '<span class="cal-dot"></span>'}
+      </div>`
     )
     .join("");
 
@@ -357,10 +359,27 @@ async function sendFormSubmit(body, form) {
   return payload;
 }
 
+function updatePlanSummary() {
+  const select = $("[data-budget-select]");
+  if (!select) return;
+  const plan = state.site.pricing.find((p) => p.id === select.value) ?? state.site.pricing[0];
+  const nameEl = $("[data-selected-plan-name]");
+  const priceEl = $("[data-selected-plan-price]");
+  if (nameEl) nameEl.textContent = plan.name;
+  if (priceEl) priceEl.textContent = plan.priceLabel;
+}
+
 function setupContactForm() {
   const form = $("[data-contact-form]");
   const status = $("[data-form-status]");
   if (!form) return;
+
+  // Sync plan summary when plan changes
+  const budgetSelect = $("[data-budget-select]");
+  if (budgetSelect) {
+    budgetSelect.addEventListener("change", updatePlanSummary);
+    updatePlanSummary();
+  }
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -373,6 +392,7 @@ function setupContactForm() {
     try {
       await sendFormSubmit(body, form);
       form.reset();
+      updatePlanSummary();
       status.textContent = "Solicitud enviada. Te respondere al correo que dejaste.";
     } catch (error) {
       console.warn(error);
