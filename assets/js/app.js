@@ -538,14 +538,15 @@ function updatePlanSummary() {
   const formatSelect = document.getElementById("formatSelect");
   if (formatSelect && form) {
     if (plan.id.includes("short")) {
-      formatSelect.value = "Shorts / Reels / TikTok";
+      formatSelect.innerHTML = '<option value="Shorts / Reels / TikTok">Shorts / Reels / TikTok</option>';
       formatSelect.style.pointerEvents = "none";
       formatSelect.style.opacity = "0.7";
     } else if (plan.id !== "custom") {
-      formatSelect.value = "Video largo para YouTube";
+      formatSelect.innerHTML = '<option value="Video largo para YouTube">Video largo para YouTube</option>';
       formatSelect.style.pointerEvents = "none";
       formatSelect.style.opacity = "0.7";
     } else {
+      formatSelect.innerHTML = '<option value="Video largo para YouTube">Video largo para YouTube</option><option value="Shorts / Reels / TikTok">Shorts / Reels / TikTok</option>';
       formatSelect.style.pointerEvents = "auto";
       formatSelect.style.opacity = "1";
     }
