@@ -519,6 +519,10 @@ h3 {
   padding-bottom: 6px;
 }
 
+.video-category-row:nth-child(even) .video-row-track {
+  flex-direction: row-reverse;
+}
+
 .video-row-track::-webkit-scrollbar { display: none; }
 
 .video-row-track .video-card {
