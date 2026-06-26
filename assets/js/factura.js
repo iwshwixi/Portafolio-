@@ -178,11 +178,12 @@ function renderPreviewItems(fields) {
   const showQuantity = fields.showQuantity !== "no";
   const head = document.querySelector("[data-preview-items-head]");
   const itemsSection = document.querySelector("[data-items-section]");
+  const customConceptName = clean(fields.customConceptName) || "Concepto";
 
   if (head) {
     head.innerHTML = showQuantity
       ? "<th>Cant.</th><th>Descripción</th><th>Valor</th>"
-      : "<th>Nombre</th><th>Precio</th>";
+      : `<th>${escapeAttr(customConceptName)}</th><th>Valor</th>`;
   }
 
   if (itemsSection) {
@@ -211,10 +212,24 @@ function renderPreviewItems(fields) {
   itemsSection.dataset.empty = visibleItems.length ? "false" : "true";
 
   const subtotal = visibleItems.reduce((sum, item) => sum + itemTotal(item), 0);
-  document.querySelector("[data-preview-subtotal]").textContent = subtotal ? formatMoney(subtotal, fields.currency) : "";
-  document.querySelector("[data-preview-total]").textContent = subtotal ? formatMoney(subtotal, fields.currency) : "";
+  
+  let taxAmount = 0;
+  const taxRow = document.querySelector("[data-tax-row]");
+  if (fields.applyTax === "yes") {
+    taxAmount = numberValue(fields.taxAmount);
+    const taxName = clean(fields.taxName) || "Impuesto / Comisión";
+    document.querySelector("[data-tax-label]").textContent = taxName;
+    document.querySelector("[data-preview-tax]").textContent = formatMoney(taxAmount, fields.currency);
+    if (taxRow) taxRow.hidden = false;
+  } else {
+    if (taxRow) taxRow.hidden = true;
+  }
+
+  const finalTotal = subtotal + taxAmount;
+
+  document.querySelector("[data-preview-total]").textContent = finalTotal ? formatMoney(finalTotal, fields.currency) : "";
   document.querySelector("[data-total-label]").textContent = `Total ${(clean(fields.currency) || "USD").toUpperCase()}`;
-  document.querySelector("[data-summary-section]").dataset.empty = subtotal ? "false" : "true";
+  document.querySelector("[data-summary-section]").dataset.empty = finalTotal ? "false" : "true";
 }
 
 function syncItemsFromEditor() {
@@ -232,6 +247,13 @@ function syncItemsFromEditor() {
 function updatePreview() {
   syncItemsFromEditor();
   const fields = getFields();
+  
+  const conceptLabelContainer = document.querySelector("[data-concept-label-container]");
+  if (conceptLabelContainer) conceptLabelContainer.hidden = fields.showQuantity === "yes";
+  
+  const taxFields = document.querySelector("[data-tax-fields]");
+  if (taxFields) taxFields.hidden = fields.applyTax === "no";
+  
   updateDirectPreview(fields);
   updateParties();
   updatePayment();
@@ -250,7 +272,26 @@ function addItem(values = {}) {
 }
 
 function invoiceNumberForFile() {
-  return clean(getFields().invoiceNumber).replace(/[^\w-]+/g, "_") || "sin_numero";
+  const fields = getFields();
+  let baseName = clean(fields.companyName) || "Documento";
+  let brand = baseName.replace(/\s+/g, "_").replace(/[^\w-]/g, "");
+  if (!brand) brand = "Factura";
+  
+  let fileName = `${brand}_Factura`;
+  
+  const invNumber = clean(fields.invoiceNumber).replace(/[^\w-]+/g, "_");
+  if (invNumber) {
+    fileName += `_${invNumber}`;
+  }
+  
+  const appendDate = document.querySelector('[name="appendDateToFilename"]')?.checked;
+  if (appendDate) {
+    const dateObj = new Date();
+    const dateStr = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
+    fileName += `_${dateStr}`;
+  }
+  
+  return fileName;
 }
 
 function exportJson() {
@@ -276,9 +317,19 @@ async function importJson(file) {
   const data = JSON.parse(text);
   const fields = data.fields || {};
 
+  form.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+    cb.checked = false;
+  });
+
   Object.entries(fields).forEach(([name, value]) => {
     const input = form.elements[name];
-    if (input) input.value = value ?? "";
+    if (input) {
+      if (input.type === "checkbox") {
+        input.checked = true;
+      } else {
+        input.value = value ?? "";
+      }
+    }
   });
 
   items = Array.isArray(data.items) && data.items.length

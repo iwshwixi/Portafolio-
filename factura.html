@@ -55,12 +55,9 @@
                 <input name="currency" type="text" value="USD" placeholder="Ej. USD, EUR, MXN" />
               </label>
             </div>
-            <label>
-              Mostrar cantidad en la factura
-              <select name="showQuantity">
-                <option value="yes" selected>Sí, mostrar cantidad</option>
-                <option value="no">No, solo nombre y precio</option>
-              </select>
+            <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; font-weight: normal; margin-top: 8px;">
+              <input type="checkbox" name="appendDateToFilename" />
+              Añadir fecha de hoy al nombre del archivo
             </label>
           </section>
 
@@ -105,8 +102,39 @@
               <h2>Conceptos / videos</h2>
               <button class="mini-button" type="button" data-add-item>+ Fila</button>
             </div>
+            
+            <label>
+              Formato de tabla
+              <select name="showQuantity">
+                <option value="yes" selected>Mostrar cantidad, concepto y valor</option>
+                <option value="no">Mostrar solo concepto y valor</option>
+              </select>
+            </label>
+            <label data-concept-label-container hidden>
+              Nombre de la columna "Concepto"
+              <input name="customConceptName" type="text" placeholder="Ej. Concepto, Servicio, Descripción" value="Concepto" />
+            </label>
+
             <p class="field-help">Agrega una fila por video, paquete o servicio. Las filas completamente vacías no aparecen en la factura.</p>
             <div class="items-editor" data-items-editor></div>
+
+            <label style="margin-top: 8px;">
+              Aplicar Impuestos / Comisiones
+              <select name="applyTax">
+                <option value="no" selected>No</option>
+                <option value="yes">Sí</option>
+              </select>
+            </label>
+            <div class="form-grid" data-tax-fields hidden>
+              <label>
+                Nombre del cargo
+                <input name="taxName" type="text" placeholder="Ej. ISR, Comisión" />
+              </label>
+              <label>
+                Monto
+                <input name="taxAmount" type="number" min="0" step="0.01" placeholder="Ej. 50" />
+              </label>
+            </div>
           </section>
 
           <section class="form-section">
@@ -196,13 +224,9 @@
 
             <div class="classic-totals" data-summary-section>
               <table>
-                <tr>
-                  <th>Subtotal</th>
-                  <td data-preview-subtotal></td>
-                </tr>
-                <tr class="classic-empty-total-row">
-                  <th></th>
-                  <td></td>
+                <tr data-tax-row hidden>
+                  <th data-tax-label></th>
+                  <td data-preview-tax></td>
                 </tr>
                 <tr>
                   <th data-total-label>Total USD</th>
@@ -213,8 +237,8 @@
           </section>
 
           <footer class="classic-footer" data-hide-empty>
-            <strong>Contacto:</strong>
-            <span data-preview="companyEmail" data-prefix="E-mail: "></span>
+            <span data-preview="companyEmail"></span>
+            <strong>Contacto / Email</strong>
           </footer>
         </article>
         </div>

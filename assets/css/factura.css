@@ -34,7 +34,7 @@
 
 .invoice-app {
   display: grid;
-  grid-template-columns: minmax(340px, 440px) minmax(0, 1fr);
+  grid-template-columns: minmax(420px, 560px) minmax(0, 1fr);
   height: calc(100vh - 72px);
   min-height: 0;
 }
@@ -149,6 +149,7 @@
   height: 38px;
   align-self: end;
   justify-self: center;
+  margin-bottom: 2px;
   color: #ff7070;
   font-size: 22px;
   line-height: 1;
@@ -417,9 +418,12 @@
 
 .classic-footer {
   margin: 34px 60px 0 auto;
-  max-width: 360px;
-  text-align: right;
-  font-size: 13px;
+  max-width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
   line-height: 1.1;
 }
 
