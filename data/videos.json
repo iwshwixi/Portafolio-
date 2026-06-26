@@ -5,14 +5,18 @@
     "title": "WHISPER CHALLENGE con CHUYMINE y Los del Pueblo!",
     "client": "Elo YT",
     "role": "Edicion, cortes, SFX, pacing y subtitulos",
-    "category": "Gaming / Challenge",
+    "category": "Vlogs / Challenge",
     "description": "Video de challenge con multiples camara, cortes de reaccion, musica y efectos de sonido para mantener la energia y el ritmo durante toda la pieza.",
     "publishedAt": "2024-01-01",
     "duration": "",
     "fallbackViews": 0,
     "fallbackLikes": 0,
     "fallbackComments": 0,
-    "tags": ["Challenge", "Gaming", "Entretenimiento"]
+    "tags": [
+      "Challenge",
+      "Gaming",
+      "Entretenimiento"
+    ]
   },
   {
     "id": "autoservicio-caros",
@@ -20,14 +24,18 @@
     "title": "PROBÉ Los Artículos MAS CAROS del AUTOSERVICIO!",
     "client": "Turbo Vlogs",
     "role": "Edicion, ritmo, subtitulos y B-roll",
-    "category": "Vlogs",
+    "category": "Vlogs / Challenge",
     "description": "Video estilo vlog con cortes limpios, musica de ambiente, subtitulos y edicion de reaccion para mantener el ritmo y la atencion del espectador.",
     "publishedAt": "2024-01-01",
     "duration": "",
     "fallbackViews": 0,
     "fallbackLikes": 0,
     "fallbackComments": 0,
-    "tags": ["Vlog", "Challenge", "Reaccion"]
+    "tags": [
+      "Vlog",
+      "Challenge",
+      "Reaccion"
+    ]
   },
   {
     "id": "minecraft-parkour",
@@ -42,7 +50,11 @@
     "fallbackViews": 0,
     "fallbackLikes": 0,
     "fallbackComments": 0,
-    "tags": ["Gaming", "Minecraft", "SFX"]
+    "tags": [
+      "Gaming",
+      "Minecraft",
+      "SFX"
+    ]
   },
   {
     "id": "minecraft-error",
@@ -57,7 +69,11 @@
     "fallbackViews": 0,
     "fallbackLikes": 0,
     "fallbackComments": 0,
-    "tags": ["Gaming", "Minecraft", "Misterio"]
+    "tags": [
+      "Gaming",
+      "Minecraft",
+      "Misterio"
+    ]
   },
   {
     "id": "brawl-stars-peores",
@@ -72,7 +88,11 @@
     "fallbackViews": 0,
     "fallbackLikes": 0,
     "fallbackComments": 0,
-    "tags": ["Gaming", "Brawl Stars", "Mobile"]
+    "tags": [
+      "Gaming",
+      "Brawl Stars",
+      "Mobile"
+    ]
   },
   {
     "id": "adivina-logo",
@@ -80,13 +100,359 @@
     "title": "ADIVINA EL LOGO!! (Sara vs Turbo)",
     "client": "Turbo Vlogs",
     "role": "Edicion, graficos, SFX y subtitulos",
-    "category": "Gaming / Challenge",
+    "category": "Vlogs / Challenge",
     "description": "Competencia de conocimiento de marcas con edicion de alta retencion, graficos de marcadores, SFX de transicion y subtitulos dinamicos.",
     "publishedAt": "2024-01-01",
     "duration": "",
     "fallbackViews": 0,
     "fallbackLikes": 0,
     "fallbackComments": 0,
-    "tags": ["Challenge", "Marcas", "Competencia"]
+    "tags": [
+      "Challenge",
+      "Marcas",
+      "Competencia"
+    ]
+  },
+  {
+    "id": "vid-gA2MZZce2RU",
+    "videoId": "gA2MZZce2RU",
+    "title": "JELLY BEAN CHALLENGE con ChuyMine y Los Del Pueblo!",
+    "client": "Elo YT",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Vlogs / Challenge",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming / Challenge",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-5m4Lwzsiovo",
+    "videoId": "5m4Lwzsiovo",
+    "title": "Adivina el IMPOSTOR con ChuyMine, Jardred, Arsel y Elo!",
+    "client": "Turbo Vlogs",
+    "role": "Edicion, ritmo, color y subtitulos",
+    "category": "Vlogs / Challenge",
+    "description": "Video estilo vlog con cortes limpios, musica de ambiente y subtitulos dinamicos.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Vlogs",
+      "Retencion"
+    ]
+  },
+  {
+    "id": "vid-KWBhbcUKnu0",
+    "videoId": "KWBhbcUKnu0",
+    "title": "Probé PIZZAS NOOB vs PRO con Elo!",
+    "client": "Turbo Vlogs",
+    "role": "Edicion, ritmo, color y subtitulos",
+    "category": "Vlogs / Challenge",
+    "description": "Video estilo vlog con cortes limpios, musica de ambiente y subtitulos dinamicos.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Vlogs",
+      "Retencion"
+    ]
+  },
+  {
+    "id": "vid-Ev_rgco0c2c",
+    "videoId": "Ev_rgco0c2c",
+    "title": "Un día en la Vida de Turbo y Sara!",
+    "client": "Turbo Vlogs",
+    "role": "Edicion, ritmo, color y subtitulos",
+    "category": "Vlogs / Challenge",
+    "description": "Video estilo vlog con cortes limpios, musica de ambiente y subtitulos dinamicos.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Vlogs",
+      "Retencion"
+    ]
+  },
+  {
+    "id": "vid-xXHqAcy51Ik",
+    "videoId": "xXHqAcy51Ik",
+    "title": "COCINO CALDO DE POLLO Y PASÓ ESTO...",
+    "client": "SoyFerdan",
+    "role": "Edicion, ritmo, color y subtitulos",
+    "category": "Vlogs / Challenge",
+    "description": "Video estilo vlog con cortes limpios, musica de ambiente y subtitulos dinamicos.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Vlogs",
+      "Retencion"
+    ]
+  },
+  {
+    "id": "vid-J8-KJtVusAQ",
+    "videoId": "J8-KJtVusAQ",
+    "title": "Comiendo Solo COMIDA DE UN COLOR Durante 24 HORAS!",
+    "client": "Turbo Vlogs",
+    "role": "Edicion, ritmo, color y subtitulos",
+    "category": "Vlogs / Challenge",
+    "description": "Video estilo vlog con cortes limpios, musica de ambiente y subtitulos dinamicos.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Vlogs",
+      "Retencion"
+    ]
+  },
+  {
+    "id": "vid-D40GcC0MM8E",
+    "videoId": "D40GcC0MM8E",
+    "title": "QUIEN ES MAS PROBABLE QUE... (Con ChuyMine, Jardred y Elo)",
+    "client": "xTurbo",
+    "role": "Edicion, ritmo, color y subtitulos",
+    "category": "Vlogs / Challenge",
+    "description": "Video estilo vlog con cortes limpios, musica de ambiente y subtitulos dinamicos.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Vlogs",
+      "Retencion"
+    ]
+  },
+  {
+    "id": "vid-Z3ixt-TVkos",
+    "videoId": "Z3ixt-TVkos",
+    "title": "Maquillé a TURBO!",
+    "client": "ItsSara",
+    "role": "Edicion, ritmo, color y subtitulos",
+    "category": "Vlogs / Challenge",
+    "description": "Video estilo vlog con cortes limpios, musica de ambiente y subtitulos dinamicos.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Vlogs",
+      "Retencion"
+    ]
+  },
+  {
+    "id": "vid-l7REhWA64Aw",
+    "videoId": "l7REhWA64Aw",
+    "title": "ATRAPADOS 99 NOCHES en el LABERINTO ENCANTADO con mi HERMANITA😨 | Kevinox",
+    "client": "Kevinox",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-2lfTCKqQqLg",
+    "videoId": "2lfTCKqQqLg",
+    "title": "Añadí al MIMICER a Mi Mundo de MINECRAFT @SoyDanyt @AwitaFria",
+    "client": "Danycopetin Plus",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-OT-KTTVYOP8",
+    "videoId": "OT-KTTVYOP8",
+    "title": "Los DESASTRES NATURALES más Peligrosos (Momentos Divertidos de Roblox)",
+    "client": "Clementito",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-kbKBV4_7vdU",
+    "videoId": "kbKBV4_7vdU",
+    "title": "SOBREVIVIMOS a la NUEVA ACTUALIZACIÓN de HALLOWEEN de 99 NOCHES EN EL BOSQUE😱🎃 | Kevinox",
+    "client": "Kevinox",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-tYrJBNjDMdo",
+    "videoId": "tYrJBNjDMdo",
+    "title": "DECIDO si VAN AL PARAISO 😇 o al INFIERNO 😈",
+    "client": "Azel 23",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-PWLn-3ZibQ0",
+    "videoId": "PWLn-3ZibQ0",
+    "title": "JUGUÉ OUTLAST por PRIMERA VEZ y PASÓ ESTO...",
+    "client": "SoyFerdan",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-lfcE383stHA",
+    "videoId": "lfcE383stHA",
+    "title": "Fingí ser UN PERRO para PASARME MINECRAFT!",
+    "client": "xTurbo",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-UwFk9VkewJY",
+    "videoId": "UwFk9VkewJY",
+    "title": "JUGUÉ THE FOREST y PASÓ ESTO..",
+    "client": "SoyFerdan",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-R2bMgrnK8J8",
+    "videoId": "R2bMgrnK8J8",
+    "title": "PERUST ME ENSEÑÓ A NO CONFIAR EN NADIE",
+    "client": "SoyFerdan",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-JuTrsENVHiE",
+    "videoId": "JuTrsENVHiE",
+    "title": "SPREEN Y EL ZEIN ME ODIAN",
+    "client": "SoyFerdan",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
+  },
+  {
+    "id": "vid-u95wOxnoB-w",
+    "videoId": "u95wOxnoB-w",
+    "title": "Me Hice pasar por NOOB en RIVALS MINECRAFT, luego usé ARMAS OP!",
+    "client": "Danycopetin Plus",
+    "role": "Edicion, SFX, graficos y pacing",
+    "category": "Gaming",
+    "description": "Edicion de gaming de alta energia con momentos destacados, zooms dramaticos y SFX personalizados.",
+    "publishedAt": "2024-01-01",
+    "duration": "",
+    "fallbackViews": 0,
+    "fallbackLikes": 0,
+    "fallbackComments": 0,
+    "tags": [
+      "Gaming",
+      "SFX"
+    ]
   }
 ]
