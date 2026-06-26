@@ -411,7 +411,7 @@ h3 {
 .filter-chip[aria-pressed="true"] {
   border-color: var(--ink);
   background: var(--ink);
-  color: #fff;
+  color: var(--bg);
 }
 
 /* video-grid is now category rows — no CSS grid needed */
@@ -1287,14 +1287,11 @@ textarea {
 
 .testimonials-track {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
   padding: 8px 4px 16px;
 }
-
-.testimonials-track::-webkit-scrollbar { display: none; }
 
 .testi-card {
   flex: 0 0 auto;

@@ -317,8 +317,6 @@ function renderTestimonials() {
       </div>
     </article>`;
   }).join("");
-
-  setupSliderNav($(".testimonials-slider-wrapper"));
 }
 
 function selectedPlan() {
