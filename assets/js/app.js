@@ -431,9 +431,13 @@ function buildEmailBody(form) {
   const planId = data.get("budget");
   const plan = state.site.pricing.find((p) => p.id === planId) ?? state.site.pricing[0];
   const deliveryTime = data.get("deliveryTime") === "urgent" ? "Urgente (48h o menos)" : "Estandar (3-5 dias)";
-  const links = data.get("links") || "Ninguno proporcionado";
   const offerPrice = data.get("offerPrice");
   const offerText = offerPrice ? `Presupuesto ofertado: $${offerPrice} USD` : "Sin oferta (acepta tarifa normal)";
+  const deliveryMethod = data.get("deliveryMethod");
+  const finalDeliveryMethod = deliveryMethod === "Otro" ? `Otro: ${data.get("otherDeliveryMethod")}` : deliveryMethod;
+  const paymentType = data.get("paymentType") === "monthly" ? "1 vez al mes" : "Por video";
+  const monthlyDate = data.get("monthlyDate") || "No especificada";
+  const allLinks = data.getAll("links[]").filter(l => l.trim()).join(", ") || "Ninguno proporcionado";
   
   return [
     `Hola ${state.site.name}, quiero cotizar edicion de video.`,
@@ -447,7 +451,9 @@ function buildEmailBody(form) {
     `Horas de recorte estimadas: ${data.get("footageHours")}`,
     `Minutos editados finales estimados: ${data.get("editedMinutes")}`,
     `Tiempo de entrega: ${deliveryTime}`,
-    `Links de referencia: ${links}`,
+    `Metodo de entrega: ${finalDeliveryMethod}`,
+    `Tipo de pago: ${paymentType} ${paymentType === "1 vez al mes" ? `(Fecha: ${monthlyDate})` : ""}`,
+    `Links de referencia: ${allLinks}`,
     `Fecha ideal: ${data.get("deadline") || "Sin fecha definida"}`,
     "",
     offerText,
@@ -507,6 +513,16 @@ function updatePlanSummary() {
     : plan.priceLabel;
   if (noteEl)  noteEl.textContent  = note || "";
 
+  const upfrontEl = $("[data-upfront-payment]");
+  if (upfrontEl) {
+    if (form && form.paymentType && form.paymentType.value === "monthly") {
+      upfrontEl.style.display = "block";
+      upfrontEl.textContent = `Adelanto por seguridad (50%): ${formatMoney(total / 2, state.site.currency)}`;
+    } else {
+      upfrontEl.style.display = "none";
+    }
+  }
+
   if (form && form.offerPrice && total > 0) {
      const minOffer = Math.floor(total * 0.8);
      form.offerPrice.min = minOffer;
@@ -526,6 +542,37 @@ function setupContactForm() {
   }
   // Update estimate as user types hours/minutes/quantity
   form.addEventListener("input", updatePlanSummary);
+  
+  const deliveryMethodSelect = document.getElementById("deliveryMethod");
+  const otherDeliveryMethodLabel = document.getElementById("otherDeliveryMethodLabel");
+  if (deliveryMethodSelect && otherDeliveryMethodLabel) {
+    deliveryMethodSelect.addEventListener("change", () => {
+      otherDeliveryMethodLabel.style.display = deliveryMethodSelect.value === "Otro" ? "block" : "none";
+      if (deliveryMethodSelect.value !== "Otro") form.otherDeliveryMethod.value = "";
+    });
+  }
+
+  const paymentTypeSelect = document.getElementById("paymentType");
+  const monthlyDateLabel = document.getElementById("monthlyDateLabel");
+  if (paymentTypeSelect && monthlyDateLabel) {
+    paymentTypeSelect.addEventListener("change", () => {
+      monthlyDateLabel.style.display = paymentTypeSelect.value === "monthly" ? "block" : "none";
+      if (paymentTypeSelect.value !== "monthly") form.monthlyDate.value = "";
+    });
+  }
+
+  const addLinkBtn = $("[data-add-link]", form);
+  const linksContainer = document.getElementById("links-container");
+  if (addLinkBtn && linksContainer) {
+    addLinkBtn.addEventListener("click", () => {
+      const input = document.createElement("input");
+      input.name = "links[]";
+      input.type = "url";
+      input.placeholder = "https://...";
+      linksContainer.appendChild(input);
+    });
+  }
+
   updatePlanSummary();
 
   form.addEventListener("submit", async (event) => {

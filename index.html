@@ -137,6 +137,7 @@
             <strong data-selected-plan-name>Gaming</strong>
             <small data-selected-plan-price class="rate-green">$80 USD</small>
             <small data-selected-plan-note class="plan-note"></small>
+            <small data-upfront-payment class="plan-note" style="display:none; color:var(--red); font-weight:bold; margin-top:4px;"></small>
           </div>
           <div class="payment-badges">
             <span class="payment-label">Metodos de pago</span>
@@ -216,8 +217,42 @@
               </select>
             </label>
             <label>
-              Links de referencia (Opcional)
-              <input name="links" type="url" placeholder="https://..." />
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Links de referencia (Opcional)</span>
+                <button type="button" data-add-link style="background:none; border:none; color:var(--red); cursor:pointer; font-weight:bold; font-size:16px;">+</button>
+              </div>
+              <div id="links-container" style="display:flex; flex-direction:column; gap:8px;">
+                <input name="links[]" type="url" placeholder="https://..." />
+              </div>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label>
+              Metodo de entrega
+              <select name="deliveryMethod" id="deliveryMethod" required>
+                <option value="Google Drive">Google Drive</option>
+                <option value="Whatsapp">Whatsapp</option>
+                <option value="Mega">Mega</option>
+                <option value="Dropbox">Dropbox</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </label>
+            <label id="otherDeliveryMethodLabel" style="display:none;">
+              Especifique el metodo
+              <input name="otherDeliveryMethod" type="text" placeholder="Ej. Wetransfer" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label>
+              Tipo de pago
+              <select name="paymentType" id="paymentType" required>
+                <option value="per-video">Por video</option>
+                <option value="monthly">1 vez al mes</option>
+              </select>
+            </label>
+            <label id="monthlyDateLabel" style="display:none;">
+              Fecha de pago mensual
+              <input name="monthlyDate" type="date" />
             </label>
           </div>
           <label>
