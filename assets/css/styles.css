@@ -852,7 +852,7 @@ h3 {
   align-items: center;
   gap: 6px;
   padding: 16px 8px 14px;
-  background: rgba(22, 163, 74, 0.15);
+  background: #4ade80;
   text-align: center;
   border-right: 1px solid var(--line);
   transition: background 160ms;
@@ -872,11 +872,11 @@ h3 {
 }
 
 .cal-day:hover:not(.cal-day--off) {
-  background: rgba(22, 163, 74, 0.25);
+  background: #22c55e;
 }
 
 .cal-day--off {
-  background: rgba(239, 68, 68, 0.15);
+  background: #ef4444;
   opacity: 1;
 }
 
@@ -886,21 +886,21 @@ h3 {
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(0, 0, 0, 0.65);
 }
 
 .cal-day-name {
   display: block;
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
+  color: #000;
 }
 
 .cal-hours {
   display: block;
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 700;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 800;
   white-space: nowrap;
 }
 
@@ -909,7 +909,7 @@ h3 {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #16a34a;
+  background: #000;
   margin-top: 2px;
 }
 
