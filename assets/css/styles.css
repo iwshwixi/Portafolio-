@@ -1626,3 +1626,226 @@ textarea {
   font-weight: 800;
   line-height: 1.25;
 }
+
+@media (max-width: 720px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .section,
+  .section-band {
+    padding-inline: 18px;
+  }
+
+  .testimonials-section {
+    padding-top: 34px;
+  }
+
+  .testimonials-section .section-heading.compact {
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .testimonials-track {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 10px;
+    padding: 22px 0 24px;
+  }
+
+  .testi-card {
+    width: 100%;
+    min-width: 0;
+    padding: 7px 8px;
+    gap: 7px;
+    border-radius: 20px;
+  }
+
+  .testi-header {
+    width: 100%;
+    min-width: 0;
+    gap: 7px;
+  }
+
+  .testi-avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .testi-verified {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+    font-size: 9px;
+  }
+
+  .testi-name,
+  .testi-handle,
+  .testi-subscribers {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .testi-name {
+    font-size: 12px;
+  }
+
+  .testi-handle {
+    font-size: 10px;
+  }
+
+  .testi-subscribers {
+    font-size: 9px;
+  }
+
+  .testi-quote {
+    max-width: 128px;
+    top: -27px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .testi-quote--bottom {
+    top: auto;
+    bottom: -27px;
+  }
+
+  .schedule-section {
+    padding-top: 30px;
+  }
+
+  .schedule-section .section-heading.compact {
+    max-width: 100%;
+  }
+
+  .schedule-section h2 {
+    font-size: clamp(36px, 12vw, 50px);
+  }
+
+  .schedule-layout {
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  .timezone-switcher {
+    width: 100%;
+    min-width: 0;
+    padding: 14px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .timezone-switcher > div {
+    min-width: 0;
+  }
+
+  .timezone-switcher small {
+    font-size: 11px;
+  }
+
+  .week-calendar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .cal-day {
+    min-width: 0;
+    gap: 4px;
+    padding: 12px 6px 10px;
+  }
+
+  .cal-day:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .cal-abbr {
+    font-size: 10px;
+  }
+
+  .cal-day-name {
+    font-size: 13px;
+  }
+
+  .cal-hours {
+    max-width: 100%;
+    font-size: 11px;
+    line-height: 1.15;
+    white-space: normal;
+  }
+
+  .delivery-card {
+    padding: 18px;
+  }
+
+  .plan-summary {
+    padding: 22px;
+  }
+
+  .plan-summary strong {
+    font-size: 30px;
+  }
+
+  .plan-summary small {
+    font-size: 38px;
+  }
+
+  .payment-badges {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .payment-label,
+  .payment-badges small {
+    grid-column: 1 / -1;
+    margin: 0 !important;
+  }
+
+  .pay-badge {
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 9px 10px;
+  }
+}
+
+@media (max-width: 390px) {
+  .section,
+  .section-band {
+    padding-inline: 14px;
+  }
+
+  .testimonials-track {
+    gap: 12px 8px;
+  }
+
+  .testi-card {
+    padding: 6px;
+  }
+
+  .testi-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .testi-name {
+    font-size: 11px;
+  }
+
+  .testi-handle,
+  .testi-subscribers {
+    font-size: 9px;
+  }
+
+  .cal-day {
+    padding: 11px 8px;
+  }
+}

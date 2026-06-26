@@ -30,13 +30,13 @@
     {
       "id": "short-inter",
       "name": "Short Intermedio",
-      "priceLabel": "$15 USD/min+",
+      "priceLabel": "$20 USD/min+",
       "rateType": "per-minute",
-      "ratePerMinute": 15,
+      "ratePerMinute": 20,
       "unit": "edicion intermedia por minuto editado",
       "summary": "Short completo con efectos, subtitulos y pacing optimizado para maxima retencion en plataforma.",
       "features": [
-        "$15 USD/min+ por minuto editado",
+        "$20 USD/min+ por minuto editado",
         "SFX y transiciones incluidas",
         "Subtitulos dinamicos",
         "Pacing para retencion maxima",
