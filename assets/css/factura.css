@@ -424,7 +424,7 @@
   line-height: 1.1;
 }
 
-.classic-footer strong {
+.classic-footer > strong {
   display: block;
   font-size: 18px;
   font-weight: 400;

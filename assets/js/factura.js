@@ -471,7 +471,9 @@ function generateRandomExample() {
   form.elements["companyName"].value = randomItem(fNames) + " Editor";
   form.elements["companyDocument"].value = "RFC-" + Math.random().toString(36).slice(2, 8).toUpperCase();
   form.elements["companyAddress"].value = randomItem(fAddresses);
-  form.elements["companyEmail"].value = "contacto@" + form.elements["companyName"].value.toLowerCase().split(' ')[0] + ".com";
+  
+  const cleanFirstName = form.elements["companyName"].value.toLowerCase().split(' ')[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  form.elements["companyEmail"].value = "contacto@" + cleanFirstName + ".com";
   
   form.elements["paymentMethod"].value = randomItem(fMethods);
   form.elements["paymentRecipient"].value = form.elements["companyName"].value;
