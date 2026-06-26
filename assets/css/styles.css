@@ -1419,7 +1419,7 @@ textarea {
 .testi-card {
   flex: 0 0 auto;
   scroll-snap-align: start;
-  padding: 12px 20px 12px 12px;
+  padding: 8px 16px 8px 8px;
   border-radius: 999px;
   background: #b91c1c;
   border: 1px solid #991b1b;
@@ -1442,7 +1442,7 @@ textarea {
 .testi-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .testi-avatar-wrap {
@@ -1451,8 +1451,8 @@ textarea {
 }
 
 .testi-avatar {
-  width: 52px;
-  height: 52px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   object-fit: cover;
   display: block;
@@ -1470,19 +1470,19 @@ textarea {
 
 .testi-verified {
   position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 22px;
-  height: 22px;
+  bottom: -2px;
+  right: -2px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #f0b90b;
+  background: #1d9bf0;
   border: 2px solid #b91c1c;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 1000;
-  color: #171717;
+  color: #fff;
   line-height: 1;
   box-shadow: 0 2px 8px rgba(0,0,0,0.34);
 }
