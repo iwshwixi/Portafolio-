@@ -311,6 +311,7 @@ function renderTestimonials() {
         <div class="testi-meta">
           <strong class="testi-name">${t.client}</strong>
           <span class="testi-handle">${t.handle}</span>
+          <span class="testi-subscribers">${t.subscribers || "Canal de YouTube"}</span>
         </div>
       </div>
     </a>`;

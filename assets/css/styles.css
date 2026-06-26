@@ -158,27 +158,24 @@ textarea {
 
 .hero-motion-ball--youtube {
   top: clamp(160px, 25%, 260px);
-  right: clamp(-180px, -7vw, -70px);
-  width: clamp(360px, 39vw, 660px);
+  right: clamp(-240px, -10vw, -110px);
+  width: clamp(420px, 46vw, 780px);
   aspect-ratio: 1;
   transform: translateY(-50%);
-  border: clamp(5px, 0.7vw, 12px) solid rgba(255, 255, 255, 0.92);
-  background:
-    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.94) 0 3%, transparent 19%),
-    conic-gradient(from 40deg, #fff 0 20%, var(--red) 20% 58%, #fff 58% 66%, var(--red) 66% 100%);
-  box-shadow: 0 0 0 clamp(10px, 1.5vw, 24px) rgba(239, 68, 68, 0.11),
-    0 0 92px rgba(239, 68, 68, 0.3);
+  background: var(--red);
+  box-shadow: 0 0 0 clamp(12px, 1.8vw, 30px) rgba(239, 68, 68, 0.08),
+    0 0 100px rgba(239, 68, 68, 0.24);
   animation: hero-orb-enter 1.35s cubic-bezier(.16, 1, .3, 1) .12s both;
 }
 
 @keyframes hero-orb-enter {
   from {
-    opacity: 0;
-    transform: translate(100vw, -50%) rotate(120deg) scale(.82);
+    opacity: 0.15;
+    transform: translate(100vw, -50%) scale(.2);
   }
   to {
-    opacity: .9;
-    transform: translateY(-50%) rotate(0deg);
+    opacity: .78;
+    transform: translateY(-50%) scale(1);
   }
 }
 
@@ -396,6 +393,23 @@ h3 {
 .section-heading.compact {
   display: block;
   max-width: 760px;
+}
+
+.portfolio-heading {
+  display: block;
+  max-width: 760px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.portfolio-heading-copy {
+  margin: 0 auto;
+}
+
+.portfolio-heading p {
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .section-copy {
@@ -1151,6 +1165,27 @@ textarea {
   outline: none;
 }
 
+select {
+  appearance: none;
+  padding-right: 46px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='m4 6 4 4 4-4' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.field-hint {
+  margin-top: -2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
 input:focus,
 select:focus,
 textarea:focus {
@@ -1437,18 +1472,19 @@ textarea {
   position: absolute;
   bottom: -3px;
   right: -3px;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: #fff;
-  border: 1.5px solid var(--panel);
+  background: #f0b90b;
+  border: 2px solid var(--panel);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  color: #F0B90B; /* Yellow */
+  font-size: 14px;
+  font-weight: 1000;
+  color: #171717;
   line-height: 1;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.34);
 }
 
 .testi-meta {
@@ -1471,4 +1507,12 @@ textarea {
   font-size: 12px;
   color: var(--muted);
   font-weight: 600;
+}
+
+.testi-subscribers {
+  display: block;
+  color: #f0b90b;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.25;
 }
