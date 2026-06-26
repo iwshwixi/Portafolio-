@@ -117,7 +117,8 @@
     "avatar": "assets/img/clients/DANYCOPETIN ROBLOX.jpg",
     "initials": "DR",
     "color": "#2563EB",
-    "quote": "editor chingon pa"
+    "quote": "editor chingon pa",
+    "quotePosition": "bottom"
   },
   {
     "client": "Kevinox",
@@ -136,7 +137,8 @@
     "avatar": "assets/img/clients/CLEMENTE.jpg",
     "initials": "CE",
     "color": "#10B981",
-    "quote": "año y medio juntos, nunca me fallo"
+    "quote": "año y medio juntos, nunca me fallo",
+    "quotePosition": "bottom"
   },
   {
     "client": "ItsSara",

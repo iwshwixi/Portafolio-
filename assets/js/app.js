@@ -422,7 +422,8 @@ function renderTestimonials() {
       : `<div class="testi-avatar testi-avatar--initials" style="background:${t.color}">${t.initials}</div>`;
 
     const channelUrl = t.youtubeUrl || `https://www.youtube.com/${t.handle}`;
-    const quoteEl = t.quote ? `<div class="testi-quote">${t.quote}</div>` : '';
+    const quoteClass = t.quotePosition === 'bottom' ? 'testi-quote testi-quote--bottom' : 'testi-quote';
+    const quoteEl = t.quote ? `<div class="${quoteClass}">${t.quote}</div>` : '';
     return `<a class="testi-card" href="${channelUrl}" target="_blank" rel="noopener noreferrer" aria-label="Abrir el canal de YouTube de ${t.client}">
       ${quoteEl}
       <div class="testi-header">

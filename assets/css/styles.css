@@ -1521,6 +1521,24 @@ textarea {
   50% { transform: translate(-50%, -4px); }
 }
 
+.testi-quote--bottom {
+  top: auto;
+  bottom: -42px;
+  animation: float-bottom 3s ease-in-out infinite;
+}
+
+.testi-quote--bottom::after {
+  bottom: auto;
+  top: -6px;
+  border-width: 0 6px 6px;
+  border-color: transparent transparent #3b82f6 transparent;
+}
+
+@keyframes float-bottom {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 4px); }
+}
+
 .testi-card:hover {
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
