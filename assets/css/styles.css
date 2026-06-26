@@ -129,7 +129,7 @@ textarea {
   grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.78fr);
   gap: clamp(28px, 5vw, 72px);
   align-items: center;
-  min-height: calc(100vh - 74px);
+  min-height: min(calc(100vh - 74px), 820px);
   padding-block: clamp(48px, 7vw, 88px);
   overflow: hidden;
 }
