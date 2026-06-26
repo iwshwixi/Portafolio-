@@ -423,7 +423,6 @@ function initLegalModal() {
   backdrop?.addEventListener("click", closeModal);
 
   if (acceptBtn) {
-    acceptBtn.textContent = "Cerrar";
     acceptBtn.addEventListener("click", closeModal);
   }
 
