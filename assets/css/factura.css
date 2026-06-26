@@ -158,12 +158,66 @@
 }
 
 .invoice-preview-area {
-  display: flex;
-  justify-content: center;
+  position: relative;
+  display: block;
   background:
     radial-gradient(circle at top right, rgba(239, 68, 68, 0.12), transparent 34%),
     #101010;
   padding: 34px 22px;
+  overflow: auto;
+}
+
+.invoice-zoom-toolbar {
+  position: sticky;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(28, 28, 28, 0.92);
+  padding: 7px;
+  color: var(--ink);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+}
+
+.invoice-zoom-toolbar button {
+  display: inline-flex;
+  min-width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.invoice-zoom-toolbar [data-zoom-reset] {
+  padding-inline: 10px;
+}
+
+.invoice-zoom-toolbar span {
+  min-width: 52px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.invoice-paper-stage {
+  width: max-content;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 0 0 42px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .invoice-paper {
@@ -175,6 +229,8 @@
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
   font-family: Arial, Helvetica, sans-serif;
   padding: 34px 40px 42px;
+  transform: scale(var(--invoice-zoom, 1));
+  transform-origin: top center;
 }
 
 .classic-header {
@@ -437,12 +493,15 @@
   }
 
   .invoice-preview-area {
-    justify-content: flex-start;
     padding: 18px;
   }
 
+  .invoice-paper-stage {
+    justify-content: flex-start;
+  }
+
   .invoice-paper {
-    transform: scale(0.46);
+    --invoice-zoom: 0.46;
     transform-origin: top left;
     margin-bottom: -570px;
   }

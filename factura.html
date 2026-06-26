@@ -7,7 +7,7 @@
     <title>Generador de facturas</title>
     <link rel="icon" type="image/png" href="assets/img/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.css?v=20260626-8" />
-    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-8" />
+    <link rel="stylesheet" href="assets/css/factura.css?v=20260626-9" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
   </head>
   <body class="invoice-body">
@@ -132,7 +132,15 @@
         </form>
       </aside>
 
-      <section class="invoice-preview-area" aria-label="Vista previa de factura">
+      <section class="invoice-preview-area" aria-label="Vista previa de factura" data-preview-area>
+        <div class="invoice-zoom-toolbar" aria-label="Zoom de vista previa">
+          <button type="button" data-zoom-out aria-label="Alejar">−</button>
+          <span data-zoom-label>100%</span>
+          <button type="button" data-zoom-in aria-label="Acercar">+</button>
+          <button type="button" data-zoom-reset>Reset</button>
+        </div>
+
+        <div class="invoice-paper-stage" data-paper-stage>
         <article class="invoice-paper" id="invoice-paper">
           <header class="classic-header">
             <h2>Factura</h2>
@@ -209,9 +217,10 @@
             <span data-preview="companyEmail" data-prefix="E-mail: "></span>
           </footer>
         </article>
+        </div>
       </section>
     </main>
 
-    <script src="assets/js/factura.js?v=20260626-11" type="module"></script>
+    <script src="assets/js/factura.js?v=20260626-13" type="module"></script>
   </body>
 </html>

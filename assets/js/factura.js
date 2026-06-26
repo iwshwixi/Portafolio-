@@ -3,6 +3,9 @@ const paper = document.querySelector("#invoice-paper");
 const itemsEditor = document.querySelector("[data-items-editor]");
 const itemsBody = document.querySelector("[data-preview-items]");
 const importInput = document.querySelector("[data-import-json]");
+const previewArea = document.querySelector("[data-preview-area]");
+const paperStage = document.querySelector("[data-paper-stage]");
+const zoomLabel = document.querySelector("[data-zoom-label]");
 
 const moneyFields = new Intl.NumberFormat("es-MX", {
   minimumFractionDigits: 0,
@@ -10,6 +13,7 @@ const moneyFields = new Intl.NumberFormat("es-MX", {
 });
 
 let items = [];
+let previewZoom = 1;
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 const clean = (value) => String(value ?? "").trim();
@@ -17,6 +21,27 @@ const numberValue = (value) => {
   const parsed = Number(String(value ?? "").replace(/[^0-9.-]/g, ""));
   return Number.isFinite(parsed) ? parsed : 0;
 };
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function applyPreviewZoom(nextZoom, anchor = null) {
+  const previousZoom = previewZoom;
+  previewZoom = clamp(Number(nextZoom) || 1, 0.35, 2.5);
+  paper.style.setProperty("--invoice-zoom", previewZoom);
+  if (paperStage) {
+    paperStage.style.width = `${paper.offsetWidth * previewZoom}px`;
+    paperStage.style.minHeight = `${paper.offsetHeight * previewZoom + 42}px`;
+  }
+  if (zoomLabel) zoomLabel.textContent = `${Math.round(previewZoom * 100)}%`;
+
+  if (anchor && previewArea && previousZoom > 0) {
+    const ratio = previewZoom / previousZoom;
+    previewArea.scrollLeft = (previewArea.scrollLeft + anchor.x) * ratio - anchor.x;
+    previewArea.scrollTop = (previewArea.scrollTop + anchor.y) * ratio - anchor.y;
+  }
+}
 
 function getFields() {
   return Object.fromEntries([...new FormData(form).entries()].map(([key, value]) => [key, clean(value)]));
@@ -302,6 +327,21 @@ function init() {
   document.querySelector("[data-export-json]").addEventListener("click", exportJson);
   document.querySelector("[data-export-pdf]").addEventListener("click", exportPdf);
   document.querySelector("[data-import-trigger]").addEventListener("click", () => importInput.click());
+  document.querySelector("[data-zoom-out]")?.addEventListener("click", () => applyPreviewZoom(previewZoom - 0.1));
+  document.querySelector("[data-zoom-in]")?.addEventListener("click", () => applyPreviewZoom(previewZoom + 0.1));
+  document.querySelector("[data-zoom-reset]")?.addEventListener("click", () => applyPreviewZoom(1));
+
+  previewArea?.addEventListener("wheel", (event) => {
+    if (!event.altKey) return;
+    event.preventDefault();
+    const rect = previewArea.getBoundingClientRect();
+    const anchor = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+    const direction = event.deltaY > 0 ? -1 : 1;
+    applyPreviewZoom(previewZoom + direction * 0.08, anchor);
+  }, { passive: false });
   importInput.addEventListener("change", async () => {
     const file = importInput.files?.[0];
     if (!file) return;
@@ -315,6 +355,7 @@ function init() {
   });
 
   addItem();
+  applyPreviewZoom(1);
   updatePreview();
   window.setInterval(updatePreview, 500);
 }
