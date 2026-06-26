@@ -2,14 +2,14 @@
   {
     "client": "Elo YT",
     "handle": "@EloYT",
-    "avatar": "",
+    "avatar": "assets/img/clients/ELO YT.jpg",
     "initials": "EY",
     "color": "#8B5CF6"
   },
   {
     "client": "Turbo Vlogs",
     "handle": "@TurboVlogs",
-    "avatar": "",
+    "avatar": "assets/img/clients/TURBO VLOGS.jpg",
     "initials": "TV",
     "color": "#EF4444"
   },
@@ -86,7 +86,7 @@
   {
     "client": "Danycopetin Roblox",
     "handle": "@DanycopetinRoblox",
-    "avatar": "",
+    "avatar": "assets/img/clients/DANYCOPETIN ROBLOX.jpg",
     "initials": "DR",
     "color": "#2563EB"
   },
