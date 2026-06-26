@@ -201,25 +201,26 @@ function renderPreviewItems(fields) {
     const total = itemTotal(item);
     const tr = document.createElement("tr");
 
+    let styleStr = "";
     if (item.color && item.color !== "#ffffff") {
-      tr.style.backgroundColor = item.color;
       const hex = item.color.replace("#", "");
       const r = parseInt(hex.substr(0, 2), 16);
       const g = parseInt(hex.substr(2, 2), 16);
       const b = parseInt(hex.substr(4, 2), 16);
       const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-      tr.style.color = (yiq >= 128) ? "#000000" : "#ffffff";
+      const textColor = (yiq >= 128) ? "#000000" : "#ffffff";
+      styleStr = ` style="background-color: ${item.color}; color: ${textColor};"`;
     }
 
     tr.innerHTML = showQuantity
       ? `
-        <td>${quantity}</td>
-        <td>${clean(item.description)}</td>
-        <td>${total ? formatMoney(total, fields.currency) : ""}</td>
+        <td${styleStr}>${quantity}</td>
+        <td${styleStr}>${clean(item.description)}</td>
+        <td${styleStr}>${total ? formatMoney(total, fields.currency) : ""}</td>
       `
       : `
-        <td>${clean(item.description)}</td>
-        <td>${total ? formatMoney(total, fields.currency) : ""}</td>
+        <td${styleStr}>${clean(item.description)}</td>
+        <td${styleStr}>${total ? formatMoney(total, fields.currency) : ""}</td>
       `;
     itemsBody.appendChild(tr);
   });

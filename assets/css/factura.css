@@ -316,7 +316,10 @@
 
 .classic-items table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid #050505;
+  border-left: 1px solid #050505;
   table-layout: fixed;
   color: #050505;
   font-size: 13px;
@@ -324,13 +327,15 @@
 
 .classic-items th,
 .classic-items td {
-  border: 1px solid #050505;
+  border-bottom: 1px solid #050505;
+  border-right: 1px solid #050505;
   padding: 9px 8px;
   text-align: center;
   vertical-align: middle;
   line-height: 1.25;
   overflow-wrap: anywhere;
   white-space: normal;
+  background-clip: padding-box;
 }
 
 .classic-items th {
