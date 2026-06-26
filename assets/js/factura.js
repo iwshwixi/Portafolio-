@@ -518,3 +518,61 @@ function generateRandomExample() {
 }
 
 init();
+
+  // Legal modal logic
+  const infoBtn = document.getElementById("btn-info");
+  const legalModal = document.getElementById("legal-modal");
+  const closeBtn = document.getElementById("btn-cancel-invoice");
+  const acceptBtn = document.getElementById("btn-accept-invoice");
+  const backdrop = document.getElementById("legal-modal-backdrop");
+  
+  const closeModal = () => {
+    if(legalModal) legalModal.hidden = true;
+  };
+  
+  if(infoBtn && legalModal) {
+    infoBtn.addEventListener("click", () => {
+      legalModal.hidden = false;
+    });
+  }
+  
+  if(closeBtn) closeBtn.addEventListener("click", closeModal);
+  if(acceptBtn) {
+    acceptBtn.textContent = "Cerrar";
+    acceptBtn.addEventListener("click", closeModal);
+  }
+  if(backdrop) backdrop.addEventListener("click", closeModal);
+  
+  // Tax URLs
+  const fiscalUrls = {
+    "AR": "https://www.afip.gob.ar/sitio/externos/institucional/facturacion-electronica.asp",
+    "CL": "https://homer.sii.cl/",
+    "CO": "https://www.dian.gov.co/impuestos/factura-electronica/Paginas/default.aspx",
+    "ES": "https://sede.agenciatributaria.gob.es/",
+    "MX": "https://www.sat.gob.mx/aplicacion/operacion/43074/genera-y-descarga-tus-facturas-electronicas-(cfdi)",
+    "PE": "https://www.sunat.gob.pe/",
+    "UY": "https://www.dgi.gub.uy/wdgi/page?2,principal,ampliacion,O,es,0,PAG;CONC;797;2;D;sistema-de-facturacion-electronica;1;PAG;"
+  };
+  
+  const countrySelect = document.getElementById("fiscal-country-select");
+  if(countrySelect) {
+    countrySelect.innerHTML = `<option value="">Elige un pais</option>
+      <option value="AR">Argentina (AFIP)</option>
+      <option value="CL">Chile (SII)</option>
+      <option value="CO">Colombia (DIAN)</option>
+      <option value="ES">Espana (AEAT)</option>
+      <option value="MX">Mexico (SAT)</option>
+      <option value="PE">Peru (SUNAT)</option>
+      <option value="UY">Uruguay (DGI)</option>
+      <option value="OTHER">Otro pais</option>`;
+      
+    countrySelect.addEventListener("change", (e) => {
+      const val = e.target.value;
+      if (fiscalUrls[val]) {
+        window.open(fiscalUrls[val], "_blank", "noopener,noreferrer");
+      } else if (val === "OTHER") {
+        window.open("https://google.com/search?q=como+emitir+factura+electronica+en+mi+pais", "_blank", "noopener,noreferrer");
+      }
+      e.target.value = "";
+    });
+  }
