@@ -177,8 +177,32 @@ function renderVideos() {
 }
 
 function renderPricing() {
+  const filterRow = $("[data-pricing-filters]");
+  if (!state.pricingFilter) state.pricingFilter = "short";
+
+  const categories = [
+    { id: "short", label: "Shorts" },
+    { id: "gaming", label: "Gaming" },
+    { id: "creator", label: "Vlogs" },
+    { id: "custom", label: "Personalizado" }
+  ];
+
+  if (filterRow) {
+    filterRow.innerHTML = categories.map(cat => 
+      `<button class="filter-chip" type="button" aria-pressed="${state.pricingFilter === cat.id}" data-price-filter="${cat.id}">${cat.label}</button>`
+    ).join("");
+    $$("[data-price-filter]", filterRow).forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.pricingFilter = btn.dataset.priceFilter;
+        renderPricing();
+      });
+    });
+  }
+
   const grid = $("[data-pricing-grid]");
-  grid.innerHTML = state.site.pricing
+  const filteredPlans = state.site.pricing.filter(p => p.id.startsWith(state.pricingFilter));
+
+  grid.innerHTML = filteredPlans
     .map(
       (plan) => `<article class="price-card${plan.id === 'custom' ? ' price-card--highlight' : ''}">
         <h3>${plan.name}</h3>
@@ -186,7 +210,7 @@ function renderPricing() {
         <p class="price-unit">${plan.unit}</p>
         <p>${plan.summary}</p>
         <ul>${plan.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
-        <button class="button ${plan.id === 'custom' ? 'primary' : 'ghost'}" type="button" data-plan-action="${plan.id}">Elegir plan</button>
+        <button class="button primary" style="background:var(--red);border-color:var(--red);color:#fff;" type="button" data-plan-action="${plan.id}">Elegir plan</button>
       </article>`
     )
     .join("");
@@ -200,9 +224,27 @@ function renderPricing() {
 
   $$(`.price-card [data-plan-action]`).forEach((button) => {
     button.addEventListener("click", () => {
+      const planId = button.dataset.planAction;
       if (select) {
-        select.value = button.dataset.planAction;
-        // Trigger change event so plan summary updates
+        select.value = planId;
+        
+        const form = $("[data-contact-form]");
+        if (form) {
+          const isShort = planId.startsWith("short");
+          const isCustom = planId === "custom";
+          
+          if (isShort) {
+            if (form.footageHours) form.footageHours.value = "0";
+            if (form.editedMinutes) form.editedMinutes.value = "1";
+            if (form.format) form.format.value = "Shorts / Reels / TikTok";
+          } else if (!isCustom) {
+            if (form.footageHours) form.footageHours.value = "1";
+            if (form.editedMinutes) form.editedMinutes.value = "14";
+            if (form.format) form.format.value = "Video largo para YouTube";
+          }
+          form.dispatchEvent(new Event("input"));
+        }
+        
         select.dispatchEvent(new Event("change"));
       }
       $("#contacto").scrollIntoView({ behavior: "smooth", block: "start" });

@@ -687,9 +687,9 @@ h3 {
   background: #efeee8;
 }
 
-/* Pricing grid - 4 cols for 8 packages */
+/* Pricing grid - 3 cols per tab */
 .pricing-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .price-card {
