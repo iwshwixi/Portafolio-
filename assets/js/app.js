@@ -1,13 +1,15 @@
 const paths = {
   site: "data/site.json",
   videos: "data/videos.json",
-  stats: "data/youtube-stats.json"
+  stats: "data/youtube-stats.json",
+  testimonials: "data/testimonials.json"
 };
 
 const state = {
   site: null,
   videos: [],
   stats: {},
+  testimonials: [],
   activeFilter: "Todos"
 };
 
@@ -55,42 +57,30 @@ async function getJson(path, fallback) {
 }
 
 function renderHero() {
-  const totalViews = state.videos.reduce((sum, video) => sum + getVideoStats(video).views, 0);
   const count = state.videos.length;
-  const average = count ? Math.round(totalViews / count) : 0;
 
-  $("[data-total-views]").textContent = formatNumber(totalViews);
-  $("[data-video-count]").textContent = formatNumber(count);
-  $("[data-average-views]").textContent = formatNumber(average);
+  const countEl = $("[data-video-count]");
+  if (countEl) countEl.textContent = formatNumber(count);
 
   const target = $("[data-hero-video-grid]");
   if (!target) return;
 
-  const sliderId = "hero-slider-track";
-  target.innerHTML = `
-    <div class="hero-slider">
-      <div class="hero-slider-track" id="${sliderId}">
-        ${state.videos.map((video) => {
-          const thumb = thumbUrl(video);
-          const poster = thumb
-            ? `<img src="${thumb}" alt="${video.title}" loading="eager">`
-            : `<div class="poster-placeholder"><span>${video.category}</span></div>`;
-          return `<button class="hero-slider-item" type="button" data-play-video="${video.videoId}" title="${video.title}">
-            ${poster}
-            <span class="play-dot" aria-hidden="true">▶</span>
-            <div class="hero-thumb-info">
-              <strong>${video.client}</strong>
-              <small>${video.category}</small>
-            </div>
-          </button>`;
-        }).join('')}
-      </div>
-      <button class="slider-nav slider-nav--prev" data-slider-prev="${sliderId}" aria-label="Anterior">&#8249;</button>
-      <button class="slider-nav slider-nav--next" data-slider-next="${sliderId}" aria-label="Siguiente">&#8250;</button>
-    </div>
-  `;
-
-  setupSliderNav(target);
+  target.innerHTML = state.videos
+    .map((video) => {
+      const thumb = thumbUrl(video);
+      const poster = thumb
+        ? `<img src="${thumb}" alt="${video.title}" loading="eager">`
+        : `<div class="poster-placeholder"><span>${video.category}</span></div>`;
+      return `<button class="hero-thumb" type="button" data-play-video="${video.videoId}" title="${video.title}">
+        ${poster}
+        <span class="play-dot" aria-hidden="true">▶</span>
+        <div class="hero-thumb-info">
+          <strong>${video.client}</strong>
+          <small>${video.category}</small>
+        </div>
+      </button>`;
+    })
+    .join("");
 
   $$("[data-play-video]", target).forEach((btn) => {
     btn.addEventListener("click", () => openVideoModal(btn.dataset.playVideo));
@@ -148,11 +138,6 @@ function videoCardHTML(video) {
         ${dur ? `<span class="pill">${dur}</span>` : ""}
       </div>
       <h3>${video.title}</h3>
-      <div class="video-stats">
-        <span>${formatNumber(stats.views)} vistas</span>
-        <span>${formatNumber(stats.likes)} likes</span>
-        <span>${formatNumber(stats.comments)} com.</span>
-      </div>
     </div>
   </article>`;
 }
@@ -248,6 +233,39 @@ function renderSchedule() {
   $("[data-delivery-list]").innerHTML = state.site.delivery
     .map((item) => `<div><dt>${item.label}</dt><dd>${item.value}</dd></div>`)
     .join("");
+}
+
+function renderTestimonials() {
+  const track = $("[data-testimonials-track]");
+  if (!track || !state.testimonials.length) return;
+
+  const STAR = "★";
+  const VERIFIED = "✦"; // gold verified symbol
+
+  track.innerHTML = state.testimonials.map((t) => {
+    const avatarEl = t.avatar
+      ? `<img src="${t.avatar}" alt="${t.client}" class="testi-avatar">`
+      : `<div class="testi-avatar testi-avatar--initials" style="background:${t.color}">${t.initials}</div>`;
+
+    const stars = STAR.repeat(t.stars || 5);
+
+    return `<article class="testi-card">
+      <div class="testi-header">
+        <div class="testi-avatar-wrap">
+          ${avatarEl}
+          <span class="testi-verified" title="Cliente verificado">${VERIFIED}</span>
+        </div>
+        <div class="testi-meta">
+          <strong class="testi-name">${t.client}</strong>
+          <span class="testi-handle">${t.handle}</span>
+          <span class="testi-stars" aria-label="${t.stars} estrellas">${stars}</span>
+        </div>
+      </div>
+      <p class="testi-comment">&ldquo;${t.comment}&rdquo;</p>
+    </article>`;
+  }).join("");
+
+  setupSliderNav($(".testimonials-slider-wrapper"));
 }
 
 function selectedPlan() {
@@ -506,20 +524,23 @@ function setupModal() {
 }
 
 async function init() {
-  const [site, videos, stats] = await Promise.all([
+  const [site, videos, stats, testimonials] = await Promise.all([
     getJson(paths.site, {}),
     getJson(paths.videos, []),
-    getJson(paths.stats, { videos: {} })
+    getJson(paths.stats, { videos: {} }),
+    getJson(paths.testimonials, [])
   ]);
 
   state.site = site;
   state.videos = videos;
   state.stats = stats.videos || {};
+  state.testimonials = testimonials;
 
   renderHero();
   renderFilters();
   renderVideos();
   renderPricing();
+  renderTestimonials();
   renderSchedule();
   setupContactForm();
   setupModal();

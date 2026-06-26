@@ -1,0 +1,47 @@
+[
+  {
+    "client": "Elo YT",
+    "handle": "@EloYT",
+    "avatar": "",
+    "initials": "EY",
+    "color": "#8B5CF6",
+    "comment": "Jorgeditor transformo mi canal. El ritmo que le da a mis challenges es brutal, los viewers lo notan de inmediato. El corte, los zooms, la musica... todo encaja perfecto. Ya voy por el tercer proyecto con el y cada uno supera al anterior.",
+    "stars": 5
+  },
+  {
+    "client": "Turbo Vlogs",
+    "handle": "@TurboVlogs",
+    "avatar": "",
+    "initials": "TV",
+    "color": "#EF4444",
+    "comment": "Entrega antes de tiempo y siempre supera lo que le pido. Mis vlogs pasaron de verse caseros a verse produccion profesional. La atencion al detalle en los cortes y el audio es algo que no habia encontrado en otro editor.",
+    "stars": 5
+  },
+  {
+    "client": "Clementito",
+    "handle": "@Clementito",
+    "avatar": "",
+    "initials": "CL",
+    "color": "#10B981",
+    "comment": "El timing en mis videos de Minecraft es perfecto. Jorge entiende el ritmo de gaming mejor que nadie. Los SFX, los zooms en el momento exacto, el pacing entre momentos... mi retencion subio bastante desde que empezamos a trabajar juntos.",
+    "stars": 5
+  },
+  {
+    "client": "xTurbo",
+    "handle": "@xTurbo",
+    "avatar": "",
+    "initials": "XT",
+    "color": "#F59E0B",
+    "comment": "Muy profesional y comunicativo. Siempre pregunta antes de tomar decisiones creativas que no estaban en el brief. Eso me da mucha confianza. El resultado final siempre es mejor de lo que imagine al mandarlo.",
+    "stars": 5
+  },
+  {
+    "client": "CREATIVE Juega",
+    "handle": "@CREATIVEJuega",
+    "avatar": "",
+    "initials": "CJ",
+    "color": "#3B82F6",
+    "comment": "Me sorprendio la velocidad de entrega. En menos de 3 dias tenia el video listo para subir, sin errores, sin idas y vueltas. La edicion hablaba sola. Sin duda el mejor editor con el que he trabajado para gaming.",
+    "stars": 5
+  }
+]

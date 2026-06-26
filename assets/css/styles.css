@@ -421,31 +421,16 @@ h3 {
   gap: 28px;
 }
 
-/* Hero slider */
+/* Hero grid - 3 columns */
 .hero-video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   padding: 0;
 }
 
-.hero-slider {
+.hero-thumb {
   position: relative;
-  overflow: hidden;
-  border-radius: 0 0 var(--radius) var(--radius);
-}
-
-.hero-slider-track {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding: 10px;
-}
-
-.hero-slider-track::-webkit-scrollbar { display: none; }
-
-.hero-slider-item {
-  position: relative;
-  flex: 0 0 calc(40% - 4px);
   aspect-ratio: 16 / 10;
   border: none;
   border-radius: 8px;
@@ -453,21 +438,20 @@ h3 {
   cursor: pointer;
   padding: 0;
   background: #141414;
-  scroll-snap-align: start;
 }
 
-.hero-slider-item img {
+.hero-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 250ms ease;
 }
 
-.hero-slider-item:hover img {
+.hero-thumb:hover img {
   transform: scale(1.05);
 }
 
-.hero-slider-item .play-dot {
+.hero-thumb .play-dot {
   right: 9px;
   bottom: 9px;
   width: 34px;
@@ -475,6 +459,31 @@ h3 {
   font-size: 13px;
 }
 
+.hero-thumb-info {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 24px 14px 10px;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 2px;
+}
+
+.hero-thumb-info strong {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.hero-thumb-info small {
+  color: rgba(255,255,255,0.7);
+  font-size: 11px;
+  font-weight: 700;
+}
 /* Category row sliders (portfolio) */
 .video-category-row {
   display: flex;
@@ -807,8 +816,8 @@ h3 {
 /* ── Week Calendar ─────────────────────────────────── */
 .week-calendar {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
@@ -828,7 +837,16 @@ h3 {
 }
 
 .cal-day:last-child {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: center;
+  padding: 12px;
   border-right: 0;
+}
+
+.cal-day:last-child .cal-abbr,
+.cal-day:last-child .cal-hours {
+  display: none;
 }
 
 .cal-day:hover:not(.cal-day--off) {
@@ -1256,3 +1274,127 @@ textarea {
   height: 100%;
   border: none;
 }
+
+/* ── Testimonials ────────────────────────────────────────── */
+.testimonials-section {
+  background: var(--surface);
+}
+
+.testimonials-slider-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 8px 4px 16px;
+}
+
+.testimonials-track::-webkit-scrollbar { display: none; }
+
+.testi-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: box-shadow 200ms, transform 200ms;
+}
+
+.testi-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.testi-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testi-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.testi-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.testi-avatar--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.testi-verified {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #D97706; /* gold */
+  line-height: 1;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.testi-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.testi-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.testi-handle {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.testi-stars {
+  display: block;
+  font-size: 13px;
+  color: #D97706;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.testi-comment {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #4B4B47;
+  margin: 0;
+}
+
