@@ -447,6 +447,27 @@ function selectedPlanById(planId) {
   return state.site.pricing.find((plan) => plan.id === planId) ?? state.site.pricing[0];
 }
 
+function isShortPlan(plan) {
+  return Boolean(plan?.id?.startsWith("short"));
+}
+
+function syncDeliveryOptions(form, plan) {
+  if (!form?.deliveryTime) return;
+  const previousValue = form.deliveryTime.value;
+
+  if (isShortPlan(plan)) {
+    form.deliveryTime.innerHTML = '<option value="short24">Short / Reel: 24 horas</option>';
+    form.deliveryTime.value = "short24";
+    form.deliveryTime.style.pointerEvents = "none";
+    form.deliveryTime.style.opacity = "0.7";
+  } else {
+    form.deliveryTime.innerHTML = '<option value="normal">Estandar (3-5 dias)</option><option value="urgent">Urgente (48h) +50% costo</option>';
+    form.deliveryTime.value = previousValue === "urgent" ? "urgent" : "normal";
+    form.deliveryTime.style.pointerEvents = "auto";
+    form.deliveryTime.style.opacity = "1";
+  }
+}
+
 function getCutRate(povs) {
   const r = state.site.rates;
   if (povs >= 4) return r.cutHour4Povs ?? 17;
@@ -513,7 +534,7 @@ function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, pov
     note += ` | +${rev - 2} ronda(s) extra ($${extraRevCost * q})`;
   }
 
-  if (deliveryTime === "urgent") {
+  if (deliveryTime === "urgent" && !isShortPlan(plan)) {
     total = total * 1.5;
     note += " | +50% (Entrega Urgente)";
   }
@@ -565,7 +586,11 @@ function buildEmailBody(form) {
   const data = new FormData(form);
   const planId = data.get("budget");
   const plan = state.site.pricing.find((p) => p.id === planId) ?? state.site.pricing[0];
-  const deliveryTime = data.get("deliveryTime") === "urgent" ? "Urgente (48h o menos)" : "Estandar (3-5 dias)";
+  const deliveryTime = isShortPlan(plan)
+    ? "Short / Reel: 24 horas"
+    : data.get("deliveryTime") === "urgent"
+      ? "Urgente (48h o menos)"
+      : "Estandar (3-5 dias)";
   const offerPrice = data.get("offerPrice");
   const estimatedQuote = computeSmartEstimate(plan, {
     footageHours: data.get("footageHours"),
@@ -656,6 +681,8 @@ function updatePlanSummary() {
   if (!select || !state.site) return;
   const plan = state.site.pricing.find((p) => p.id === select.value) ?? state.site.pricing[0];
   const form = $("[data-contact-form]");
+
+  syncDeliveryOptions(form, plan);
 
   const inputs = form ? {
     footageHours:  Number(form.footageHours?.value  || 0),
