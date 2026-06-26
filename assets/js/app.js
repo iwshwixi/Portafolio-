@@ -66,27 +66,46 @@ function renderHero() {
   const target = $("[data-hero-video-grid]");
   if (!target) return;
 
-  target.innerHTML = state.videos
-    .map((video) => {
-      const thumb = thumbUrl(video);
-      const stats = getVideoStats(video);
-      const poster = thumb
-        ? `<img src="${thumb}" alt="${video.title}" loading="eager">`
-        : `<div class="poster-placeholder small"><span>${video.category}</span></div>`;
-      return `<button class="hero-thumb" type="button" data-play-video="${video.videoId}" title="${video.title}">
-        ${poster}
-        <span class="play-dot" aria-hidden="true">▶</span>
-        <div class="hero-thumb-info">
-          <strong>${video.client}</strong>
-          ${stats.views > 0 ? `<small>${formatNumber(stats.views)} vistas</small>` : ""}
-        </div>
-      </button>`;
-    })
-    .join("");
+  const sliderId = "hero-slider-track";
+  target.innerHTML = `
+    <div class="hero-slider">
+      <div class="hero-slider-track" id="${sliderId}">
+        ${state.videos.map((video) => {
+          const thumb = thumbUrl(video);
+          const poster = thumb
+            ? `<img src="${thumb}" alt="${video.title}" loading="eager">`
+            : `<div class="poster-placeholder"><span>${video.category}</span></div>`;
+          return `<button class="hero-slider-item" type="button" data-play-video="${video.videoId}" title="${video.title}">
+            ${poster}
+            <span class="play-dot" aria-hidden="true">▶</span>
+            <div class="hero-thumb-info">
+              <strong>${video.client}</strong>
+              <small>${video.category}</small>
+            </div>
+          </button>`;
+        }).join('')}
+      </div>
+      <button class="slider-nav slider-nav--prev" data-slider-prev="${sliderId}" aria-label="Anterior">&#8249;</button>
+      <button class="slider-nav slider-nav--next" data-slider-next="${sliderId}" aria-label="Siguiente">&#8250;</button>
+    </div>
+  `;
 
-  // Attach click handlers for hero thumbnails
+  setupSliderNav(target);
+
   $$("[data-play-video]", target).forEach((btn) => {
     btn.addEventListener("click", () => openVideoModal(btn.dataset.playVideo));
+  });
+}
+
+function setupSliderNav(scope = document) {
+  $$(".slider-nav", scope).forEach((btn) => {
+    const trackId = btn.dataset.sliderNext || btn.dataset.sliderPrev;
+    const track = document.getElementById(trackId);
+    if (!track) return;
+    const dir = btn.dataset.sliderNext ? 1 : -1;
+    btn.addEventListener("click", () => {
+      track.scrollBy({ left: dir * track.offsetWidth * 0.82, behavior: "smooth" });
+    });
   });
 }
 
@@ -111,6 +130,33 @@ function renderFilters() {
   });
 }
 
+function videoCardHTML(video) {
+  const stats = getVideoStats(video);
+  const thumb = thumbUrl(video);
+  const poster = thumb
+    ? `<img src="${thumb}" alt="Miniatura de ${video.title}" loading="lazy">`
+    : `<div class="poster-placeholder"><span>${video.category}</span></div>`;
+  const dur = stats.duration || video.duration || "";
+  return `<article class="video-card">
+    <button class="video-thumb" type="button" data-play-video="${video.videoId}">
+      ${poster}
+      <span class="play-dot" aria-hidden="true">▶</span>
+    </button>
+    <div class="video-body">
+      <div class="video-meta">
+        <span class="pill">${video.client}</span>
+        ${dur ? `<span class="pill">${dur}</span>` : ""}
+      </div>
+      <h3>${video.title}</h3>
+      <div class="video-stats">
+        <span>${formatNumber(stats.views)} vistas</span>
+        <span>${formatNumber(stats.likes)} likes</span>
+        <span>${formatNumber(stats.comments)} com.</span>
+      </div>
+    </div>
+  </article>`;
+}
+
 function renderVideos() {
   const target = $("[data-video-grid]");
   const filtered =
@@ -118,37 +164,28 @@ function renderVideos() {
       ? state.videos
       : state.videos.filter((video) => video.category === state.activeFilter);
 
-  target.innerHTML = filtered
-    .map((video) => {
-      const stats = getVideoStats(video);
-      const thumb = thumbUrl(video);
-      const poster = thumb
-        ? `<img src="${thumb}" alt="Miniatura de ${video.title}" loading="lazy">`
-        : `<div class="poster-placeholder"><span>${video.category}</span></div>`;
-      const dur = stats.duration || video.duration || "";
-      return `<article class="video-card">
-        <button class="video-thumb" type="button" data-play-video="${video.videoId}">
-          ${poster}
-          <span class="play-dot" aria-hidden="true">▶</span>
-        </button>
-        <div class="video-body">
-          <div class="video-meta">
-            <span class="pill">${video.category}</span>
-            ${dur ? `<span class="pill">${dur}</span>` : ""}
-            <span class="pill">${video.client}</span>
-          </div>
-          <h3>${video.title}</h3>
-          <div class="video-stats">
-            <span>${formatNumber(stats.views)} vistas</span>
-            <span>${formatNumber(stats.likes)} likes</span>
-            <span>${formatNumber(stats.comments)} com.</span>
-          </div>
-        </div>
-      </article>`;
-    })
-    .join("");
+  // Group by category
+  const categories = [...new Set(filtered.map((v) => v.category).filter(Boolean))];
 
-  // Attach click handlers for portfolio thumbnails
+  target.innerHTML = categories.map((cat, idx) => {
+    const catVideos = filtered.filter((v) => v.category === cat);
+    const rowId = `row-track-${idx}`;
+    return `<div class="video-category-row">
+      <div class="video-cat-header">
+        <h3 class="video-cat-label">${cat}</h3>
+        <div class="row-nav-pair">
+          <button class="slider-nav slider-nav--prev" data-slider-prev="${rowId}" aria-label="Anterior">&#8249;</button>
+          <button class="slider-nav slider-nav--next" data-slider-next="${rowId}" aria-label="Siguiente">&#8250;</button>
+        </div>
+      </div>
+      <div class="video-row-track" id="${rowId}">
+        ${catVideos.map(videoCardHTML).join("")}
+      </div>
+    </div>`;
+  }).join("");
+
+  setupSliderNav(target);
+
   $$("[data-play-video]", target).forEach((btn) => {
     btn.addEventListener("click", () => openVideoModal(btn.dataset.playVideo));
   });
@@ -178,7 +215,11 @@ function renderPricing() {
 
   $$(`.price-card [data-plan-action]`).forEach((button) => {
     button.addEventListener("click", () => {
-      if (select) select.value = button.dataset.planAction;
+      if (select) {
+        select.value = button.dataset.planAction;
+        // Trigger change event so plan summary updates
+        select.dispatchEvent(new Event("change"));
+      }
       $("#contacto").scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
@@ -226,52 +267,54 @@ function getCutRate(povs) {
   return r.cutHour1Pov ?? r.cutHourSinglePov ?? 15;
 }
 
-function computeQuote(values) {
-  const quantity = Math.max(1, Number(values.quantity || 1));
-  const footageHours = Math.max(0, Number(values.footageHours || 0));
-  const editedMinutes = Math.max(1, Number(values.editedMinutes || 1));
-  const povs = Math.min(4, Math.max(1, Number(values.povs || 1)));
-  const plan = selectedPlanById(values.planId);
-  const rates = state.site.rates;
-  const cutRate = getCutRate(povs);
-  const cutSubtotal = footageHours * cutRate * quantity;
-  const editSubtotal = editedMinutes * rates.editedMinute * quantity;
-  const total = cutSubtotal + editSubtotal;
+// ── Smart price calculator ─────────────────────────────────
+/**
+ * Compute estimated price based on plan type and form inputs.
+ *
+ * short-basic / short-inter  → ratePerMinute × editedMinutes × quantity
+ * base-plus-extra (gaming)   → (base + extraH×15 + extraM×9) × quantity
+ * base-plus-extra (creator)  → (base + extraH×15) × quantity (no per-min)
+ * hourly (custom)            → (cutRate(povs)×h + 9×min) × quantity
+ */
+function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, povs }) {
+  const h  = Math.max(0, Number(footageHours || 0));
+  const m  = Math.max(0, Number(editedMinutes || 0));
+  const q  = Math.max(1, Number(quantity || 1));
+  const pv = Math.min(4, Math.max(1, Number(povs || 1)));
 
-  return {
-    plan,
-    quantity,
-    footageHours,
-    editedMinutes,
-    povs,
-    cutRate,
-    cutSubtotal,
-    editSubtotal,
-    total
-  };
-}
+  if (!plan) return { total: 0, note: "" };
 
-function quoteNote(quote) {
-  return (
-    `${quote.quantity} video(s): ${quote.footageHours}h de recorte x ` +
-    `${formatMoney(quote.cutRate, state.site.currency)} + ${quote.editedMinutes}min editados x ` +
-    `${formatMoney(state.site.rates.editedMinute, state.site.currency)}.`
-  );
-}
+  let total = 0;
+  let note  = "";
 
-function calculateQuote() {
-  const form = $("[data-contact-form]");
-  const quote = computeQuote({
-    planId: form.budget.value,
-    quantity: form.quantity.value,
-    footageHours: form.footageHours.value,
-    editedMinutes: form.editedMinutes.value,
-    povs: form.povs.value
-  });
+  if (plan.rateType === "per-minute") {
+    total = plan.ratePerMinute * m * q;
+    note  = `${q} short(s) × ${m}min × $${plan.ratePerMinute}/min`;
 
-  $("[data-quote-total]").textContent = formatMoney(quote.total, state.site.currency);
-  $("[data-quote-note]").textContent = quoteNote(quote);
-  return quote;
+  } else if (plan.rateType === "base-plus-extra") {
+    const extraH = Math.max(0, h - (plan.baseHours || 1));
+    const extraM = plan.extraMinuteRate > 0
+      ? Math.max(0, m - (plan.baseMinutes || 0))
+      : 0;
+    const perVideo = (plan.basePrice || 0)
+      + extraH * (plan.extraHourRate || 15)
+      + extraM * (plan.extraMinuteRate || 0);
+    total = perVideo * q;
+    const parts = [`Base $${plan.basePrice}`];
+    if (extraH > 0) parts.push(`+${extraH}h extra × $${plan.extraHourRate}`);
+    if (extraM > 0) parts.push(`+${extraM}min extra × $${plan.extraMinuteRate}`);
+    note = `${q} video(s): ${parts.join(", ")}`;
+
+  } else {
+    // hourly / custom
+    const cutRate = getCutRate(pv);
+    const cutCost = h * cutRate;
+    const editCost = m * (state.site.rates?.editedMinute ?? 9);
+    total = (cutCost + editCost) * q;
+    note  = `${q} video(s): ${h}h × $${cutRate}/h + ${m}min × $${state.site.rates?.editedMinute ?? 9}`;
+  }
+
+  return { total, note };
 }
 
 function calculatorValues() {
@@ -361,12 +404,28 @@ async function sendFormSubmit(body, form) {
 
 function updatePlanSummary() {
   const select = $("[data-budget-select]");
-  if (!select) return;
+  if (!select || !state.site) return;
   const plan = state.site.pricing.find((p) => p.id === select.value) ?? state.site.pricing[0];
-  const nameEl = $("[data-selected-plan-name]");
+  const form = $("[data-contact-form]");
+
+  const inputs = form ? {
+    footageHours:  Number(form.footageHours?.value  || 0),
+    editedMinutes: Number(form.editedMinutes?.value || 0),
+    quantity:      Number(form.quantity?.value      || 1),
+    povs:          Number(form.povs?.value          || 1)
+  } : {};
+
+  const { total, note } = computeSmartEstimate(plan, inputs);
+
+  const nameEl  = $("[data-selected-plan-name]");
   const priceEl = $("[data-selected-plan-price]");
-  if (nameEl) nameEl.textContent = plan.name;
-  if (priceEl) priceEl.textContent = plan.priceLabel;
+  const noteEl  = $("[data-selected-plan-note]");
+
+  if (nameEl)  nameEl.textContent  = plan.name;
+  if (priceEl) priceEl.textContent = total > 0
+    ? formatMoney(total, state.site.currency)
+    : plan.priceLabel;
+  if (noteEl)  noteEl.textContent  = note || "";
 }
 
 function setupContactForm() {
@@ -374,12 +433,14 @@ function setupContactForm() {
   const status = $("[data-form-status]");
   if (!form) return;
 
-  // Sync plan summary when plan changes
+  // Sync plan summary when plan or inputs change
   const budgetSelect = $("[data-budget-select]");
   if (budgetSelect) {
     budgetSelect.addEventListener("change", updatePlanSummary);
-    updatePlanSummary();
   }
+  // Update estimate as user types hours/minutes/quantity
+  form.addEventListener("input", updatePlanSummary);
+  updatePlanSummary();
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();

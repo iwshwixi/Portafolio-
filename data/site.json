@@ -4,20 +4,62 @@
   "contactEmail": "jorgeditor.contacto@gmail.com",
   "currency": "USD",
   "rates": {
+    "cutHour1Pov": 15,
+    "cutHour2Povs": 15,
+    "cutHour3Povs": 16,
+    "cutHour4Povs": 17,
     "editedMinute": 9
   },
   "pricing": [
     {
+      "id": "short-basic",
+      "name": "Short Basico",
+      "priceLabel": "$12 USD/min",
+      "rateType": "per-minute",
+      "ratePerMinute": 12,
+      "unit": "edicion basica por minuto editado",
+      "summary": "Cortes limpios, musica de fondo y ajuste de color. Ideal para Shorts, Reels y TikToks rapidos.",
+      "features": [
+        "$12 USD por minuto editado",
+        "Corte limpio y ritmo basico",
+        "Musica de fondo incluida",
+        "Ajuste de color",
+        "1 ronda de cambios"
+      ]
+    },
+    {
+      "id": "short-inter",
+      "name": "Short Intermedio",
+      "priceLabel": "$15 USD/min",
+      "rateType": "per-minute",
+      "ratePerMinute": 15,
+      "unit": "edicion intermedia por minuto editado",
+      "summary": "Short completo con efectos, subtitulos y pacing optimizado para maxima retencion en plataforma.",
+      "features": [
+        "$15 USD por minuto editado",
+        "SFX y transiciones incluidas",
+        "Subtitulos dinamicos",
+        "Pacing para retencion maxima",
+        "2 rondas de cambios"
+      ]
+    },
+    {
       "id": "gaming",
       "name": "Gaming",
       "priceLabel": "$80 USD",
+      "rateType": "base-plus-extra",
+      "basePrice": 80,
+      "baseHours": 1,
+      "baseMinutes": 14,
+      "extraHourRate": 15,
+      "extraMinuteRate": 9,
       "unit": "paquete fijo para videos de gaming",
-      "summary": "Todo incluido para un video de gaming limpio, energetico y listo para publicar.",
+      "summary": "Todo incluido para un video de gaming limpio, energetico y listo para publicar. Horas y minutos extra a tarifa preferencial.",
       "features": [
-        "1 hora de recorte incluida",
-        "Hasta 14 min de video final",
+        "$80 base — 1h recorte + hasta 14 min",
+        "Hora extra de recorte: +$15/h",
+        "Minuto extra de video: +$9/min",
         "SFX, zooms y pacing de gaming",
-        "Subtitulos incluidos",
         "1 ronda de cambios"
       ]
     },
@@ -25,13 +67,19 @@
       "id": "creator",
       "name": "Creator / Vlogs",
       "priceLabel": "$130 USD",
+      "rateType": "base-plus-extra",
+      "basePrice": 130,
+      "baseHours": 1,
+      "baseMinutes": 0,
+      "extraHourRate": 15,
+      "extraMinuteRate": 0,
       "unit": "paquete para vlogs y creadores",
-      "summary": "Edicion completa para vlogs con ritmo natural, buena retencion y acabado profesional.",
+      "summary": "Edicion completa para vlogs con ritmo natural, buena retencion y acabado profesional. Horas extra a tarifa preferencial.",
       "features": [
-        "1 hora de recorte de bruto",
+        "$130 base — 1h de recorte bruto",
+        "Hora extra de recorte: +$15/h",
         "Edicion completa del video",
         "Subtitulos y B-roll incluidos",
-        "Ritmo pensado para retencion",
         "2 rondas de cambios"
       ]
     },
@@ -39,12 +87,13 @@
       "id": "custom",
       "name": "Cotizacion personalizada",
       "priceLabel": "A consultar",
+      "rateType": "hourly",
       "unit": "proyectos fuera del estandar o por volumen",
-      "summary": "Para proyectos especiales, paquetes mensuales o canales con entregas recurrentes.",
+      "summary": "Para proyectos especiales, paquetes mensuales o canales con entregas recurrentes. Precio segun POVs y horas.",
       "features": [
-        "Precio segun volumen y formato",
+        "Tarifa por hora segun POVs (desde $15/h)",
+        "Edicion: $9 por minuto final",
         "Calendario de edicion fijo",
-        "Sistema de revisiones",
         "Prioridad en agenda"
       ]
     }
