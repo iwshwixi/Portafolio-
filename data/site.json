@@ -14,13 +14,13 @@
     {
       "id": "short-basic",
       "name": "Short Basico",
-      "priceLabel": "$12 USD/min+",
+      "priceLabel": "$15 USD/min+",
       "rateType": "per-minute",
-      "ratePerMinute": 12,
+      "ratePerMinute": 15,
       "unit": "edicion basica por minuto editado",
       "summary": "Cortes limpios, musica de fondo y ajuste de color. Ideal para Shorts, Reels y TikToks rapidos.",
       "features": [
-        "$12 USD/min+ por minuto editado",
+        "$15 USD/min+ por minuto editado",
         "Corte limpio y ritmo basico",
         "Musica de fondo incluida",
         "Ajuste de color",
