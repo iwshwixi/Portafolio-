@@ -423,10 +423,81 @@ function init() {
     }
   });
 
+  document.querySelector("[data-random-example]")?.addEventListener("click", generateRandomExample);
+  document.querySelector("[data-clear-form]")?.addEventListener("click", clearForm);
+
   addItem();
   applyPreviewZoom(1);
   updatePreview();
   window.setInterval(updatePreview, 500);
+}
+
+function clearForm() {
+  if (!confirm("¿Seguro que quieres borrar todos los datos de la factura?")) return;
+  form.reset();
+  items = [];
+  addItem();
+  const appendDateInput = document.querySelector('[name="appendDateToFilename"]');
+  if (appendDateInput) appendDateInput.value = "false";
+  updatePreview();
+}
+
+function generateRandomExample() {
+  if (items.some(itemHasData) || clean(form.elements["invoiceId"].value)) {
+    if (!confirm("Esto reemplazará los datos actuales. ¿Deseas continuar?")) return;
+  }
+  
+  const fNames = ["Juan Pérez", "Carlos Mendoza", "Ana Gómez", "Lucía Fernández", "Mateo Silva", "Laura Torres", "Diego Ruiz"];
+  const fCompanies = ["Nebula Studio", "Pixel Perfecto", "Agencia Creativa Omega", "Horizonte Digital", "Ediciones Quasar", "CineMágica", "Creative Labs", "Vanguardia Visual"];
+  const fAddresses = ["Av. Siempre Viva 123, Ciudad", "Calle Principal 456, Metrópolis", "Boulevard de las Artes 789, Capital", "Sector 7, Distrito Central", "123 Calle Falsa, Ciudadela"];
+  const fServices = ["Edición de video para YouTube (10 min)", "Corrección de color - Proyecto Cortometraje", "Diseño de miniaturas (Paquete de 5)", "Animación de intro 2D", "Mezcla de audio y masterización", "Subtítulos y traducción ENG-ESP", "Montaje y efectos visuales"];
+  const fMethods = ["Transferencia Bancaria", "PayPal", "Binance Pay", "Mercado Pago", "Stripe", "Zelle"];
+
+  const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+  form.elements["invoiceNumber"].value = "INV-2026-" + Math.floor(Math.random() * 900 + 100);
+  form.elements["invoiceDate"].value = "26 Junio de 2026";
+  form.elements["invoiceId"].value = randomItem(fCompanies);
+  form.elements["currency"].value = "USD";
+  
+  form.elements["showQuantity"].value = Math.random() > 0.3 ? "yes" : "no";
+  form.elements["customConceptName"].value = "Servicio";
+  
+  const applyTax = Math.random() > 0.5;
+  form.elements["applyTax"].value = applyTax ? "yes" : "no";
+  form.elements["taxName"].value = applyTax ? (Math.random() > 0.5 ? "Impuesto IVA (16%)" : "Comisión PayPal") : "";
+  form.elements["taxAmount"].value = applyTax ? Math.floor(Math.random() * 50 + 10) : "";
+  
+  form.elements["clientName"].value = form.elements["invoiceId"].value;
+  form.elements["clientDocument"].value = "ID-" + Math.floor(Math.random() * 90000 + 10000);
+  form.elements["clientAddress"].value = randomItem(fAddresses);
+  
+  form.elements["companyName"].value = randomItem(fNames) + " Editor";
+  form.elements["companyDocument"].value = "RFC-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+  form.elements["companyAddress"].value = randomItem(fAddresses);
+  form.elements["companyEmail"].value = "contacto@" + form.elements["companyName"].value.toLowerCase().split(' ')[0] + ".com";
+  
+  form.elements["paymentMethod"].value = randomItem(fMethods);
+  form.elements["paymentRecipient"].value = form.elements["companyName"].value;
+  form.elements["paymentReference"].value = "Cuenta: " + Math.floor(Math.random() * 9000000000 + 1000000000);
+  form.elements["paymentNotes"].value = "Por favor, incluir el número de factura en el concepto del pago.";
+  
+  const appendDateInput = document.querySelector('[name="appendDateToFilename"]');
+  if (appendDateInput) appendDateInput.value = Math.random() > 0.5 ? "true" : "false";
+
+  items = [];
+  const numItems = Math.floor(Math.random() * 3) + 1;
+  for (let i = 0; i < numItems; i++) {
+    items.push({
+      id: uid(),
+      quantity: Math.floor(Math.random() * 5) + 1,
+      description: randomItem(fServices),
+      price: Math.floor(Math.random() * 200) + 50
+    });
+  }
+  
+  renderItemEditor();
+  updatePreview();
 }
 
 init();

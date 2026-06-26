@@ -24,9 +24,17 @@
     <main class="invoice-app">
       <aside class="invoice-sidebar" aria-label="Formulario del generador de facturas">
         <div class="sidebar-header">
-          <p class="eyebrow">Herramienta</p>
-          <h1>Generador de facturas</h1>
-          <p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
+            <div>
+              <p class="eyebrow">Herramienta</p>
+              <h1 style="margin-bottom: 6px;">Generador de facturas</h1>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;">
+              <button class="button ghost" style="padding: 6px 12px; font-size: 13px; min-height: 32px; background: #fff; color: #1c1c1c;" type="button" data-random-example>🎲 Ejemplo Aleatorio</button>
+              <button class="button ghost" style="padding: 6px 12px; font-size: 13px; min-height: 32px; color: #ff7070;" type="button" data-clear-form>🗑️ Limpiar</button>
+            </div>
+          </div>
+          <p style="margin-top: 8px;">
             Rellena solo lo necesario. Si dejas un dato vacío, no aparecerá en la factura final.
             El JSON guarda todo para poder cargarlo después.
           </p>
