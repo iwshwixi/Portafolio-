@@ -456,10 +456,15 @@ function buildEmailBody(form) {
     revisions: data.get("revisions")
   });
   const offeredAmount = Number(offerPrice || 0);
+  const priorityDifference = Math.max(0, offeredAmount - estimatedQuote.total);
   const priorityText = offeredAmount > estimatedQuote.total
-    ? `Prioridad sugerida: ALTA (+$${offeredAmount - estimatedQuote.total} sobre el estimado).`
+    ? `Prioridad sugerida: ALTA (+${formatMoney(priorityDifference, state.site.currency)} sobre el estimado).`
     : "Prioridad sugerida: normal.";
-  const offerText = `Presupuesto ofertado por el cliente: $${offerPrice} USD | Estimado: ${formatMoney(estimatedQuote.total, state.site.currency)} | ${priorityText}`;
+  const offerSummary = [
+    `Presupuesto calculado por la pagina: ${formatMoney(estimatedQuote.total, state.site.currency)}`,
+    `Presupuesto ofertado por el cliente: ${formatMoney(offeredAmount, state.site.currency)}`,
+    priorityText
+  ];
   const deliveryMethod = data.get("deliveryMethod");
   const finalDeliveryMethod = deliveryMethod === "Otro" ? `Otro: ${data.get("otherDeliveryMethod")}` : deliveryMethod;
   const paymentType = data.get("paymentType") === "monthly" ? "1 vez al mes" : "Por video";
@@ -495,7 +500,7 @@ function buildEmailBody(form) {
     `Tipo de relacion: ${relationType}`,
     `Links de referencia: ${allLinks}`,
     "",
-    offerText,
+    ...offerSummary,
     "",
     "Peticion:",
     data.get("message")
