@@ -22,8 +22,12 @@ const scheduleTimeZones = [
   { id: "America/Lima", label: "Perú", country: "Perú" },
   { id: "America/Argentina/Buenos_Aires", label: "Argentina", country: "Argentina" },
   { id: "America/Bogota", label: "Colombia", country: "Colombia" },
+  { id: "America/Santiago", label: "Chile", country: "Chile" },
+  { id: "America/Guayaquil", label: "Ecuador", country: "Ecuador" },
   { id: "America/New_York", label: "Estados Unidos Este", country: "Estados Unidos" },
-  { id: "America/Los_Angeles", label: "Estados Unidos Oeste", country: "Estados Unidos" }
+  { id: "America/Los_Angeles", label: "Estados Unidos Oeste", country: "Estados Unidos" },
+  { id: "America/Toronto", label: "Canadá Este", country: "Canadá" },
+  { id: "America/Vancouver", label: "Canadá Oeste", country: "Canadá" }
 ];
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
