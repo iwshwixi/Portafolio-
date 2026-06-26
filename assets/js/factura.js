@@ -443,13 +443,9 @@ function clearForm() {
 }
 
 function generateRandomExample() {
-  if (items.some(itemHasData) || clean(form.elements["invoiceId"].value)) {
-    if (!confirm("Esto reemplazará los datos actuales. ¿Deseas continuar?")) return;
-  }
-  
   const fNames = ["Juan Pérez", "Carlos Mendoza", "Ana Gómez", "Lucía Fernández", "Mateo Silva", "Laura Torres", "Diego Ruiz"];
   const fCompanies = ["Nebula Studio", "Pixel Perfecto", "Agencia Creativa Omega", "Horizonte Digital", "Ediciones Quasar", "CineMágica", "Creative Labs", "Vanguardia Visual"];
-  const fAddresses = ["Av. Siempre Viva 123, Ciudad", "Calle Principal 456, Metrópolis", "Boulevard de las Artes 789, Capital", "Sector 7, Distrito Central", "123 Calle Falsa, Ciudadela"];
+  const fAddresses = ["Av. Siempre Viva 123, Depto 4B, Springfield, CP 90210, País ficticio", "Calle Principal 456, Piso 2, Metrópolis, CP 10001, Estado Nuevo", "Boulevard de las Artes 789, Oficina 10, Capital, CP 54321", "Sector 7, Distrito Central, Código 9090, Región Alfa", "123 Calle Falsa, Suite 100, Ciudadela, CP 12345"];
   const fServices = ["Edición de video para YouTube (10 min)", "Corrección de color - Proyecto Cortometraje", "Diseño de miniaturas (Paquete de 5)", "Animación de intro 2D", "Mezcla de audio y masterización", "Subtítulos y traducción ENG-ESP", "Montaje y efectos visuales"];
   const fMethods = ["Transferencia Bancaria", "PayPal", "Binance Pay", "Mercado Pago", "Stripe", "Zelle"];
 
@@ -479,8 +475,8 @@ function generateRandomExample() {
   
   form.elements["paymentMethod"].value = randomItem(fMethods);
   form.elements["paymentRecipient"].value = form.elements["companyName"].value;
-  form.elements["paymentReference"].value = "Cuenta: " + Math.floor(Math.random() * 9000000000 + 1000000000);
-  form.elements["paymentNotes"].value = "Por favor, incluir el número de factura en el concepto del pago.";
+  form.elements["paymentReference"].value = Math.floor(Math.random() * 9000000000 + 1000000000);
+  form.elements["paymentNotes"].value = "";
   
   const appendDateInput = document.querySelector('[name="appendDateToFilename"]');
   if (appendDateInput) appendDateInput.value = Math.random() > 0.5 ? "true" : "false";
