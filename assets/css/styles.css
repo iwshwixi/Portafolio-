@@ -1851,6 +1851,7 @@ textarea {
 }
 
 /* Legal Modal */
+
 .legal-modal-container {
   position: fixed;
   inset: 0;
@@ -1931,4 +1932,31 @@ textarea {
   background: #151515;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+}
+
+.legal-modal-alert {
+  background: rgba(255, 60, 60, 0.1);
+  border: 1px solid #ff3c3c;
+  color: #ffcccc;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.legal-modal-alert strong {
+  color: #ff3c3c;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.legal-modal-alert ol {
+  margin: 12px 0 0 0;
+  padding-left: 20px;
+  color: rgba(255,255,255,0.85);
+}
+
+.legal-modal-alert ol li {
+  margin-bottom: 8px;
 }
