@@ -16,70 +16,70 @@
   {
     "client": "Clementito",
     "handle": "@Clementito",
-    "avatar": "",
+    "avatar": "assets/img/clients/CLEMENTITO.jpg",
     "initials": "CL",
     "color": "#10B981"
   },
   {
     "client": "xTurbo",
     "handle": "@xTurbo",
-    "avatar": "",
+    "avatar": "assets/img/clients/XTURBO.jpg",
     "initials": "XT",
     "color": "#F59E0B"
   },
   {
     "client": "CREATIVE Juega",
     "handle": "@CREATIVEJuega",
-    "avatar": "",
+    "avatar": "assets/img/clients/CREATIVE JUEGA.jpg",
     "initials": "CJ",
     "color": "#3B82F6"
   },
   {
     "client": "SoyFerdan",
     "handle": "@SoyFerdan",
-    "avatar": "",
+    "avatar": "assets/img/clients/SOYFERDAN.jpg",
     "initials": "SF",
     "color": "#EC4899"
   },
   {
     "client": "Azel 23",
     "handle": "@Azel23",
-    "avatar": "",
+    "avatar": "assets/img/clients/AZEL 23.jpg",
     "initials": "AZ",
     "color": "#06B6D4"
   },
   {
     "client": "Turbo Xtra",
     "handle": "@TurboXtra",
-    "avatar": "",
+    "avatar": "assets/img/clients/TURBO XTRA.jpg",
     "initials": "TX",
     "color": "#EAB308"
   },
   {
     "client": "TurboBlox",
     "handle": "@TurboBlox",
-    "avatar": "",
+    "avatar": "assets/img/clients/TURBOBLOX.jpg",
     "initials": "TB",
     "color": "#84CC16"
   },
   {
     "client": "DanyCopetin Play",
     "handle": "@DanyCopetinPlay",
-    "avatar": "",
+    "avatar": "assets/img/clients/DANYCOPETIN PLAY.jpg",
     "initials": "DP",
     "color": "#14B8A6"
   },
   {
     "client": "Danycopetin Plus",
     "handle": "@DanycopetinPlus",
-    "avatar": "",
+    "avatar": "assets/img/clients/DANYCOPETIN PLUS.jpg",
     "initials": "D+",
     "color": "#F43F5E"
   },
   {
     "client": "Danycopetin Cortos",
     "handle": "@DanycopetinCortos",
-    "avatar": "",
+    "avatar": "assets/img/clients/DANYCOPETIN CORTOS.jpg",
     "initials": "DC",
     "color": "#A855F7"
   },
@@ -93,15 +93,22 @@
   {
     "client": "Kevinox",
     "handle": "@Kevinox",
-    "avatar": "",
+    "avatar": "assets/img/clients/KEVINOX.jpg",
     "initials": "KV",
     "color": "#D946EF"
   },
   {
     "client": "Clemente",
     "handle": "@Clemente",
-    "avatar": "",
+    "avatar": "assets/img/clients/CLEMENTE.jpg",
     "initials": "CE",
     "color": "#10B981"
+  },
+  {
+    "client": "ItsSara",
+    "handle": "@ItsSara",
+    "avatar": "assets/img/clients/ITS SARA.jpg",
+    "initials": "IS",
+    "color": "#F472B6"
   }
 ]
