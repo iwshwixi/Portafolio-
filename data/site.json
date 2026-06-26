@@ -8,7 +8,7 @@
     "cutHour2Povs": 15,
     "cutHour3Povs": 16,
     "cutHour4Povs": 17,
-    "editedMinute": 9
+    "editedMinute": 8
   },
   "pricing": [
     {
@@ -24,7 +24,7 @@
         "Corte limpio y ritmo basico",
         "Musica de fondo incluida",
         "Ajuste de color",
-        "1 ronda de cambios"
+        "2 rondas de cambios"
       ]
     },
     {
@@ -50,17 +50,17 @@
       "rateType": "base-plus-extra",
       "basePrice": 70,
       "baseHours": 1,
-      "baseMinutes": 14,
+      "baseMinutes": 22,
       "extraHourRate": 15,
-      "extraMinuteRate": 9,
+      "extraMinuteRate": 8,
       "unit": "paquete basico para gaming",
       "summary": "Corte limpio, ritmo estructurado y musica de fondo. Ideal para let's plays y gameplays sin excesiva edicion.",
       "features": [
-        "$70 base — 1h recorte + hasta 14 min",
+        "$70 base — 1h recorte + hasta 22 min",
         "Hora extra de recorte: +$15/h",
-        "Minuto extra de video: +$9/min",
+        "Minuto extra de video: +$8/min",
         "Corte dinamico y musica de fondo",
-        "1 ronda de cambios"
+        "2 rondas de cambios"
       ]
     },
     {
@@ -70,17 +70,17 @@
       "rateType": "base-plus-extra",
       "basePrice": 80,
       "baseHours": 1,
-      "baseMinutes": 14,
+      "baseMinutes": 22,
       "extraHourRate": 15,
-      "extraMinuteRate": 9,
+      "extraMinuteRate": 8,
       "unit": "paquete avanzado para videos de gaming",
       "summary": "Todo incluido para un video de gaming limpio, energetico y listo para publicar. Horas y minutos extra a tarifa preferencial.",
       "features": [
-        "$80 base — 1h recorte + hasta 14 min",
+        "$80 base — 1h recorte + hasta 22 min",
         "Hora extra de recorte: +$15/h",
-        "Minuto extra de video: +$9/min",
+        "Minuto extra de video: +$8/min",
         "SFX, zooms y pacing de gaming",
-        "1 ronda de cambios"
+        "2 rondas de cambios"
       ]
     },
     {
@@ -90,15 +90,15 @@
       "rateType": "base-plus-extra",
       "basePrice": 140,
       "baseHours": 1,
-      "baseMinutes": 14,
+      "baseMinutes": 22,
       "extraHourRate": 15,
-      "extraMinuteRate": 9,
+      "extraMinuteRate": 8,
       "unit": "paquete hiper-dinamico para gaming",
       "summary": "Edicion extrema con alta retencion. Subtitulos 100% animados, graficos, memes, transiciones complejas.",
       "features": [
-        "$140 base — 1h recorte + hasta 14 min",
+        "$140 base — 1h recorte + hasta 22 min",
         "Hora extra de recorte: +$15/h",
-        "Minuto extra de video: +$9/min",
+        "Minuto extra de video: +$8/min",
         "Motion graphics y subtitulos pop-up",
         "2 rondas de cambios"
       ]
@@ -110,17 +110,17 @@
       "rateType": "base-plus-extra",
       "basePrice": 80,
       "baseHours": 1,
-      "baseMinutes": 14,
+      "baseMinutes": 22,
       "extraHourRate": 15,
-      "extraMinuteRate": 9,
+      "extraMinuteRate": 8,
       "unit": "paquete basico para vlogs",
       "summary": "Edicion limpia y estructurada para vlogs. Cortes asertivos y musica de fondo suave.",
       "features": [
-        "$80 base — 1h recorte + hasta 14 min",
+        "$80 base — 1h recorte + hasta 22 min",
         "Hora extra de recorte: +$15/h",
-        "Minuto extra de video: +$9/min",
+        "Minuto extra de video: +$8/min",
         "Corte dinamico y musica de fondo",
-        "1 ronda de cambios"
+        "2 rondas de cambios"
       ]
     },
     {
@@ -130,15 +130,15 @@
       "rateType": "base-plus-extra",
       "basePrice": 110,
       "baseHours": 1,
-      "baseMinutes": 14,
+      "baseMinutes": 22,
       "extraHourRate": 15,
-      "extraMinuteRate": 9,
+      "extraMinuteRate": 8,
       "unit": "paquete completo para vlogs",
-      "summary": "Edicion completa para vlogs con ritmo natural, buena retencion y acabado profesional. Maximo 14 minutos.",
+      "summary": "Edicion completa para vlogs con ritmo natural, buena retencion y acabado profesional. Maximo 22 minutos.",
       "features": [
-        "$110 base — 1h recorte + hasta 14 min",
+        "$110 base — 1h recorte + hasta 22 min",
         "Hora extra de recorte: +$15/h",
-        "Minuto extra de video: +$9/min",
+        "Minuto extra de video: +$8/min",
         "Subtitulos dinamicos y B-roll",
         "2 rondas de cambios"
       ]
@@ -150,15 +150,15 @@
       "rateType": "base-plus-extra",
       "basePrice": 200,
       "baseHours": 1,
-      "baseMinutes": 14,
+      "baseMinutes": 22,
       "extraHourRate": 15,
-      "extraMinuteRate": 9,
+      "extraMinuteRate": 8,
       "unit": "paquete documental para vlogs",
       "summary": "Tratamiento estilo documental. Color grading experto, storytelling detallado y diseño sonoro avanzado.",
       "features": [
-        "$200 base — 1h recorte + hasta 14 min",
+        "$200 base — 1h recorte + hasta 22 min",
         "Hora extra de recorte: +$15/h",
-        "Minuto extra de video: +$9/min",
+        "Minuto extra de video: +$8/min",
         "Sound design, color grading y motion",
         "2 rondas de cambios"
       ]
@@ -172,7 +172,7 @@
       "summary": "Para proyectos especiales, paquetes mensuales o canales con entregas recurrentes. Precio segun POVs y horas.",
       "features": [
         "Tarifa por hora segun POVs (desde $15/h)",
-        "Edicion: $9 por minuto final",
+        "Edicion: $8 por minuto final",
         "Calendario de edicion fijo",
         "Prioridad en agenda"
       ]

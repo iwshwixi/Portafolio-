@@ -963,9 +963,10 @@ h3 {
 
 .plan-summary small {
   display: block;
-  margin-top: 4px;
-  font-size: 26px;
+  margin-top: 8px;
+  font-size: 46px;
   font-weight: 900;
+  letter-spacing: -0.02em;
 }
 
 .plan-note {

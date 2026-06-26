@@ -233,17 +233,27 @@
               </select>
             </label>
             <label>
+              Rondas de cambios
+              <select name="revisions" required>
+                <option value="2" selected>2 Rondas (16 opiniones cortas) - Gratis</option>
+                <option value="3">3 Rondas (24 opiniones cortas) - +$15 USD/video</option>
+                <option value="4">4 Rondas (32 opiniones cortas) - +$30 USD/video</option>
+                <option value="5">5 Rondas (40 opiniones cortas) - +$45 USD/video</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label>
               Tiempo de entrega
               <select name="deliveryTime" required>
                 <option value="normal">Estandar (3-5 dias)</option>
                 <option value="urgent">Urgente (48h) +50% costo</option>
               </select>
             </label>
-          </div>
             <label>
-              <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:7px;">
                 <span>Links de referencia (Opcional)</span>
-                <button type="button" data-add-link style="background:none; border:none; color:var(--red); cursor:pointer; font-weight:bold; font-size:16px;">+</button>
+                <button type="button" data-add-link style="background:none; border:none; color:var(--red); cursor:pointer; font-weight:bold; font-size:16px; padding:0; line-height:1;">+</button>
               </div>
               <div id="links-container" style="display:flex; flex-direction:column; gap:8px;">
                 <input name="links[]" type="url" placeholder="https://..." />

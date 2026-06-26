@@ -345,11 +345,12 @@ function getCutRate(povs) {
  * base-plus-extra (creator)  → (base + extraH×15) × quantity (no per-min)
  * hourly (custom)            → (cutRate(povs)×h + 9×min) × quantity
  */
-function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, povs, deliveryTime }) {
+function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, povs, deliveryTime, revisions }) {
   const h  = Math.max(0, Number(footageHours || 0));
   const m  = Math.max(0, Number(editedMinutes || 0));
   const q  = Math.max(1, Number(quantity || 1));
   const pv = Math.min(4, Math.max(1, Number(povs || 1)));
+  const rev = Math.max(2, Number(revisions || 2));
 
   if (!plan) return { total: 0, note: "" };
 
@@ -387,9 +388,15 @@ function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, pov
     // hourly / custom
     const cutRate = getCutRate(pv);
     const cutCost = h * cutRate;
-    const editCost = m * (state.site.rates?.editedMinute ?? 9);
+    const editCost = m * (state.site.rates?.editedMinute ?? 8);
     total = (cutCost + editCost) * q;
-    note  = `${q} video(s): ${h}h × $${cutRate}/h + ${m}min × $${state.site.rates?.editedMinute ?? 9}`;
+    note  = `${q} video(s): ${h}h × $${cutRate}/h + ${m}min × $${state.site.rates?.editedMinute ?? 8}`;
+  }
+
+  if (rev > 2) {
+    const extraRevCost = (rev - 2) * 15;
+    total += extraRevCost * q;
+    note += ` | +${rev - 2} ronda(s) extra ($${extraRevCost * q})`;
   }
 
   if (deliveryTime === "urgent") {
@@ -407,7 +414,8 @@ function calculatorValues() {
     quantity: $("[data-calc-field='quantity']", calculator).value,
     footageHours: $("[data-calc-field='footageHours']", calculator).value,
     editedMinutes: $("[data-calc-field='editedMinutes']", calculator).value,
-    povs: $("[data-calc-field='povs']", calculator).value
+    povs: $("[data-calc-field='povs']", calculator).value,
+    revisions: $("[data-calc-field='revisions']", calculator)?.value || 2
   };
 }
 
@@ -473,6 +481,7 @@ function buildEmailBody(form) {
     `POVs del material: ${data.get("povs")}`,
     `Horas de recorte estimadas: ${data.get("footageHours")}`,
     `Minutos editados finales estimados: ${data.get("editedMinutes")}`,
+    `Rondas de cambios solicitadas: ${data.get("revisions") || 2}`,
     `Tiempo de entrega: ${deliveryTime}`,
     `Metodo de entrega: ${finalDeliveryMethod}`,
     `Tipo de pago: ${paymentType} ${paymentType === "1 vez al mes" ? `(Fecha: ${monthlyDate})` : ""}`,
@@ -522,7 +531,8 @@ function updatePlanSummary() {
     editedMinutes: Number(form.editedMinutes?.value || 0),
     quantity:      Number(form.quantity?.value      || 1),
     povs:          Number(form.povs?.value          || 1),
-    deliveryTime:  form.deliveryTime?.value         || "normal"
+    deliveryTime:  form.deliveryTime?.value         || "normal",
+    revisions:     Number(form.revisions?.value     || 2)
   } : {};
 
   const { total, note } = computeSmartEstimate(plan, inputs);
