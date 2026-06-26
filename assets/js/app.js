@@ -10,8 +10,21 @@ const state = {
   videos: [],
   stats: {},
   testimonials: [],
-  activeFilter: "Todos"
+  activeFilter: "Todos",
+  scheduleTimeZone: "Europe/Madrid"
 };
+
+const BASE_SCHEDULE_TIMEZONE = "America/Mexico_City";
+
+const scheduleTimeZones = [
+  { id: "Europe/Madrid", label: "España", country: "España" },
+  { id: "America/Mexico_City", label: "México", country: "México" },
+  { id: "America/Lima", label: "Perú", country: "Perú" },
+  { id: "America/Argentina/Buenos_Aires", label: "Argentina", country: "Argentina" },
+  { id: "America/Bogota", label: "Colombia", country: "Colombia" },
+  { id: "America/New_York", label: "Estados Unidos Este", country: "Estados Unidos" },
+  { id: "America/Los_Angeles", label: "Estados Unidos Oeste", country: "Estados Unidos" }
+];
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -27,6 +40,92 @@ const formatMoney = (value, currency = "USD") =>
     currency,
     maximumFractionDigits: 0
   }).format(Number(value || 0));
+
+const getTimeZoneParts = (date, timeZone) => {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    hour12: false,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  }).formatToParts(date);
+
+  return Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
+};
+
+function getTimeZoneOffsetMs(date, timeZone) {
+  const parts = getTimeZoneParts(date, timeZone);
+  const asUtc = Date.UTC(
+    Number(parts.year),
+    Number(parts.month) - 1,
+    Number(parts.day),
+    Number(parts.hour) % 24,
+    Number(parts.minute),
+    Number(parts.second)
+  );
+  return asUtc - date.getTime();
+}
+
+function zonedTimeToUtc({ year, month, day, hour, minute }, timeZone) {
+  const utcGuess = Date.UTC(year, month - 1, day, hour, minute);
+  const offset = getTimeZoneOffsetMs(new Date(utcGuess), timeZone);
+  return new Date(utcGuess - offset);
+}
+
+function baseWeekDateForIndex(index) {
+  const today = getTimeZoneParts(new Date(), BASE_SCHEDULE_TIMEZONE);
+  const todayUtc = new Date(Date.UTC(Number(today.year), Number(today.month) - 1, Number(today.day)));
+  const daysFromMonday = (todayUtc.getUTCDay() + 6) % 7;
+  const mondayUtc = new Date(todayUtc.getTime() - daysFromMonday * 86400000);
+  const targetUtc = new Date(mondayUtc.getTime() + index * 86400000);
+  return {
+    year: targetUtc.getUTCFullYear(),
+    month: targetUtc.getUTCMonth() + 1,
+    day: targetUtc.getUTCDate()
+  };
+}
+
+function convertScheduleHours(hours, dayIndex, targetTimeZone) {
+  const match = String(hours).match(/(\d{1,2}):(\d{2}).*?(\d{1,2}):(\d{2})/);
+  if (!match) return hours;
+
+  const [, startHour, startMinute, endHour, endMinute] = match.map(Number);
+  const baseDate = baseWeekDateForIndex(dayIndex);
+  const start = zonedTimeToUtc({ ...baseDate, hour: startHour, minute: startMinute }, BASE_SCHEDULE_TIMEZONE);
+  const end = zonedTimeToUtc({ ...baseDate, hour: endHour, minute: endMinute }, BASE_SCHEDULE_TIMEZONE);
+
+  const timeFormatter = new Intl.DateTimeFormat("es-MX", {
+    timeZone: targetTimeZone,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23"
+  });
+  const dateFormatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: targetTimeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  });
+
+  const crossesDay = dateFormatter.format(start) !== dateFormatter.format(end);
+  return `${timeFormatter.format(start)}–${timeFormatter.format(end)}${crossesDay ? " (+1 día)" : ""}`;
+}
+
+function currentTimeLabel(targetTimeZone) {
+  const zone = scheduleTimeZones.find((item) => item.id === targetTimeZone) ?? scheduleTimeZones[0];
+  const now = new Intl.DateTimeFormat("es-MX", {
+    timeZone: targetTimeZone,
+    weekday: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23"
+  }).format(new Date());
+
+  return `Hora actual en ${zone.country}: ${now}. Base: México 9:00–19:00.`;
+}
 
 const getVideoStats = (video) => {
   const liveStats = video.videoId ? state.stats[video.videoId] : null;
@@ -272,13 +371,30 @@ function renderMethod() {
 }
 
 function renderSchedule() {
+  const selectedZone = state.scheduleTimeZone || scheduleTimeZones[0].id;
+  const timeZoneSelect = $("[data-timezone-select]");
+  const currentTime = $("[data-timezone-current-time]");
+
+  if (timeZoneSelect && !timeZoneSelect.dataset.ready) {
+    timeZoneSelect.innerHTML = scheduleTimeZones
+      .map((zone) => `<option value="${zone.id}">${zone.label}</option>`)
+      .join("");
+    timeZoneSelect.dataset.ready = "true";
+    timeZoneSelect.addEventListener("change", () => {
+      state.scheduleTimeZone = timeZoneSelect.value;
+      renderSchedule();
+    });
+  }
+
+  if (timeZoneSelect) timeZoneSelect.value = selectedZone;
+  if (currentTime) currentTime.textContent = currentTimeLabel(selectedZone);
   // Week calendar — 7 day cards (Mon–Sun)
   $("[data-availability]").innerHTML = state.site.availability
     .map(
-      (item) => `<div class="cal-day${item.workday ? "" : " cal-day--off"}">
+      (item, index) => `<div class="cal-day${item.workday ? "" : " cal-day--off"}">
         <span class="cal-abbr">${item.abbr || item.day.slice(0, 3)}</span>
         <strong class="cal-day-name">${item.day}</strong>
-        <span class="cal-hours">${item.hours}</span>
+        <span class="cal-hours">${item.workday ? convertScheduleHours(item.hours, index, selectedZone) : item.hours}</span>
         ${!item.workday ? '<span class="cal-off-badge">No laborable</span>' : '<span class="cal-dot"></span>'}
       </div>`
     )

@@ -916,6 +916,44 @@ h3 {
 }
 
 /* ── Week Calendar ─────────────────────────────────── */
+.timezone-switcher {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+}
+
+.timezone-switcher strong,
+.timezone-switcher small {
+  display: block;
+}
+
+.timezone-switcher strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.timezone-switcher small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.timezone-switcher select {
+  min-width: 210px;
+  margin: 0;
+}
+
 .week-calendar {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1284,6 +1322,16 @@ textarea {
 
   h1 {
     font-size: 48px;
+  }
+
+  .timezone-switcher {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .timezone-switcher select {
+    min-width: 0;
+    width: 100%;
   }
 
   .hero-stat-grid,
