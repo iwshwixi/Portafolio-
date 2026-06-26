@@ -1,0 +1,12 @@
+{
+  "name": "jorgeditor-portfolio",
+  "version": "1.0.0",
+  "description": "Portafolio de Jorgeditor - Editor de video para YouTube",
+  "type": "module",
+  "scripts": {
+    "fetch-stats": "node tools/fetch-stats.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

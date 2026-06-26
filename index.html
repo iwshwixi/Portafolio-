@@ -84,13 +84,53 @@
       </section>
 
       <section class="section split-section" id="servicios">
-        <div class="section-heading compact">
-          <p class="eyebrow">Planes</p>
-          <h2>Elige un plan y entiende como se calcula tu edicion.</h2>
-          <p>
-            Trabajo con una metodologia clara: cobro el recorte por hora de footage y la edicion
-            por minuto final editado. Asi el precio se ajusta al material real, no a paquetes confusos.
-          </p>
+        <div class="section-heading plans-heading">
+          <div class="section-copy">
+            <p class="eyebrow">Planes</p>
+            <h2>Elige un plan y calcula tu precio.</h2>
+            <p>
+              Trabajo con una metodologia clara: cobro el recorte por hora de footage y la edicion
+              por minuto final editado. Ajusta los datos y mira un estimado al momento.
+            </p>
+          </div>
+
+          <form class="plan-calculator" data-plan-calculator>
+            <div class="calculator-head">
+              <span>Calculadora rapida</span>
+              <strong data-plan-calc-total>USD 0</strong>
+            </div>
+            <label>
+              Plan
+              <select data-calc-field="plan"></select>
+            </label>
+            <div class="form-grid">
+              <label>
+                Videos
+                <input data-calc-field="quantity" type="number" min="1" max="60" value="1" />
+              </label>
+              <label>
+                POVs
+                              <select data-calc-field="povs">
+                  <option value="1">1 POV</option>
+                  <option value="2">2 POVs</option>
+                  <option value="3">3 POVs</option>
+                  <option value="4">4 POVs</option>
+                </select>
+              </label>
+            </div>
+            <div class="form-grid">
+              <label>
+                Horas recorte
+                <input data-calc-field="footageHours" type="number" min="0" max="200" step="0.5" value="2" />
+              </label>
+              <label>
+                Min. finales
+                <input data-calc-field="editedMinutes" type="number" min="1" max="180" value="8" />
+              </label>
+            </div>
+            <p data-plan-calc-note></p>
+            <button class="button primary" type="button" data-use-calculator>Enviar con este estimado</button>
+          </form>
         </div>
         <div class="pricing-grid" data-pricing-grid></div>
         <div class="method-card" data-method-card></div>
@@ -194,9 +234,11 @@
             </label>
             <label>
               POVs del material
-              <select name="povs" required>
+                            <select name="povs" required>
                 <option value="1">1 POV</option>
                 <option value="2">2 POVs</option>
+                <option value="3">3 POVs</option>
+                <option value="4">4 POVs</option>
               </select>
             </label>
           </div>

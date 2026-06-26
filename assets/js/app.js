@@ -31,7 +31,9 @@ const getVideoStats = (video) => {
   return {
     views: Number(liveStats?.views ?? video.fallbackViews ?? 0),
     likes: Number(liveStats?.likes ?? video.fallbackLikes ?? 0),
-    comments: Number(liveStats?.comments ?? video.fallbackComments ?? 0)
+    comments: Number(liveStats?.comments ?? video.fallbackComments ?? 0),
+    duration: liveStats?.duration || video.duration || "",
+    publishedAt: liveStats?.publishedAt || video.publishedAt || ""
   };
 };
 
@@ -145,23 +147,27 @@ function renderPricing() {
   const grid = $("[data-pricing-grid]");
   grid.innerHTML = state.site.pricing
     .map(
-      (plan) => `<article class="price-card">
+      (plan) => `<article class="price-card${plan.id === 'channel' ? ' price-card--highlight' : ''}">
         <h3>${plan.name}</h3>
-        <strong>${plan.priceLabel}</strong>
-        <p>${plan.unit}</p>
+        <strong class="price-label">${plan.priceLabel}</strong>
+        <p class="price-unit">${plan.unit}</p>
         <p>${plan.summary}</p>
         <ul>${plan.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
-        <button class="button ghost" type="button" data-plan-action="${plan.id}">Elegir plan</button>
+        <button class="button ${plan.id === 'channel' ? 'primary' : 'ghost'}" type="button" data-plan-action="${plan.id}">Elegir plan</button>
       </article>`
     )
     .join("");
 
   const select = $("[data-budget-select]");
-  select.innerHTML = state.site.pricing
+  const options = state.site.pricing
     .map((plan) => `<option value="${plan.id}">${plan.name}</option>`)
     .join("");
+  select.innerHTML = options;
 
-  $$(".price-card [data-plan-action]").forEach((button) => {
+  const calculatorSelect = $("[data-calc-field='plan']");
+  if (calculatorSelect) calculatorSelect.innerHTML = options;
+
+  $$(`.price-card [data-plan-action]`).forEach((button) => {
     button.addEventListener("click", () => {
       select.value = button.dataset.planAction;
       calculateQuote();
@@ -179,18 +185,26 @@ function renderMethod() {
 
   target.innerHTML = `<div>
       <h3>Mi metodologia</h3>
-      <p>Primero se calcula el recorte del footage por hora. Despues se suma la edicion del video final por minuto editado.</p>
+      <p>Primero se calcula el recorte del footage por hora segun los POVs. Despues se suma la edicion del video final por minuto editado.</p>
     </div>
     <div class="rate-box">
-      <strong>${formatMoney(rates.cutHourSinglePov, state.site.currency)}</strong>
-      <span>por hora de recorte con 1 POV</span>
+      <strong class="rate-green">${formatMoney(rates.cutHour1Pov ?? rates.cutHourSinglePov, state.site.currency)}</strong>
+      <span>por hora — 1 POV</span>
     </div>
     <div class="rate-box">
-      <strong>${formatMoney(rates.cutHourTwoPovs, state.site.currency)}</strong>
-      <span>por hora de recorte con 2 POVs</span>
+      <strong class="rate-green">${formatMoney(rates.cutHour2Povs ?? rates.cutHourTwoPovs, state.site.currency)}</strong>
+      <span>por hora — 2 POVs</span>
     </div>
     <div class="rate-box">
-      <strong>${formatMoney(rates.editedMinute, state.site.currency)}</strong>
+      <strong class="rate-green">${formatMoney(rates.cutHour3Povs, state.site.currency)}</strong>
+      <span>por hora — 3 POVs</span>
+    </div>
+    <div class="rate-box">
+      <strong class="rate-green">${formatMoney(rates.cutHour4Povs, state.site.currency)}</strong>
+      <span>por hora — 4 POVs</span>
+    </div>
+    <div class="rate-box">
+      <strong class="rate-green">${formatMoney(rates.editedMinute, state.site.currency)}</strong>
       <span>por minuto final editado</span>
     </div>`;
 }
@@ -213,26 +227,32 @@ function renderSchedule() {
 
 function selectedPlan() {
   const planId = $("[name='budget']").value;
+  return selectedPlanById(planId);
+}
+
+function selectedPlanById(planId) {
   return state.site.pricing.find((plan) => plan.id === planId) ?? state.site.pricing[0];
 }
 
-function calculateQuote() {
-  const form = $("[data-contact-form]");
-  const quantity = Math.max(1, Number(form.quantity.value || 1));
-  const footageHours = Math.max(0, Number(form.footageHours.value || 0));
-  const editedMinutes = Math.max(1, Number(form.editedMinutes.value || 1));
-  const povs = form.povs.value === "2" ? 2 : 1;
-  const plan = selectedPlan();
+function getCutRate(povs) {
+  const r = state.site.rates;
+  if (povs >= 4) return r.cutHour4Povs ?? 17;
+  if (povs === 3) return r.cutHour3Povs ?? 16;
+  if (povs === 2) return r.cutHour2Povs ?? r.cutHourTwoPovs ?? 15;
+  return r.cutHour1Pov ?? r.cutHourSinglePov ?? 15;
+}
+
+function computeQuote(values) {
+  const quantity = Math.max(1, Number(values.quantity || 1));
+  const footageHours = Math.max(0, Number(values.footageHours || 0));
+  const editedMinutes = Math.max(1, Number(values.editedMinutes || 1));
+  const povs = Math.min(4, Math.max(1, Number(values.povs || 1)));
+  const plan = selectedPlanById(values.planId);
   const rates = state.site.rates;
-  const cutRate = povs === 2 ? rates.cutHourTwoPovs : rates.cutHourSinglePov;
+  const cutRate = getCutRate(povs);
   const cutSubtotal = footageHours * cutRate * quantity;
   const editSubtotal = editedMinutes * rates.editedMinute * quantity;
   const total = cutSubtotal + editSubtotal;
-
-  $("[data-quote-total]").textContent = formatMoney(total, state.site.currency);
-  $("[data-quote-note]").textContent =
-    `${quantity} video(s): ${footageHours}h de recorte x ${formatMoney(cutRate, state.site.currency)} + ` +
-    `${editedMinutes}min editados x ${formatMoney(rates.editedMinute, state.site.currency)}.`;
 
   return {
     plan,
@@ -245,6 +265,68 @@ function calculateQuote() {
     editSubtotal,
     total
   };
+}
+
+function quoteNote(quote) {
+  return (
+    `${quote.quantity} video(s): ${quote.footageHours}h de recorte x ` +
+    `${formatMoney(quote.cutRate, state.site.currency)} + ${quote.editedMinutes}min editados x ` +
+    `${formatMoney(state.site.rates.editedMinute, state.site.currency)}.`
+  );
+}
+
+function calculateQuote() {
+  const form = $("[data-contact-form]");
+  const quote = computeQuote({
+    planId: form.budget.value,
+    quantity: form.quantity.value,
+    footageHours: form.footageHours.value,
+    editedMinutes: form.editedMinutes.value,
+    povs: form.povs.value
+  });
+
+  $("[data-quote-total]").textContent = formatMoney(quote.total, state.site.currency);
+  $("[data-quote-note]").textContent = quoteNote(quote);
+  return quote;
+}
+
+function calculatorValues() {
+  const calculator = $("[data-plan-calculator]");
+  return {
+    planId: $("[data-calc-field='plan']", calculator).value,
+    quantity: $("[data-calc-field='quantity']", calculator).value,
+    footageHours: $("[data-calc-field='footageHours']", calculator).value,
+    editedMinutes: $("[data-calc-field='editedMinutes']", calculator).value,
+    povs: $("[data-calc-field='povs']", calculator).value
+  };
+}
+
+function updatePlanCalculator() {
+  const calculator = $("[data-plan-calculator]");
+  if (!calculator) return;
+  const quote = computeQuote(calculatorValues());
+  $("[data-plan-calc-total]", calculator).textContent = formatMoney(quote.total, state.site.currency);
+  $("[data-plan-calc-note]", calculator).textContent = quoteNote(quote);
+}
+
+function setupPlanCalculator() {
+  const calculator = $("[data-plan-calculator]");
+  if (!calculator) return;
+
+  calculator.addEventListener("input", updatePlanCalculator);
+  $("[data-use-calculator]", calculator).addEventListener("click", () => {
+    const values = calculatorValues();
+    const form = $("[data-contact-form]");
+    form.budget.value = values.planId;
+    form.quantity.value = values.quantity;
+    form.footageHours.value = values.footageHours;
+    form.editedMinutes.value = values.editedMinutes;
+    form.povs.value = values.povs;
+    calculateQuote();
+    $("#contacto").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  updatePlanCalculator();
 }
 
 function buildEmailBody(form) {
@@ -350,6 +432,7 @@ async function init() {
   renderPricing();
   renderSchedule();
   setupContactForm();
+  setupPlanCalculator();
 }
 
 init();

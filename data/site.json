@@ -4,26 +4,44 @@
   "contactEmail": "jorgeditor.contacto@gmail.com",
   "currency": "USD",
   "rates": {
-    "cutHourSinglePov": 13,
-    "cutHourTwoPovs": 15,
+    "cutHour1Pov": 15,
+    "cutHour2Povs": 15,
+    "cutHour3Povs": 16,
+    "cutHour4Povs": 17,
     "editedMinute": 9
   },
   "pricing": [
     {
       "id": "basic",
       "name": "Basic",
-      "priceLabel": "Desde $13/h + $9/min",
+      "priceLabel": "$15/h — 1 POV",
       "unit": "recorte + edicion final",
       "summary": "Plan base para videos limpios, bien cortados y listos para publicar.",
-      "features": ["Recorte de footage a $13/h", "Edicion a $9 por minuto final", "1 POV incluido", "1 ronda de cambios"]
+      "features": ["Recorte de footage a $15/h", "Edicion a $9 por minuto final", "1 POV incluido", "1 ronda de cambios"]
     },
     {
       "id": "creator",
       "name": "Creator",
-      "priceLabel": "$15/h si son 2 POVs",
-      "unit": "para material con mas angulos",
+      "priceLabel": "$15/h — 2 POVs",
+      "unit": "para material con 2 angulos",
       "summary": "Para videos con mas seleccion de material, varios angulos o ritmo mas dinamico.",
       "features": ["Recorte 2 POVs a $15/h", "Edicion a $9 por minuto final", "Ritmo para retencion", "2 rondas de cambios"]
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "priceLabel": "$16/h — 3 POVs",
+      "unit": "para producciones con 3 camaras",
+      "summary": "Para producciones con multiples angulos, mas complejidad de corte y ritmo avanzado.",
+      "features": ["Recorte 3 POVs a $16/h", "Edicion a $9 por minuto final", "Seleccion de tomas avanzada", "2 rondas de cambios"]
+    },
+    {
+      "id": "premium",
+      "name": "Premium",
+      "priceLabel": "$17/h — 4 POVs",
+      "unit": "para producciones multicamara completas",
+      "summary": "Maxima complejidad: 4 camaras, multicorte profesional y entrega premium.",
+      "features": ["Recorte 4 POVs a $17/h", "Edicion a $9 por minuto final", "Multicorte profesional", "3 rondas de cambios"]
     },
     {
       "id": "channel",
@@ -35,16 +53,16 @@
     }
   ],
   "availability": [
-    { "day": "Lunes", "hours": "10:00 - 18:00", "status": "Produccion y revisiones" },
-    { "day": "Martes", "hours": "10:00 - 18:00", "status": "Edicion principal" },
-    { "day": "Miercoles", "hours": "10:00 - 18:00", "status": "Edicion principal" },
-    { "day": "Jueves", "hours": "10:00 - 18:00", "status": "Revisiones y exports" },
-    { "day": "Viernes", "hours": "10:00 - 15:00", "status": "Entregas y nuevos briefs" },
-    { "day": "Sabado", "hours": "Bajo reserva", "status": "Proyectos urgentes" }
+    { "day": "Lunes", "hours": "9:00 - 19:00", "status": "Produccion y revisiones" },
+    { "day": "Martes", "hours": "9:00 - 19:00", "status": "Edicion principal" },
+    { "day": "Miercoles", "hours": "9:00 - 19:00", "status": "Edicion principal" },
+    { "day": "Jueves", "hours": "9:00 - 19:00", "status": "Revisiones y exports" },
+    { "day": "Viernes", "hours": "9:00 - 19:00", "status": "Entregas y nuevos briefs" },
+    { "day": "Sabado", "hours": "9:00 - 19:00", "status": "Edicion y proyectos urgentes" }
   ],
   "delivery": [
-    { "label": "Shorts", "value": "24 a 48 horas por lote pequeno" },
+    { "label": "Short / Reel", "value": "24 horas por pieza" },
     { "label": "Video largo", "value": "3 a 5 dias segun material y duracion" },
-    { "label": "Paquete mensual", "value": "Calendario fijo con entregas semanales" }
+    { "label": "Paquete mensual", "value": "Cotizando — precio segun volumen" }
   ]
 }
