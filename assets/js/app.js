@@ -57,15 +57,11 @@ async function getJson(path, fallback) {
 }
 
 function renderHero() {
-  const count = state.videos.length;
-
-  const countEl = $("[data-video-count]");
-  if (countEl) countEl.textContent = formatNumber(count);
-
   const target = $("[data-hero-video-grid]");
   if (!target) return;
 
   target.innerHTML = state.videos
+    .slice(0, 6)
     .map((video) => {
       const thumb = thumbUrl(video);
       const poster = thumb
