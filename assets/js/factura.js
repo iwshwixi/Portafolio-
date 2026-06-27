@@ -64,6 +64,8 @@ function escapeAttr(value) {
     .replaceAll(">", "&gt;");
 }
 
+const escapeHtml = escapeAttr;
+
 function updateDirectPreview(fields) {
   document.querySelectorAll("[data-preview]").forEach((target) => {
     const key = target.dataset.preview;
@@ -132,6 +134,32 @@ function itemTotal(item) {
   return numberValue(item.price);
 }
 
+function applyInvoiceDensity(itemCount) {
+  if (!paper) return;
+
+  const density = itemCount > 22
+    ? "ultra"
+    : itemCount > 15
+      ? "dense"
+      : itemCount > 9
+        ? "compact"
+        : "normal";
+
+  const overflowRows = Math.max(0, itemCount - 8);
+  const tableFontSize = clamp(13 - overflowRows * 0.28, 8.8, 13);
+  const tableCellY = clamp(9 - overflowRows * 0.42, 2, 9);
+  const tableCellX = clamp(8 - overflowRows * 0.16, 5, 8);
+  const lineHeight = itemCount > 18 ? 1.05 : itemCount > 12 ? 1.1 : 1.25;
+  const descriptionLines = itemCount > 22 ? 1 : itemCount > 12 ? 2 : 4;
+
+  paper.dataset.itemDensity = density;
+  paper.style.setProperty("--invoice-table-font-size", `${tableFontSize}px`);
+  paper.style.setProperty("--invoice-table-cell-y", `${tableCellY}px`);
+  paper.style.setProperty("--invoice-table-cell-x", `${tableCellX}px`);
+  paper.style.setProperty("--invoice-table-line-height", lineHeight);
+  paper.style.setProperty("--invoice-table-desc-lines", descriptionLines);
+}
+
 function renderItemEditor() {
   itemsEditor.innerHTML = "";
 
@@ -184,6 +212,8 @@ function renderPreviewItems(fields) {
   const itemsSection = document.querySelector("[data-items-section]");
   const customConceptName = clean(fields.customConceptName) || "Concepto";
 
+  applyInvoiceDensity(visibleItems.length);
+
   if (head) {
     head.innerHTML = showQuantity
       ? "<th>Cant.</th><th>Descripción</th><th>Valor</th>"
@@ -214,13 +244,13 @@ function renderPreviewItems(fields) {
 
     tr.innerHTML = showQuantity
       ? `
-        <td${styleStr}>${quantity}</td>
-        <td${styleStr}>${clean(item.description)}</td>
-        <td${styleStr}>${total ? formatMoney(total, fields.currency) : ""}</td>
+        <td${styleStr}><span class="cell-text">${escapeHtml(quantity)}</span></td>
+        <td${styleStr}><span class="cell-text cell-text--description">${escapeHtml(clean(item.description))}</span></td>
+        <td${styleStr}><span class="cell-text">${total ? formatMoney(total, fields.currency) : ""}</span></td>
       `
       : `
-        <td${styleStr}>${clean(item.description)}</td>
-        <td${styleStr}>${total ? formatMoney(total, fields.currency) : ""}</td>
+        <td${styleStr}><span class="cell-text cell-text--description">${escapeHtml(clean(item.description))}</span></td>
+        <td${styleStr}><span class="cell-text">${total ? formatMoney(total, fields.currency) : ""}</span></td>
       `;
     itemsBody.appendChild(tr);
   });
