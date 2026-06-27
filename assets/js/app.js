@@ -141,7 +141,7 @@ function currentTimeLabel(targetTimeZone) {
     hourCycle: "h23"
   }).format(new Date());
 
-  return `Hora actual en ${zone.country}: ${now}. Base: México 9:00–19:00.`;
+  return `Hora actual en ${zone.country}: ${now}. Base: México 9:00–17:00.`;
 }
 
 const getVideoStats = (video) => {
