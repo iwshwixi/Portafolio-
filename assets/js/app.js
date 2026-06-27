@@ -509,18 +509,21 @@ function computeSmartEstimate(plan, { footageHours, editedMinutes, quantity, pov
     note  = `${q} short(s) × ${m}min × $${plan.ratePerMinute}/min`;
 
   } else if (plan.rateType === "base-plus-extra") {
-    // El precio base cubre el paquete, aunque el material ya venga recortado.
-    const extraH = Math.max(0, h - (plan.baseHours || 1));
+    const includedHours = plan.baseHours || 1;
+    const cutRate = getCutRate(pv);
+    const includedCutDiscount = Math.max(0, includedHours - h) * cutRate;
+    const extraH = Math.max(0, h - includedHours);
     const extraM = plan.extraMinuteRate > 0
       ? Math.max(0, m - (plan.baseMinutes || 0))
       : 0;
     
-    let perVideo = (plan.basePrice || 0)
+    let perVideo = Math.max(0, (plan.basePrice || 0) - includedCutDiscount)
       + extraH * (plan.extraHourRate || 15)
       + extraM * (plan.extraMinuteRate || 0);
       
     total = perVideo * q;
     const parts = [`Base $${plan.basePrice}`];
+    if (includedCutDiscount > 0) parts.push(`-$${includedCutDiscount} ya recortado`);
     if (extraH > 0) parts.push(`+${extraH}h extra × $${plan.extraHourRate}`);
     
     if (extraM > 0) parts.push(`+${extraM}min extra × $${plan.extraMinuteRate}`);
